@@ -1,7 +1,12 @@
 ﻿<!--kommentti2-->
-
 <!--- Sannan kommentti 1-->
-
+@{
+    Layout = null;
+    if (Session["LoginId"] == null)
+    {
+        Response.Redirect("~/Login/Index");
+    }
+}
 
 <!DOCTYPE html>
 <html>
