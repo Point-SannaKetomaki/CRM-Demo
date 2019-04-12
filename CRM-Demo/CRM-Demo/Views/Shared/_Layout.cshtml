@@ -1,6 +1,7 @@
-﻿<!--kommentti2-->
-<!--- Sannan kommentti 1-->
-@{
+﻿
+@{ //Alla on kirjautumissession tarkistus joka on käytössä jokaisella sivulla jossa
+    //käytetään tätä layoutia.
+
     Layout = null;
     if (Session["LoginId"] == null)
     {
@@ -13,7 +14,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - CRM</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -48,12 +49,12 @@
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                 </li>
-                <!-- LOGOUT NAMISKA -->
+                <!-- LOGOUT NAMISKA alustava sijoitus -->
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("LogOut","Login")" tabindex="-1">Kirjaudu ulos</a>
                 </li>
 
-                
+
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -65,7 +66,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - CRM</p>
         </footer>
     </div>
 
