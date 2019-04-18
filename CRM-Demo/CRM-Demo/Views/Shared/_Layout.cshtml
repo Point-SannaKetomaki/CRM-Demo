@@ -20,72 +20,52 @@
     @RenderSection("head", required: false)
 </head>
 
-
 <body>
-    
+    <div class="top-container">
         <div class="row">
             <div class="col-md-3">
-                <h3 style="text-align:left">Logo tms</h3>
+                <h3 style="text-align:left">Logo tms</h3> 
             </div>
-
 
             <div class="col-md-6">
                 <h3 style="text-align:center;">Asiakas ky</h3>
             </div>
 
             <div class="col-md-3">
-                <h3> </h3>
+                <h3>
+                    <!-- LOGOUT NAMISKA alustava sijoitus -->
+                    <a class="nav-link" href="@Url.Action("LogOut","Login")" tabindex="-1">Kirjaudu ulos</a>
+                </h3>
+                </div>
+
+        &nbsp;   
+
+        <div class="container">
+            <div class="row">
+                <div class="left-col-md-2" style="background-color:deepskyblue">
+                    <p><a class="btn btn-default" href="~/Home/Index">Etusivu</a></p>
+                    <p><a class="btn btn-default" href="~/Asiakas/Index">Asiakkaat</a></p>
+                    <p><a class="btn btn-default" href="~/Asiakaskategoria/Index">Asiakaskategoriat</a></p>
+                    <p><a class="btn btn-default" href="~/Asiakasryhma/Index">Asiakasryhmät</a></p>
+                    <p><a class="btn btn-default" href="~/Asiakastapahtuma/Index">Asiakastapahtumat</a></p>
+                    <p><a class="btn btn-default" href="#">Raportit</a></p>
+                    <p><a class="btn btn-default" href="~/Email/Index">Sähköposti</a></p>
+                </div>
+
+                <div class="col-lg-10" id="MainContent" style="background-color:lavender">
+                    @RenderBody()
+                </div>
             </div>
         </div>
-    
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-                <!-- LOGOUT NAMISKA alustava sijoitus -->
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("LogOut","Login")" tabindex="-1">Kirjaudu ulos</a>
-                </li>
-
-
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+        <div class="container body-content">
+            
+            
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - CRM</p>
+            </footer>
         </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - CRM</p>
-        </footer>
-    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
