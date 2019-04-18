@@ -3,5 +3,64 @@
     ViewBag.Title = "Asiakasryhmäluokat";
 }
 
-<h2>Index</h2>
+@section head{
+    <link href="~/CRM-muotoilut/Taulukkomuotoilut.css" rel="stylesheet" />
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        function listaaAsiakasryhmäluokat() {
+
+            //tuo asiakasryhmäluokkien tiedot kontrollerilta
+            $.getJSON("/Asiakasryhmaluokka/GetList", null, function (json) {
+                var asiakasryhmat = JSON.parse(json)
+                
+
+                //luodaan html-taulukon sisältörunko
+                var html = "";
+                for (var i = 0; i < asiakasryhmat.length; i++) {
+                    html += "<tr>" +
+                        "<th scope ='row'></th>"
+                        "<td>" + asiakasryhmat[i].RyhmäId + "</td>" +
+                        "<td>" + asiakasryhmat[i].RyhmäNimi + "</td>" +
+                        "<td>" + asiakasryhmat[i].RyhmäKuvaus + "</td>" +
+                        "<td><a href='#'><span class='glyphicon glyphicon-pencil'></span></a></td>" +
+                        "<td><a href='#'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+                        "</tr>\r\n"
+                }
+
+                //täytetään taulukko
+                $("#Listaustaulukko tbody").html(html);
+            });
+        }
+
+
+
+    </script>
+}
+
+<h2>Asiakasryhmäluokat</h2>
+
+<div>
+    <a class="btn btn-primary" href="#" role="button">Listaa asiakasryhmäluokat</a>
+    <a class="btn btn-primary" href="#" role="button">Lisää asiakasryhmäluokka</a>
+</div>
+
+
+<!-- Taulukko tietoja varten -->
+
+
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">AsikasryhmäId</th>
+                <th scope="col">Ryhmän Nimi</th>
+                <th scope="col">Ryhmän Kuvaus</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
 
