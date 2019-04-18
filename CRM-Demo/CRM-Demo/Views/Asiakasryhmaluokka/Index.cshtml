@@ -4,46 +4,50 @@
 }
 
 @section head{
-    <link href="~/CRM-muotoilut/Taulukkomuotoilut.css" rel="stylesheet" />
-}
+    }
 
 @section scripts{
     <script type="text/javascript">
+        $(document).ready(function () {
 
-        function listaaAsiakasryhmäluokat() {
+            function listaaAsiakasryhmäluokat() {
 
-            //tuo asiakasryhmäluokkien tiedot kontrollerilta
-            $.getJSON("/Asiakasryhmaluokka/GetList", null, function (json) {
-                var asiakasryhmat = JSON.parse(json)
-                
+                //tuo asiakasryhmäluokkien tiedot kontrollerilta
+                $.getJSON("/Asiakasryhmaluokka/GetList", null, function (json) {
+                    var asiakasryhmat = JSON.parse(json)
 
-                //luodaan html-taulukon sisältörunko
-                var html = "";
-                for (var i = 0; i < asiakasryhmat.length; i++) {
-                    html += "<tr>" +
-                        "<th scope ='row'></th>"
-                        "<td>" + asiakasryhmat[i].RyhmäId + "</td>" +
-                        "<td>" + asiakasryhmat[i].RyhmäNimi + "</td>" +
-                        "<td>" + asiakasryhmat[i].RyhmäKuvaus + "</td>" +
-                        "<td><a href='#'><span class='glyphicon glyphicon-pencil'></span></a></td>" +
-                        "<td><a href='#'><span class='glyphicon glyphicon-trash'></span></a></td>" +
-                        "</tr>\r\n"
-                }
 
-                //täytetään taulukko
-                $("#Listaustaulukko tbody").html(html);
+                    //luodaan html-taulukon sisältörunko
+                    var html = "";
+                    for (var i = 0; i < asiakasryhmat.length; i++) {
+                        //alert("kukkuu!" + asiakasryhmat[i].RyhmäNimi);
+                        html += "<tr>" +
+                            "<th scope ='row'></th>"+
+                            "<td>" + asiakasryhmat[i].RyhmäId + "</td>" +
+                            "<td>" + asiakasryhmat[i].RyhmäNimi + "</td>" +
+                            "<td>" + asiakasryhmat[i].RyhmäKuvaus + "</td>" +
+                            "<td><a href='#'><span class='glyphicon glyphicon-pencil'></span></a></td>" +
+                            "<td><a href='#'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+                            "</tr>\r\n"
+                    }
+                    //alert(html);
+                    //täytetään taulukko
+                    $("#Listaustaulukko tbody").html(html);
+                });
+            }
+
+            
+            $('#Listaa').on('click', function () {
+                listaaAsiakasryhmäluokat();
             });
-        }
-
-
-
+        });
     </script>
 }
 
 <h2>Asiakasryhmäluokat</h2>
 
 <div>
-    <a class="btn btn-primary" href="#" role="button">Listaa asiakasryhmäluokat</a>
+    <a class="btn btn-primary" href="#" role="button" id="Listaa">Listaa asiakasryhmäluokat</a>
     <a class="btn btn-primary" href="#" role="button">Lisää asiakasryhmäluokka</a>
 </div>
 
@@ -51,13 +55,15 @@
 <!-- Taulukko tietoja varten -->
 
 
-    <table class="table table-striped">
+    <table class="table table-striped" id="Listaustaulukko">
         <thead class="thead-light">
             <tr>
                 <th scope="col"></th>
-                <th scope="col">AsikasryhmäId</th>
+                <th scope="col">AsiakasryhmäId</th>
                 <th scope="col">Ryhmän Nimi</th>
                 <th scope="col">Ryhmän Kuvaus</th>
+                <th scope="col">Muokkaa</th>
+                <th scope="col">Poista</th>
             </tr>
         </thead>
         <tbody></tbody>
