@@ -10,7 +10,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            function listaaAsiakasryhmät() {
+            function listaaAsiakasryhmäluokat() {
 
                 //tuo asiakasryhmäluokkien tiedot kontrollerilta
                 $.getJSON("/Asiakasryhmaluokka/GetList", null, function (json) {
@@ -37,7 +37,8 @@
                 });
             }
 
-            
+            //listaaAsiakasryhmäluokat();
+
             $('#Listaa').on('click', function () {
                 listaaAsiakasryhmäluokat();
             });
