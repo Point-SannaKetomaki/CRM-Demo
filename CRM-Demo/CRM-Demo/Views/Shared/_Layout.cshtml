@@ -1,9 +1,10 @@
 ﻿
-@{ //Alla on kirjautumissession tarkistus joka on käytössä jokaisella sivulla jossa
-    //käytetään tätä layoutia.
+@{ 
 
     Layout = null;
-    if (Session["LoginId"] == null)
+    //Alla on kirjautumissession tarkistus joka on käytössä jokaisella sivulla jossa
+    //käytetään tätä layoutia.
+        if (Session["LoginId"] == null)
     {
         Response.Redirect("~/Login/Index");
     }
@@ -46,7 +47,7 @@
                 <div class="left-col-md-2" style="background-color:deepskyblue">
                     <p><a class="btn btn-default" href="~/Home/Index">Etusivu</a></p>
                     <p><a class="btn btn-default" href="~/Asiakas/Index">Asiakkaat</a></p>
-                    <p><a class="btn btn-default" href="~/Asiakaskategoria/Index">Asiakaskategoriat</a></p>
+                    <p><a class="btn btn-default" href="~/Asiakaskategorialuokka/Index">Asiakaskategoriat</a></p>
                     <p><a class="btn btn-default" href="~/Asiakasryhmaluokka/Index">Asiakasryhmät</a></p>
                     <p><a class="btn btn-default" href="~/Asiakastapahtuma/Index">Asiakastapahtumat</a></p>
                     <p><a class="btn btn-default" href="#">Raportit</a></p>

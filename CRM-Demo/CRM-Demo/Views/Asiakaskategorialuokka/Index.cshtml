@@ -3,5 +3,63 @@
     ViewBag.Title = "Asiakaskategorialuokat";
 }
 
-<h2>Index</h2>
+@section head{
+}
 
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            function listaaAsiakaskategorialuokat() {
+
+                //tuo asiakaskategorialuokkien tiedot kontrollerilta
+                $.getJSON("/Asiakaskategorialuokka/GetList", null, function (json) {
+                    var asiakaskategoriat = JSON.parse(json)
+
+                    //luodaan html-taulukon sisältörunko
+                    var html = "";
+                    for (var i = 0; i < asiakaskategoriat.length; i++) {
+                        //alert("Asiakaskategorian nimi: " + asiakaskategoriat[i].KategoriaNimi);
+                        html += "<tr>" +
+                            "<th scope ='row'></th>"+
+                            "<td>" + asiakaskategoriat[i].KategoriaId + "</td>" +
+                            "<td>" + asiakaskategoriat[i].KategoriaNimi + "</td>" +
+                            "<td>" + asiakaskategoriat[i].KategoriaKuvaus + "</td>" +
+                            "<td><a href='#'><span class='fa fa-edit'></span></a></td>" +
+                            "<td><a href='#'><span class='fa fa-trash'></span></a></td>" +
+                            "</tr>\r\n"
+                    }
+                    //alert(html);
+                    //täytetään taulukko
+                    $("#Listaustaulukko tbody").html(html);
+                });
+            }
+            //listaaAsiakaskategorialuokat();
+            $('#Listaa').on('click', function () {
+                listaaAsiakaskategorialuokat();
+            });
+        });
+    </script>
+}
+
+<h2>Asiakaskategoriat</h2>
+
+<div>
+    <a class="btn btn-primary" href="#" role="button" id="Listaa">Listaa asiakaskategoriat</a>
+    <a class="btn btn-primary" href="#" role="button" id="Lisää">Lisää asiakaskategoria</a>
+</div>
+
+<!-- Taulukko tietoja varten -->
+
+<table class="table table-striped" id="Listaustaulukko">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">AsiakaskategoriaId</th>
+            <th scope="col">Kategorian nimi</th>
+            <th scope="col">Kategorian kuvaus</th>
+            <th scope="col">Muokkaa</th>
+            <th scope="col">Poista</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
