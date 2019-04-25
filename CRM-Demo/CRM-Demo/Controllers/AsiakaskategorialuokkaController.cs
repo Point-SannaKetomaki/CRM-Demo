@@ -26,7 +26,8 @@ namespace CRM_Demo.Controllers
                                  select ak).ToList();
 
             //Muutetaan data json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
-            string json = JsonConvert.SerializeObject(asiakaskategoriat);
+            var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            string json = JsonConvert.SerializeObject(asiakaskategoriat, serializerSettings);
             entities.Dispose();
 
             //ohitetaan välimuisti, jotta näyttö päivittyy (IE-selainta varten) 
