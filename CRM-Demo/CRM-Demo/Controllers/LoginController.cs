@@ -49,7 +49,7 @@ namespace CRM_Demo.Controllers
         {
             Session.Abandon();
 
-            
+
             return RedirectToAction("LoggedOut", "login");
 
         }
