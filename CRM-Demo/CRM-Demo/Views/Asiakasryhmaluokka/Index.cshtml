@@ -36,11 +36,25 @@
                     $("#Listaustaulukko tbody").html(html);
 
                     //tietojen muokkaus
-                    $(".fa fa-edit").click(function () {
+                    $(".fa-edit").click(function () {
 
                         //etsitään asiakkaan tiedot klikatulta riviltä
                         var ryhmäId = $(this).parent().parent().prev().prev().prev().text();
                         alert(ryhmäId);
+
+                        //haetaan ryhmän tiedot kontrollerilta id:n perusteella
+                        $.getJSON("/Asiakasryhmaluokka/GetSingleGroup/" + ryhmäId, null, function (json2) {
+                            var ryhmä = JSON.parse(json2);
+
+                            //tietojen lataus modaali-ikkunaan
+                            $('#groupModal_RyhmäId').val(ryhmä.RyhmäId)
+                            $('#groupModal_RyhmäNimi').val(ryhmä.RyhmäNimi)
+                            $('#groupModal_RyhmäKuvaus').val(ryhmä.RyhmäKuvaus)
+
+                            //näytetään modaali-ikkuna
+                            $('#groupModalTitle').text('Muokkaa asiakasryhmän tietoja');
+                            $('#groupModalDialog').modal('show');
+                        });
                     });
                 });
             }
@@ -66,9 +80,9 @@
                 //Painetaan Tallenna => luetaan käyttäjän antamat tiedot modaali-ikkunasta
                 $("#groupModalSaveButton").click(function () {
                     var details = {
-                        RyhmäId: $("groupModal_RyhmäId").val(),
-                        RyhmäNimi: $("groupModal_RyhmäNimi").val(),
-                        RyhmäKuvaus: $("groupModal_RyhmäKuvaus").val()
+                        RyhmäId: $("#groupModal_RyhmäId").val(),
+                        RyhmäNimi: $("#groupModal_RyhmäNimi").val(),
+                        RyhmäKuvaus: $("#groupModal_RyhmäKuvaus").val()
                     };
 
                 /*Lähetetään tiedot kontrollerille,

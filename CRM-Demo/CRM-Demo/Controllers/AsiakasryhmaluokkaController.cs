@@ -37,21 +37,48 @@ namespace CRM_Demo.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Update(Asiakasryhmäluokat asiakasryhmä)
+        public JsonResult GetSingleGroup(string id)
         {
-            // uuden ryhmän lisäys tietokantaan
+            //Haetaan tietokannasta "klikatun" ryhmän tiedot
+
+            //Luodaan uusi entiteettiolio 
+            ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
+
+            //Muutetaan modaali-ikkunasta tullut string-tyyppinen ryhmäId int-tyyppiseksi
+            int ID = int.Parse(id);
+
+            //Haetaan Asiakasryhmäluokat -taulusta kaikki data
+            var asiakasryhma = (from ar in entities.Asiakasryhmäluokat
+                                where ar.RyhmäId == ID
+                                select ar).FirstOrDefault();
+
+            //Muutetaan olio json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
+            string json = JsonConvert.SerializeObject(asiakasryhma);
+            entities.Dispose();
+
+            //ohitetaan välimuisti, jotta näyttö päivittyy (IE-selainta varten) 
+            Response.Expires = -1;
+            Response.CacheControl = "no-cache";
+
+            //Lähetetään data selaimelle
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Update(Asiakasryhmäluokat asiakasryhmäluokka)
+        {
+            // TIETOJEN PÄIVITYS JA UUDEN ASIAKASRYHMÄN LISÄYS
 
             bool OK = false;    //tallennuksen onnistuminen
 
             //tietokantaan tallennetaan uusia tietoja vain, mikäli ryhmän  nimi
             //ja ryhmän kuvaus -kentät eivät ole tyhjiä
-            /*if (!string.IsNullOrWhiteSpace(asiakasryhmäluokka.RyhmäNimi) &&
-                !string.IsNullOrWhiteSpace(asiakasryhmäluokka.RyhmäKuvaus))*/
+            if (!string.IsNullOrWhiteSpace(asiakasryhmäluokka.RyhmäNimi) &&
+                !string.IsNullOrWhiteSpace(asiakasryhmäluokka.RyhmäKuvaus))
             {
                 //luodaan uusi entiteettiolio
                 ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
 
-                int ryhmäid = asiakasryhmä.RyhmäId;
+                int ryhmäid = asiakasryhmäluokka.RyhmäId;
 
                 if (ryhmäid == 0)
                 {
@@ -59,8 +86,8 @@ namespace CRM_Demo.Controllers
                     Asiakasryhmäluokat dbItem = new Asiakasryhmäluokat()
                     {
                         //dbItemin arvot/tiedot
-                        RyhmäNimi = asiakasryhmä.RyhmäNimi,
-                        RyhmäKuvaus = asiakasryhmä.RyhmäKuvaus
+                        RyhmäNimi = asiakasryhmäluokka.RyhmäNimi,
+                        RyhmäKuvaus = asiakasryhmäluokka.RyhmäKuvaus
                     };
 
                     //lisätään tietokantaan dbItemin tiedot ja tallennetaan muutokset
@@ -70,139 +97,33 @@ namespace CRM_Demo.Controllers
                 }
                 else
                 {
-                    //päivitysrutiini ??
-                }
+                    //muokataan olemassa olevia tietoja
+                    //haetaan tiedot tietokannasta
 
-                entities.Dispose();
-            }
+                    Asiakasryhmäluokat dbItem = (from ar in entities.Asiakasryhmäluokat
+                                                 where ar.RyhmäId == ryhmäid
+                                                 select ar).FirstOrDefault();
 
-
-
-            return Json(OK, JsonRequestBehavior.AllowGet);
-        }
-
-
-        public ActionResult Update2(Asiakasryhmäluokat asiakasryhmä)
-        {
-            ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
-            int ryhmäid = asiakasryhmä.RyhmäId;
-
-            bool OK = false;    //tallennuksen onnistuminen
-
-
-                if (ryhmäid == 0)
-                {
-                    //Uuden ryhmän lisääminen tietokantaan dbItem-nimisen olion avulla
-                    Asiakasryhmäluokat dbItem = new Asiakasryhmäluokat()
+                    //tallennetaan modaali-ikkunasta tulevat tiedot dbItem-olioon
+                    if (dbItem != null)
                     {
-                        //dbItemin arvot/tiedot
-                        RyhmäNimi = asiakasryhmä.RyhmäNimi,
-                        RyhmäKuvaus = asiakasryhmä.RyhmäKuvaus
-                    };
+                        dbItem.RyhmäNimi = asiakasryhmäluokka.RyhmäNimi;
+                        dbItem.RyhmäKuvaus = asiakasryhmäluokka.RyhmäKuvaus;
 
-                    //lisätään tietokantaan dbItemin tiedot ja tallennetaan muutokset
-                    entities.Asiakasryhmäluokat.Add(dbItem);
-                    entities.SaveChanges();
-                    OK = true;
-                }
-                else
-                {
-                    //päivitysrutiini ??
+                        // tallennetaan uudet tiedot tietokantaan
+                        entities.SaveChanges();
+                        OK = true;
+                    }
                 }
 
+                //suljetaan tietokantayhteys
                 entities.Dispose();
+            }
 
+            //palautetaan tallennuskuittaus selaimelle (muuttuja OK)
             return Json(OK, JsonRequestBehavior.AllowGet);
-        }
-
-        // GET: Asiakasryhmaluokka/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Asiakasryhmaluokka/Create
-        public ActionResult Create(Asiakasryhmäluokat asiakasryhmäluokka)
-        {
-            bool OK = false;
-
-            ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
-
-            Asiakasryhmäluokat dbItem = new Asiakasryhmäluokat()
-            {
-                //dbItemin arvot/tiedot
-                RyhmäNimi = asiakasryhmäluokka.RyhmäNimi,
-                RyhmäKuvaus = asiakasryhmäluokka.RyhmäKuvaus
-            };
-
-            //lisätään tietokantaan dbItemin tiedot ja tallennetaan muutokset
-            entities.Asiakasryhmäluokat.Add(dbItem);
-            entities.SaveChanges();
-            OK = true;
-
-            entities.Dispose();
-
-            return Json(OK, JsonRequestBehavior.AllowGet);
-        }
-
-        // POST: Asiakasryhmaluokka/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Asiakasryhmaluokka/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Asiakasryhmaluokka/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Asiakasryhmaluokka/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Asiakasryhmaluokka/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
+
+
