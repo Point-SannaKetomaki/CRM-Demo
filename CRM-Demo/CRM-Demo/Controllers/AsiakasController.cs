@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CRM_Demo.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +14,29 @@ namespace CRM_Demo.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public JsonResult GetList()
+        {
+            //Luodaan uusi entiteettiolio 
+            ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
+
+            //Haetaan Asiakkaat -taulusta kaikki data
+            var asiakkaat = (from asi in entities.Asiakkaat
+                                     select asi).ToList();
+
+            //Muutetaan data json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
+            var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+
+            string json = JsonConvert.SerializeObject(asiakkaat, serializerSettings);
+            entities.Dispose();
+
+            //ohitetaan välimuisti, jotta näyttö päivittyy (IE-selainta varten) 
+            Response.Expires = -1;
+            Response.CacheControl = "no-cache";
+
+            //Lähetetään data selaimelle
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Asiakas/Details/5

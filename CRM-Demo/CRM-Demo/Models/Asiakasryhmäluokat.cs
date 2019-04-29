@@ -14,17 +14,8 @@ namespace CRM_Demo.Models
     
     public partial class Asiakasryhmäluokat
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Asiakasryhmäluokat()
-        {
-            this.Asiakasryhmät = new HashSet<Asiakasryhmät>();
-        }
-    
         public int RyhmäId { get; set; }
         public string RyhmäNimi { get; set; }
         public string RyhmäKuvaus { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Asiakasryhmät> Asiakasryhmät { get; set; }
     }
 }
