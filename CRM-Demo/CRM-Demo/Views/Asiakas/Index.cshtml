@@ -3,20 +3,86 @@
     ViewBag.Title = "Asiakkaat";
 }
 
+@section head{
+}
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            function listaaAsiakastiedot() {
+
+                //tuo asiakkaiden tiedot kontrollerilta
+                $.getJSON("/Asiakas/GetList", null, function (json) {
+                    var asiakkaat = JSON.parse(json)
+
+
+                    //luodaan html-taulukon sisältörunko
+                    var html = "";
+                    for (var i = 0; i < asiakkaat.length; i++) {
+                        //alert("Asiakkaan nimi: " + asiakkaat[i].Etunimi);
+                        html += "<tr>" +
+                            "<th scope ='row'></th>"+
+                            "<td>" + asiakkaat[i].AsiakasId + "</td>" +
+                            "<td>" + asiakkaat[i].Etunimi + "</td>" +
+                            "<td>" + asiakkaat[i].Sukunimi + "</td>" +
+                            "<td>" + asiakkaat[i].Osoite + "</td>" +
+                            "<td>" + asiakkaat[i].Postinumero + "</td>" +
+                            "<td>" + asiakkaat[i].Puhelin + "</td>" +
+                            "<td>" + asiakkaat[i].Sähköposti + "</td>" +
+                            "<td>" + asiakkaat[i].KategoriaId + "</td>" +
+                            "<td>" + asiakkaat[i].Tila + "</td>" +
+                            "<td><a href='#'><span class='fa fa-edit'></span></a></td>" +
+                            "<td><a href='#'><span class='fa fa-trash'></span></a></td>" +
+                            "</tr>\r\n"
+                    }
+                    //alert(html);
+
+                    //täytetään taulukko
+                    $("#Listaustaulukko tbody").html(html);
+                });
+            }
+
+            //listaaAsiastiedot();
+
+            $('#ListaaAsiakastiedot').on('click', function () {
+                listaaAsiakastiedot();
+            });
+        });
+    </script>
+}
+
 <h2>Asiakkaat</h2>
 
+<div>
+    <a class="btn btn-primary" href="#" role="button" id="LisääAsiakas">Lisää asiakas</a>
+    <a class="btn btn-primary" href="#" role="button" id="PäivitäTaiPoista">Päivitä tai poista asiakas</a>
+    <a class="btn btn-primary" href="#" role="button" id="LisääAsiakastapahtuma">Lisää asiakastapahtuma</a>
+    <a class="btn btn-primary" href="#" role="button" id="ListaaAsiakastiedot">Listaa asiakastiedot</a>
+</div>
 
-    <ul class="navbar-nav mr-auto">
-        <li>
-            <a class="btn btn-default" href="#">Lisää asiakas<span class="sr-only">(current)</span></a>
-        </li>
-        <li>
-            <a class="btn btn-default" href="#">Päivitä tai poista asiakas<span class="sr-only">(current)</span></a>
-        </li>
-        <li>
-            <a class="btn btn-default" href="#">Lisää asiakastapahtuma<span class="sr-only">(current)</span></a>
-        </li>
-        <li>
-            <a class="btn btn-default" href="#">Listaa asiakastiedot<span class="sr-only">(current)</span></a>
-        </li>
-    </ul>
+
+<!-- Taulukko tietoja varten -->
+
+
+<table class="table table-striped" id="Listaustaulukko">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">AsiakasId</th>
+            <th scope="col">Etunimi</th>
+            <th scope="col">Sukunimi</th>
+            <th scope="col">Osoite</th>
+            <th scope="col">Postinumero</th>
+            <th scope="col">Puhelin</th>
+            <th scope="col">Sähköposti</th>
+            <th scope="col">KategoriaId</th>
+            <th scope="col">Tila</th>
+            <th scope="col">Muokkaa</th>
+            <th scope="col">Poista</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+

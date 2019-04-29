@@ -4,13 +4,15 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ProjektitDBCareModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ProjektitDBCareModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ProjektitDBCare.scrum.Asiakaskategorialuokat' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Asiakaskategorialuokat">
           <Key>
             <PropertyRef Name="KategoriaId" />
           </Key>
           <Property Name="KategoriaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="KategoriaNimi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="KategoriaNimi" Type="nvarchar" MaxLength="50" />
           <Property Name="KategoriaKuvaus" Type="nvarchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="Asiakasryhmäluokat">
@@ -48,8 +50,8 @@
             <PropertyRef Name="LoginId" />
           </Key>
           <Property Name="LoginId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Käyttäjätunnus" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Salasana" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Käyttäjätunnus" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Salasana" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Postitoimipaikat">
           <Key>
@@ -99,92 +101,7 @@
           <Property Name="AiheId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AiheenNimi" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Asiakaskategorialuokat_KategoriaId">
-          <End Role="Asiakaskategorialuokat" Type="Self.Asiakaskategorialuokat" Multiplicity="1" />
-          <End Role="Asiakkaat" Type="Self.Asiakkaat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Asiakaskategorialuokat">
-              <PropertyRef Name="KategoriaId" />
-            </Principal>
-            <Dependent Role="Asiakkaat">
-              <PropertyRef Name="KategoriaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Asiakasryhmä_asiakas">
-          <End Role="Asiakkaat" Type="Self.Asiakkaat" Multiplicity="1" />
-          <End Role="Asiakasryhmät" Type="Self.Asiakasryhmät" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Asiakkaat">
-              <PropertyRef Name="AsiakasId" />
-            </Principal>
-            <Dependent Role="Asiakasryhmät">
-              <PropertyRef Name="AsiakasId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Asiakasryhmät_Asiakasryhmäluokat">
-          <End Role="Asiakasryhmäluokat" Type="Self.Asiakasryhmäluokat" Multiplicity="1" />
-          <End Role="Asiakasryhmät" Type="Self.Asiakasryhmät" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Asiakasryhmäluokat">
-              <PropertyRef Name="RyhmäId" />
-            </Principal>
-            <Dependent Role="Asiakasryhmät">
-              <PropertyRef Name="RyhmäId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Postitoimipaikat_Postinumero">
-          <End Role="Postitoimipaikat" Type="Self.Postitoimipaikat" Multiplicity="0..1" />
-          <End Role="Asiakkaat" Type="Self.Asiakkaat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Postitoimipaikat">
-              <PropertyRef Name="Postinumero" />
-            </Principal>
-            <Dependent Role="Asiakkaat">
-              <PropertyRef Name="Postinumero" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SeuraavaTapahtuma">
-          <End Role="Tapahtumalajit" Type="Self.Tapahtumalajit" Multiplicity="0..1" />
-          <End Role="Tapahtumat" Type="Self.Tapahtumat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tapahtumalajit">
-              <PropertyRef Name="TapahtumalajiId" />
-            </Principal>
-            <Dependent Role="Tapahtumat">
-              <PropertyRef Name="SeuraavaTapahtumalajiId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SähköpostiAiheet">
-          <End Role="Vakioaiheet" Type="Self.Vakioaiheet" Multiplicity="0..1" />
-          <End Role="Sähköposti" Type="Self.Sähköposti" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vakioaiheet">
-              <PropertyRef Name="AiheId" />
-            </Principal>
-            <Dependent Role="Sähköposti">
-              <PropertyRef Name="AiheId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tapahtuma_Laji">
-          <End Role="Tapahtumalajit" Type="Self.Tapahtumalajit" Multiplicity="0..1" />
-          <End Role="Tapahtumat" Type="Self.Tapahtumat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tapahtumalajit">
-              <PropertyRef Name="TapahtumalajiId" />
-            </Principal>
-            <Dependent Role="Tapahtumat">
-              <PropertyRef Name="TapahtumalajiId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="ProjektitDBCareModelStoreContainer">
-          <EntitySet Name="Asiakaskategorialuokat" EntityType="Self.Asiakaskategorialuokat" Schema="scrum" store:Type="Tables" />
           <EntitySet Name="Asiakasryhmäluokat" EntityType="Self.Asiakasryhmäluokat" Schema="scrum" store:Type="Tables" />
           <EntitySet Name="Asiakasryhmät" EntityType="Self.Asiakasryhmät" Schema="scrum" store:Type="Tables" />
           <EntitySet Name="Asiakkaat" EntityType="Self.Asiakkaat" Schema="scrum" store:Type="Tables" />
@@ -194,37 +111,15 @@
           <EntitySet Name="Tapahtumalajit" EntityType="Self.Tapahtumalajit" Schema="scrum" store:Type="Tables" />
           <EntitySet Name="Tapahtumat" EntityType="Self.Tapahtumat" Schema="scrum" store:Type="Tables" />
           <EntitySet Name="Vakioaiheet" EntityType="Self.Vakioaiheet" Schema="scrum" store:Type="Tables" />
-          <AssociationSet Name="FK_Asiakaskategorialuokat_KategoriaId" Association="Self.FK_Asiakaskategorialuokat_KategoriaId">
-            <End Role="Asiakaskategorialuokat" EntitySet="Asiakaskategorialuokat" />
-            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Asiakasryhmä_asiakas" Association="Self.FK_Asiakasryhmä_asiakas">
-            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
-            <End Role="Asiakasryhmät" EntitySet="Asiakasryhmät" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Asiakasryhmät_Asiakasryhmäluokat" Association="Self.FK_Asiakasryhmät_Asiakasryhmäluokat">
-            <End Role="Asiakasryhmäluokat" EntitySet="Asiakasryhmäluokat" />
-            <End Role="Asiakasryhmät" EntitySet="Asiakasryhmät" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Postitoimipaikat_Postinumero" Association="Self.FK_Postitoimipaikat_Postinumero">
-            <End Role="Postitoimipaikat" EntitySet="Postitoimipaikat" />
-            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SeuraavaTapahtuma" Association="Self.FK_SeuraavaTapahtuma">
-            <End Role="Tapahtumalajit" EntitySet="Tapahtumalajit" />
-            <End Role="Tapahtumat" EntitySet="Tapahtumat" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SähköpostiAiheet" Association="Self.FK_SähköpostiAiheet">
-            <End Role="Vakioaiheet" EntitySet="Vakioaiheet" />
-            <End Role="Sähköposti" EntitySet="Sähköposti" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tapahtuma_Laji" Association="Self.FK_Tapahtuma_Laji">
-            <End Role="Tapahtumalajit" EntitySet="Tapahtumalajit" />
-            <End Role="Tapahtumat" EntitySet="Tapahtumat" />
-          </AssociationSet>
+          <EntitySet Name="Asiakaskategorialuokat" EntityType="Self.Asiakaskategorialuokat" store:Type="Tables" store:Schema="scrum">
+            <DefiningQuery>SELECT 
+    [Asiakaskategorialuokat].[KategoriaId] AS [KategoriaId], 
+    [Asiakaskategorialuokat].[KategoriaNimi] AS [KategoriaNimi], 
+    [Asiakaskategorialuokat].[KategoriaKuvaus] AS [KategoriaKuvaus]
+    FROM [scrum].[Asiakaskategorialuokat] AS [Asiakaskategorialuokat]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProjektitDBCareModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -233,9 +128,8 @@
             <PropertyRef Name="KategoriaId" />
           </Key>
           <Property Name="KategoriaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="KategoriaNimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="KategoriaNimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="KategoriaKuvaus" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Asiakkaat" Relationship="Self.FK_Asiakaskategorialuokat_KategoriaId" FromRole="Asiakaskategorialuokat" ToRole="Asiakkaat" />
         </EntityType>
         <EntityType Name="Asiakasryhmäluokat">
           <Key>
@@ -244,7 +138,6 @@
           <Property Name="RyhmäId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RyhmäNimi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="RyhmäKuvaus" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Asiakasryhmät" Relationship="Self.FK_Asiakasryhmät_Asiakasryhmäluokat" FromRole="Asiakasryhmäluokat" ToRole="Asiakasryhmät" />
         </EntityType>
         <EntityType Name="Asiakasryhmät">
           <Key>
@@ -253,8 +146,6 @@
           <Property Name="AsiakasryhmäId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AsiakasId" Type="Int32" Nullable="false" />
           <Property Name="RyhmäId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Asiakasryhmäluokat" Relationship="Self.FK_Asiakasryhmät_Asiakasryhmäluokat" FromRole="Asiakasryhmät" ToRole="Asiakasryhmäluokat" />
-          <NavigationProperty Name="Asiakkaat" Relationship="Self.FK_Asiakasryhmä_asiakas" FromRole="Asiakasryhmät" ToRole="Asiakkaat" />
         </EntityType>
         <EntityType Name="Asiakkaat">
           <Key>
@@ -269,17 +160,14 @@
           <Property Name="Sähköposti" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="KategoriaId" Type="Int32" Nullable="false" />
           <Property Name="Tila" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Asiakaskategorialuokat" Relationship="Self.FK_Asiakaskategorialuokat_KategoriaId" FromRole="Asiakkaat" ToRole="Asiakaskategorialuokat" />
-          <NavigationProperty Name="Asiakasryhmät" Relationship="Self.FK_Asiakasryhmä_asiakas" FromRole="Asiakkaat" ToRole="Asiakasryhmät" />
-          <NavigationProperty Name="Postitoimipaikat" Relationship="Self.FK_Postitoimipaikat_Postinumero" FromRole="Asiakkaat" ToRole="Postitoimipaikat" />
         </EntityType>
         <EntityType Name="Login">
           <Key>
             <PropertyRef Name="LoginId" />
           </Key>
           <Property Name="LoginId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Käyttäjätunnus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Salasana" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Käyttäjätunnus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Salasana" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="Postitoimipaikat">
           <Key>
@@ -287,7 +175,6 @@
           </Key>
           <Property Name="Postinumero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Postitoimipaikka" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Asiakkaat" Relationship="Self.FK_Postitoimipaikat_Postinumero" FromRole="Postitoimipaikat" ToRole="Asiakkaat" />
         </EntityType>
         <EntityType Name="Sähköposti">
           <Key>
@@ -300,7 +187,6 @@
           <Property Name="AiheId" Type="Int32" />
           <Property Name="Otsikko" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Viesti" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Vakioaiheet" Relationship="Self.FK_SähköpostiAiheet" FromRole="Sähköposti" ToRole="Vakioaiheet" />
         </EntityType>
         <EntityType Name="Tapahtumalajit">
           <Key>
@@ -309,8 +195,6 @@
           <Property Name="TapahtumalajiId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TapahtumalajiNimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TapahtumalajiKuvaus" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Tapahtumat" Relationship="Self.FK_SeuraavaTapahtuma" FromRole="Tapahtumalajit" ToRole="Tapahtumat" />
-          <NavigationProperty Name="Tapahtumat1" Relationship="Self.FK_Tapahtuma_Laji" FromRole="Tapahtumalajit" ToRole="Tapahtumat" />
         </EntityType>
         <EntityType Name="Tapahtumat">
           <Key>
@@ -325,8 +209,6 @@
           <Property Name="SeuraavaTapahtumalajiId" Type="Int32" />
           <Property Name="SeuraavaTapahtumaPvm" Type="DateTime" Precision="3" />
           <Property Name="SeuraavaTapahtumaKlo" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Tapahtumalajit" Relationship="Self.FK_SeuraavaTapahtuma" FromRole="Tapahtumat" ToRole="Tapahtumalajit" />
-          <NavigationProperty Name="Tapahtumalajit1" Relationship="Self.FK_Tapahtuma_Laji" FromRole="Tapahtumat" ToRole="Tapahtumalajit" />
         </EntityType>
         <EntityType Name="Vakioaiheet">
           <Key>
@@ -334,92 +216,7 @@
           </Key>
           <Property Name="AiheId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AiheenNimi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Sähköposti" Relationship="Self.FK_SähköpostiAiheet" FromRole="Vakioaiheet" ToRole="Sähköposti" />
         </EntityType>
-        <Association Name="FK_Asiakaskategorialuokat_KategoriaId">
-          <End Role="Asiakaskategorialuokat" Type="Self.Asiakaskategorialuokat" Multiplicity="1" />
-          <End Role="Asiakkaat" Type="Self.Asiakkaat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Asiakaskategorialuokat">
-              <PropertyRef Name="KategoriaId" />
-            </Principal>
-            <Dependent Role="Asiakkaat">
-              <PropertyRef Name="KategoriaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Asiakasryhmät_Asiakasryhmäluokat">
-          <End Role="Asiakasryhmäluokat" Type="Self.Asiakasryhmäluokat" Multiplicity="1" />
-          <End Role="Asiakasryhmät" Type="Self.Asiakasryhmät" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Asiakasryhmäluokat">
-              <PropertyRef Name="RyhmäId" />
-            </Principal>
-            <Dependent Role="Asiakasryhmät">
-              <PropertyRef Name="RyhmäId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Asiakasryhmä_asiakas">
-          <End Role="Asiakkaat" Type="Self.Asiakkaat" Multiplicity="1" />
-          <End Role="Asiakasryhmät" Type="Self.Asiakasryhmät" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Asiakkaat">
-              <PropertyRef Name="AsiakasId" />
-            </Principal>
-            <Dependent Role="Asiakasryhmät">
-              <PropertyRef Name="AsiakasId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Postitoimipaikat_Postinumero">
-          <End Role="Postitoimipaikat" Type="Self.Postitoimipaikat" Multiplicity="0..1" />
-          <End Role="Asiakkaat" Type="Self.Asiakkaat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Postitoimipaikat">
-              <PropertyRef Name="Postinumero" />
-            </Principal>
-            <Dependent Role="Asiakkaat">
-              <PropertyRef Name="Postinumero" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SähköpostiAiheet">
-          <End Role="Vakioaiheet" Type="Self.Vakioaiheet" Multiplicity="0..1" />
-          <End Role="Sähköposti" Type="Self.Sähköposti" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vakioaiheet">
-              <PropertyRef Name="AiheId" />
-            </Principal>
-            <Dependent Role="Sähköposti">
-              <PropertyRef Name="AiheId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SeuraavaTapahtuma">
-          <End Role="Tapahtumalajit" Type="Self.Tapahtumalajit" Multiplicity="0..1" />
-          <End Role="Tapahtumat" Type="Self.Tapahtumat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tapahtumalajit">
-              <PropertyRef Name="TapahtumalajiId" />
-            </Principal>
-            <Dependent Role="Tapahtumat">
-              <PropertyRef Name="SeuraavaTapahtumalajiId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tapahtuma_Laji">
-          <End Role="Tapahtumalajit" Type="Self.Tapahtumalajit" Multiplicity="0..1" />
-          <End Role="Tapahtumat" Type="Self.Tapahtumat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tapahtumalajit">
-              <PropertyRef Name="TapahtumalajiId" />
-            </Principal>
-            <Dependent Role="Tapahtumat">
-              <PropertyRef Name="TapahtumalajiId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="ProjektitDBCareEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Asiakaskategorialuokat" EntityType="Self.Asiakaskategorialuokat" />
           <EntitySet Name="Asiakasryhmäluokat" EntityType="Self.Asiakasryhmäluokat" />
@@ -431,34 +228,6 @@
           <EntitySet Name="Tapahtumalajit" EntityType="Self.Tapahtumalajit" />
           <EntitySet Name="Tapahtumat" EntityType="Self.Tapahtumat" />
           <EntitySet Name="Vakioaiheet" EntityType="Self.Vakioaiheet" />
-          <AssociationSet Name="FK_Asiakaskategorialuokat_KategoriaId" Association="Self.FK_Asiakaskategorialuokat_KategoriaId">
-            <End Role="Asiakaskategorialuokat" EntitySet="Asiakaskategorialuokat" />
-            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Asiakasryhmät_Asiakasryhmäluokat" Association="Self.FK_Asiakasryhmät_Asiakasryhmäluokat">
-            <End Role="Asiakasryhmäluokat" EntitySet="Asiakasryhmäluokat" />
-            <End Role="Asiakasryhmät" EntitySet="Asiakasryhmät" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Asiakasryhmä_asiakas" Association="Self.FK_Asiakasryhmä_asiakas">
-            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
-            <End Role="Asiakasryhmät" EntitySet="Asiakasryhmät" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Postitoimipaikat_Postinumero" Association="Self.FK_Postitoimipaikat_Postinumero">
-            <End Role="Postitoimipaikat" EntitySet="Postitoimipaikat" />
-            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SähköpostiAiheet" Association="Self.FK_SähköpostiAiheet">
-            <End Role="Vakioaiheet" EntitySet="Vakioaiheet" />
-            <End Role="Sähköposti" EntitySet="Sähköposti" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SeuraavaTapahtuma" Association="Self.FK_SeuraavaTapahtuma">
-            <End Role="Tapahtumalajit" EntitySet="Tapahtumalajit" />
-            <End Role="Tapahtumat" EntitySet="Tapahtumat" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tapahtuma_Laji" Association="Self.FK_Tapahtuma_Laji">
-            <End Role="Tapahtumalajit" EntitySet="Tapahtumalajit" />
-            <End Role="Tapahtumat" EntitySet="Tapahtumat" />
-          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>

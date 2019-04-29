@@ -18,7 +18,7 @@ namespace CRM_Demo.Models
     {
         public int LoginId { get; set; }
 
-        
+
         [Required(ErrorMessage = "Anna käyttäjätunnus")]
         public string Käyttäjätunnus { get; set; }
 
