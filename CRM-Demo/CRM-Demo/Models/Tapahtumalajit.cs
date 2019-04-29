@@ -14,20 +14,8 @@ namespace CRM_Demo.Models
     
     public partial class Tapahtumalajit
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Tapahtumalajit()
-        {
-            this.Tapahtumat = new HashSet<Tapahtumat>();
-            this.Tapahtumat1 = new HashSet<Tapahtumat>();
-        }
-    
         public int TapahtumalajiId { get; set; }
         public string TapahtumalajiNimi { get; set; }
         public string TapahtumalajiKuvaus { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tapahtumat> Tapahtumat { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tapahtumat> Tapahtumat1 { get; set; }
     }
 }

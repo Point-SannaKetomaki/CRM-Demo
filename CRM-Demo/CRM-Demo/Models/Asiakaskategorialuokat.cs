@@ -14,17 +14,8 @@ namespace CRM_Demo.Models
     
     public partial class Asiakaskategorialuokat
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Asiakaskategorialuokat()
-        {
-            this.Asiakkaat = new HashSet<Asiakkaat>();
-        }
-    
         public int KategoriaId { get; set; }
         public string KategoriaNimi { get; set; }
         public string KategoriaKuvaus { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Asiakkaat> Asiakkaat { get; set; }
     }
 }

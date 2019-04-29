@@ -10,18 +10,11 @@
         <EntityTypeShape EntityType="ProjektitDBCareModel.Asiakasryhmät" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
         <EntityTypeShape EntityType="ProjektitDBCareModel.Asiakkaat" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="ProjektitDBCareModel.Login" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjektitDBCareModel.Postitoimipaikat" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjektitDBCareModel.Postitoimipaikat" Width="1.5" PointX="3.375" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ProjektitDBCareModel.Sähköposti" Width="1.5" PointX="10" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="ProjektitDBCareModel.Tapahtumalajit" Width="1.5" PointX="5.75" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ProjektitDBCareModel.Tapahtumat" Width="1.5" PointX="8" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="ProjektitDBCareModel.Vakioaiheet" Width="1.5" PointX="7.75" PointY="1.375" IsExpanded="true" />
-        <AssociationConnector Association="ProjektitDBCareModel.FK_Asiakaskategorialuokat_KategoriaId" ManuallyRouted="false" />
-        <AssociationConnector Association="ProjektitDBCareModel.FK_Asiakasryhmät_Asiakasryhmäluokat" ManuallyRouted="false" />
-        <AssociationConnector Association="ProjektitDBCareModel.FK_Asiakasryhmä_asiakas" ManuallyRouted="false" />
-        <AssociationConnector Association="ProjektitDBCareModel.FK_Postitoimipaikat_Postinumero" ManuallyRouted="false" />
-        <AssociationConnector Association="ProjektitDBCareModel.FK_SähköpostiAiheet" ManuallyRouted="false" />
-        <AssociationConnector Association="ProjektitDBCareModel.FK_SeuraavaTapahtuma" ManuallyRouted="false" />
-        <AssociationConnector Association="ProjektitDBCareModel.FK_Tapahtuma_Laji" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
