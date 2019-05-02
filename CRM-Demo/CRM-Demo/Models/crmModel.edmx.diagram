@@ -15,6 +15,10 @@
         <EntityTypeShape EntityType="ProjektitDBCareModel.Tapahtumalajit" Width="1.5" PointX="5.75" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ProjektitDBCareModel.Tapahtumat" Width="1.5" PointX="8" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="ProjektitDBCareModel.Vakioaiheet" Width="1.5" PointX="7.75" PointY="1.375" IsExpanded="true" />
+        <AssociationConnector Association="ProjektitDBCareModel.AsiakaskategorialuokatAsiakkaat" />
+        <EntityTypeShape EntityType="ProjektitDBCareModel.Projektihenkilot" Width="1.5" PointX="5.375" PointY="8.75" />
+        <EntityTypeShape EntityType="ProjektitDBCareModel.Projektit" Width="1.5" PointX="7.375" PointY="8.75" />
+        <EntityTypeShape EntityType="ProjektitDBCareModel.Tunnit" Width="1.5" PointX="9.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

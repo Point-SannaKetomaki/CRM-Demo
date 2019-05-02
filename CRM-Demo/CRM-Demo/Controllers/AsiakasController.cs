@@ -39,76 +39,100 @@ namespace CRM_Demo.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Asiakas/Details/5
-        public ActionResult Details(int id)
+        public JsonResult GetSingleGroup(string id)
         {
-            return View();
+            //Luodaan uusi entiteettiolio 
+            ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
+
+            //Muutetaan modaali-ikkunasta tullut string-tyyppinen AsiakasId int-tyyppiseksi
+            int asiID = int.Parse(id);
+
+            //Haetaan Asiakkaat -taulusta kaikki data
+            var asiakas = (from asi in entities.Asiakkaat
+                             where asi.AsiakasId == asiID
+                             select asi).FirstOrDefault();
+
+            //Muutetaan olio json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
+            string json = JsonConvert.SerializeObject(asiakas);
+            entities.Dispose();
+
+            //ohitetaan välimuisti, jotta näyttö päivittyy (IE-selainta varten) 
+            Response.Expires = -1;
+            Response.CacheControl = "no-cache";
+
+            //Lähetetään data selaimelle
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Asiakas/Create
-        public ActionResult Create()
+        public ActionResult Update(Asiakkaat asiakkaat)
         {
-            return View();
-        }
+            // TIETOJEN PÄIVITYS JA UUDEN ASIAKKAAN LISÄYS
 
-        // POST: Asiakas/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
+            bool OK = false;    //tallennuksen onnistuminen
+
+            //tietokantaan tallennetaan uusia tietoja vain, mikäli etunimi
+            //ja sukunimi -kentät eivät ole tyhjiä
+            if (!string.IsNullOrWhiteSpace(asiakkaat.Etunimi) &&
+                !string.IsNullOrWhiteSpace(asiakkaat.Sukunimi))
             {
-                // TODO: Add insert logic here
+                //luodaan uusi entiteettiolio
+                ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
 
-                return RedirectToAction("Index");
+                int asiakasid = asiakkaat.AsiakasId;
+
+                if (asiakasid == 0)
+                {
+                    //Uuden asiakkaan lisääminen tietokantaan dbItem-nimisen olion avulla
+                    Asiakkaat dbItem = new Asiakkaat()
+                    {
+                        //dbItemin arvot/tiedot
+                        Etunimi = asiakkaat.Etunimi,
+                        Sukunimi = asiakkaat.Sukunimi,
+                        Osoite = asiakkaat.Osoite,
+                        Postinumero = asiakkaat.Postinumero,
+                        Puhelin = asiakkaat.Puhelin,
+                        Sähköposti = asiakkaat.Sähköposti,
+                        KategoriaId = asiakkaat.KategoriaId,
+                        Tila = asiakkaat.Tila
+                    };
+
+                    //lisätään tietokantaan dbItemin tiedot ja tallennetaan muutokset
+                    entities.Asiakkaat.Add(dbItem);
+                    entities.SaveChanges();
+                    OK = true;
+                }
+                else
+                {
+                    //muokataan olemassa olevia tietoja
+                    //haetaan tiedot tietokannasta
+
+                    Asiakkaat dbItem = (from asi in entities.Asiakkaat
+                                                 where asi.AsiakasId == asiakasid
+                                                 select asi).FirstOrDefault();
+
+                    //tallennetaan modaali-ikkunasta tulevat tiedot dbItem-olioon
+                    if (dbItem != null)
+                    {
+                        dbItem.Etunimi = asiakkaat.Etunimi;
+                        dbItem.Sukunimi = asiakkaat.Sukunimi;
+                        dbItem.Osoite = asiakkaat.Osoite;
+                        dbItem.Postinumero = asiakkaat.Postinumero;
+                        dbItem.Puhelin = asiakkaat.Puhelin;
+                        dbItem.Sähköposti = asiakkaat.Sähköposti;
+                        dbItem.Tila = asiakkaat.Tila;
+
+                        // tallennetaan uudet tiedot tietokantaan
+                        entities.SaveChanges();
+                        OK = true;
+                    }
+                }
+
+                //suljetaan tietokantayhteys
+                entities.Dispose();
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: Asiakas/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Asiakas/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Asiakas/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Asiakas/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            //palautetaan tallennuskuittaus selaimelle (muuttuja OK)
+            return Json(OK, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -5,8 +5,33 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ProjektitDBCareModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjektitDBCare.scrum.Asiakaskategorialuokat' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Projektihenkilot">
+          <Key>
+            <PropertyRef Name="HenkiloId" />
+          </Key>
+          <Property Name="HenkiloId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Etunimi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sukunimi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Osoite" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Esimies" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Projektit">
+          <Key>
+            <PropertyRef Name="ProjektiId" />
+          </Key>
+          <Property Name="ProjektiId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nimi" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tunnit">
+          <Key>
+            <PropertyRef Name="TuntiId" />
+          </Key>
+          <Property Name="TuntiId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjektiId" Type="int" Nullable="false" />
+          <Property Name="HenkiloId" Type="int" Nullable="false" />
+          <Property Name="Päivämäärä" Type="datetime" Nullable="false" />
+          <Property Name="Tunnit" Type="numeric" Precision="15" Scale="7" Nullable="false" />
+        </EntityType>
         <EntityType Name="Asiakaskategorialuokat">
           <Key>
             <PropertyRef Name="KategoriaId" />
@@ -102,6 +127,10 @@ warning 6002: The table/view 'ProjektitDBCare.scrum.Asiakaskategorialuokat' does
           <Property Name="AiheenNimi" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityContainer Name="ProjektitDBCareModelStoreContainer">
+          <EntitySet Name="Projektihenkilot" EntityType="Self.Projektihenkilot" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projektit" EntityType="Self.Projektit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tunnit" EntityType="Self.Tunnit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Asiakaskategorialuokat" EntityType="Self.Asiakaskategorialuokat" Schema="scrum" store:Type="Tables" />
           <EntitySet Name="Asiakasryhmäluokat" EntityType="Self.Asiakasryhmäluokat" Schema="scrum" store:Type="Tables" />
           <EntitySet Name="Asiakasryhmät" EntityType="Self.Asiakasryhmät" Schema="scrum" store:Type="Tables" />
           <EntitySet Name="Asiakkaat" EntityType="Self.Asiakkaat" Schema="scrum" store:Type="Tables" />
@@ -111,13 +140,6 @@ warning 6002: The table/view 'ProjektitDBCare.scrum.Asiakaskategorialuokat' does
           <EntitySet Name="Tapahtumalajit" EntityType="Self.Tapahtumalajit" Schema="scrum" store:Type="Tables" />
           <EntitySet Name="Tapahtumat" EntityType="Self.Tapahtumat" Schema="scrum" store:Type="Tables" />
           <EntitySet Name="Vakioaiheet" EntityType="Self.Vakioaiheet" Schema="scrum" store:Type="Tables" />
-          <EntitySet Name="Asiakaskategorialuokat" EntityType="Self.Asiakaskategorialuokat" store:Type="Tables" store:Schema="scrum">
-            <DefiningQuery>SELECT 
-    [Asiakaskategorialuokat].[KategoriaId] AS [KategoriaId], 
-    [Asiakaskategorialuokat].[KategoriaNimi] AS [KategoriaNimi], 
-    [Asiakaskategorialuokat].[KategoriaKuvaus] AS [KategoriaKuvaus]
-    FROM [scrum].[Asiakaskategorialuokat] AS [Asiakaskategorialuokat]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -228,7 +250,37 @@ warning 6002: The table/view 'ProjektitDBCare.scrum.Asiakaskategorialuokat' does
           <EntitySet Name="Tapahtumalajit" EntityType="Self.Tapahtumalajit" />
           <EntitySet Name="Tapahtumat" EntityType="Self.Tapahtumat" />
           <EntitySet Name="Vakioaiheet" EntityType="Self.Vakioaiheet" />
+          <EntitySet Name="Projektihenkilot" EntityType="ProjektitDBCareModel.Projektihenkilot" />
+          <EntitySet Name="Projektit" EntityType="ProjektitDBCareModel.Projektit" />
+          <EntitySet Name="Tunnit" EntityType="ProjektitDBCareModel.Tunnit" />
         </EntityContainer>
+        <EntityType Name="Projektihenkilot">
+          <Key>
+            <PropertyRef Name="HenkiloId" />
+          </Key>
+          <Property Name="HenkiloId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Etunimi" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sukunimi" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Osoite" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Esimies" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Projektit">
+          <Key>
+            <PropertyRef Name="ProjektiId" />
+          </Key>
+          <Property Name="ProjektiId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nimi" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Tunnit">
+          <Key>
+            <PropertyRef Name="TuntiId" />
+          </Key>
+          <Property Name="TuntiId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjektiId" Type="Int32" Nullable="false" />
+          <Property Name="HenkiloId" Type="Int32" Nullable="false" />
+          <Property Name="Päivämäärä" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Tunnit1" Type="Decimal" Nullable="false" Precision="15" Scale="7" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -336,6 +388,36 @@ warning 6002: The table/view 'ProjektitDBCare.scrum.Asiakaskategorialuokat' does
               <MappingFragment StoreEntitySet="Vakioaiheet">
                 <ScalarProperty Name="AiheId" ColumnName="AiheId" />
                 <ScalarProperty Name="AiheenNimi" ColumnName="AiheenNimi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projektihenkilot">
+            <EntityTypeMapping TypeName="ProjektitDBCareModel.Projektihenkilot">
+              <MappingFragment StoreEntitySet="Projektihenkilot">
+                <ScalarProperty Name="Esimies" ColumnName="Esimies" />
+                <ScalarProperty Name="Osoite" ColumnName="Osoite" />
+                <ScalarProperty Name="Sukunimi" ColumnName="Sukunimi" />
+                <ScalarProperty Name="Etunimi" ColumnName="Etunimi" />
+                <ScalarProperty Name="HenkiloId" ColumnName="HenkiloId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projektit">
+            <EntityTypeMapping TypeName="ProjektitDBCareModel.Projektit">
+              <MappingFragment StoreEntitySet="Projektit">
+                <ScalarProperty Name="Nimi" ColumnName="Nimi" />
+                <ScalarProperty Name="ProjektiId" ColumnName="ProjektiId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tunnit">
+            <EntityTypeMapping TypeName="ProjektitDBCareModel.Tunnit">
+              <MappingFragment StoreEntitySet="Tunnit">
+                <ScalarProperty Name="Tunnit1" ColumnName="Tunnit" />
+                <ScalarProperty Name="Päivämäärä" ColumnName="Päivämäärä" />
+                <ScalarProperty Name="HenkiloId" ColumnName="HenkiloId" />
+                <ScalarProperty Name="ProjektiId" ColumnName="ProjektiId" />
+                <ScalarProperty Name="TuntiId" ColumnName="TuntiId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

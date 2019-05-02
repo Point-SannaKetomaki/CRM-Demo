@@ -35,5 +35,8 @@ namespace CRM_Demo.Models
         public virtual DbSet<Tapahtumalajit> Tapahtumalajit { get; set; }
         public virtual DbSet<Tapahtumat> Tapahtumat { get; set; }
         public virtual DbSet<Vakioaiheet> Vakioaiheet { get; set; }
+        public virtual DbSet<Projektihenkilot> Projektihenkilot { get; set; }
+        public virtual DbSet<Projektit> Projektit { get; set; }
+        public virtual DbSet<Tunnit> Tunnit { get; set; }
     }
 }

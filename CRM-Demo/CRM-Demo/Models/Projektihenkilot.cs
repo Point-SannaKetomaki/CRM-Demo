@@ -11,23 +11,13 @@ namespace CRM_Demo.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-
-    public partial class Login
+    
+    public partial class Projektihenkilot
     {
-        public int LoginId { get; set; }
-
-
-        [Required(ErrorMessage = "Anna käyttäjätunnus")]
-        public string Käyttäjätunnus { get; set; }
-
-        [DataType(DataType.Password)]
-        [Required(ErrorMessage = "Anna salasana.")]
-        public string Salasana { get; set; }
-
-        public string LoginErrorMessage { get; set; }
+        public int HenkiloId { get; set; }
+        public string Etunimi { get; set; }
+        public string Sukunimi { get; set; }
+        public string Osoite { get; set; }
+        public int Esimies { get; set; }
     }
 }
-
-
