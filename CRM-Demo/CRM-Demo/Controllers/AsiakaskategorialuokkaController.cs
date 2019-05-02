@@ -28,13 +28,13 @@ namespace CRM_Demo.Controllers
                                      select ak).ToList();
 
             // 1. versio Muutetaan data json -muotoon toimitettavaksi selaimelle.
-            //string json = JsonConvert.SerializeObject(asiakaskategoriat);
+            string json = JsonConvert.SerializeObject(asiakaskategoriat);
 
             //Toinen versio edeltävään:
             //Muutetaan data json -muotoon toimitettavaksi selaimelle.
 
-            var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
-            string json = JsonConvert.SerializeObject(asiakaskategoriat, serializerSettings);
+            //var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            //string json = JsonConvert.SerializeObject(asiakaskategoriat, serializerSettings);
 
             //Suljetaan tietokantayhteys (molemmissa versioissa)
             entities.Dispose();
@@ -49,7 +49,7 @@ namespace CRM_Demo.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetSingleGategory(string id)
+        public JsonResult GetSingleGategory(int id)
         {
             //Haetaan tietokannasta "klikatun" kategorian tiedot
 
@@ -57,11 +57,11 @@ namespace CRM_Demo.Controllers
             ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
 
             //Muutetaan modaali-ikkunasta tullut string-tyyppinen katogoriaId int-tyyppiseksi
-            int ID = int.Parse(id);
+            //int ID = int.Parse(id);
 
             //Haetaan Asiakaskategorialuokka -taulusta kaikki data
             var asiakaskategoria = (from ak in entities.Asiakaskategorialuokat
-                                    where ak.KategoriaId == ID
+                                    where ak.KategoriaId == id
                                     select ak).FirstOrDefault();
 
             //Muutetaan olio json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
