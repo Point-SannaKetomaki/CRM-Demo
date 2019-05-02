@@ -40,7 +40,7 @@
 
                         //etsitään asiakkaan tiedot klikatulta riviltä
                         var ryhmäId = $(this).parent().parent().prev().prev().prev().text();
-                        alert(ryhmäId);
+                        //alert(ryhmäId);
 
                         //haetaan ryhmän tiedot kontrollerilta id:n perusteella
                         $.getJSON("/Asiakasryhmaluokka/GetSingleGroup/" + ryhmäId, null, function (json2) {

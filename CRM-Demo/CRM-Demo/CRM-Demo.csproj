@@ -123,6 +123,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AsiakasController.cs" />
+    <Compile Include="Controllers\AsiakaskategorialuokkaController.cs" />
     <Compile Include="Controllers\AsiakasryhmaController.cs" />
     <Compile Include="Controllers\AsiakasryhmaluokkaController.cs" />
     <Compile Include="Controllers\AsiakastapahtumaController.cs" />
@@ -130,7 +131,6 @@
     <Compile Include="Controllers\EmailVakioaiheController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AsiakaskategoriaController.cs" />
-    <Compile Include="Controllers\AsiakaskategorialuokkaController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PostitoimipaikkaController.cs" />
     <Compile Include="Controllers\AsiakastapahtumalajiController.cs" />
@@ -283,7 +283,6 @@
     <Content Include="Views\Asiakasryhma\Index.cshtml" />
     <Content Include="Views\Asiakastapahtuma\Index.cshtml" />
     <Content Include="Views\Postitoimipaikka\Index.cshtml" />
-    <Content Include="Views\Asiakaskategorialuokka\Index.cshtml" />
     <Content Include="Views\Asiakastapahtumalaji\Index.cshtml" />
     <Content Include="Views\Asiakasryhmaluokka\Index.cshtml" />
     <Content Include="Views\Email\Index.cshtml" />
@@ -297,6 +296,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Asiakaskategorialuokka\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
