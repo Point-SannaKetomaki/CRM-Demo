@@ -6,9 +6,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace CRM_Demo.Controllers
 {
     public class AsiakaskategorialuokkaController : Controller
+
     {
         // GET: Asiakaskategorialuokka
         public ActionResult Index()
@@ -23,11 +25,47 @@ namespace CRM_Demo.Controllers
 
             //Haetaan Asiakaskategorialuokat -taulusta kaikki data
             var asiakaskategoriat = (from ak in entities.Asiakaskategorialuokat
-                                 select ak).ToList();
+                                     select ak).ToList();
 
-            //Muutetaan data json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
+            // 1. versio Muutetaan data json -muotoon toimitettavaksi selaimelle.
+            //string json = JsonConvert.SerializeObject(asiakaskategoriat);
+
+            //Toinen versio edeltävään:
+            //Muutetaan data json -muotoon toimitettavaksi selaimelle.
+
             var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
             string json = JsonConvert.SerializeObject(asiakaskategoriat, serializerSettings);
+
+            //Suljetaan tietokantayhteys (molemmissa versioissa)
+            entities.Dispose();
+
+
+            //ohitetaan välimuisti, jotta näyttö päivittyy (IE-selainta varten) 
+            Response.Expires = -1;
+            Response.CacheControl = "no-cache";
+
+
+            //Lähetetään data selaimelle
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSingleGategory(string id)
+        {
+            //Haetaan tietokannasta "klikatun" kategorian tiedot
+
+            //Luodaan uusi entiteettiolio 
+            ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
+
+            //Muutetaan modaali-ikkunasta tullut string-tyyppinen katogoriaId int-tyyppiseksi
+            int ID = int.Parse(id);
+
+            //Haetaan Asiakaskategorialuokka -taulusta kaikki data
+            var asiakaskategoria = (from ak in entities.Asiakaskategorialuokat
+                                    where ak.KategoriaId == ID
+                                    select ak).FirstOrDefault();
+
+            //Muutetaan olio json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
+            string json = JsonConvert.SerializeObject(asiakaskategoria);
             entities.Dispose();
 
             //ohitetaan välimuisti, jotta näyttö päivittyy (IE-selainta varten) 
@@ -38,76 +76,64 @@ namespace CRM_Demo.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Asiakaskategorialuokka/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Update(Asiakaskategorialuokat asiakaskategorialuokka)
         {
-            return View();
-        }
+            // TIETOJEN PÄIVITYS JA UUDEN ASIAKASKATEGORIAN LISÄYS
 
-        // GET: Asiakaskategorialuokka/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+            bool OK = false;    //tallennuksen onnistuminen
 
-        // POST: Asiakaskategorialuokka/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
+            //tietokantaan tallennetaan uusia tietoja vain, mikäli kategorian  nimi
+            //ja kuvaus -kentät eivät ole tyhjiä
+            if (!string.IsNullOrWhiteSpace(asiakaskategorialuokka.KategoriaNimi) &&
+                !string.IsNullOrWhiteSpace(asiakaskategorialuokka.KategoriaKuvaus))
             {
-                // TODO: Add insert logic here
+                //luodaan uusi entiteettiolio
+                ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
 
-                return RedirectToAction("Index");
+                int kategoriaid = asiakaskategorialuokka.KategoriaId;
+
+                if (kategoriaid == 0)
+                {
+                    //Uuden kategorian lisääminen tietokantaan dbItem-nimisen olion avulla
+                    Asiakaskategorialuokat dbItem = new Asiakaskategorialuokat()
+                    {
+                        //dbItemin arvot/tiedot
+                        KategoriaNimi = asiakaskategorialuokka.KategoriaNimi,
+                        KategoriaKuvaus = asiakaskategorialuokka.KategoriaKuvaus
+                    };
+
+                    //lisätään tietokantaan dbItemin tiedot ja tallennetaan muutokset
+                    entities.Asiakaskategorialuokat.Add(dbItem);
+                    entities.SaveChanges();
+                    OK = true;
+                }
+                else
+                {
+                    //muokataan olemassa olevia tietoja
+                    //haetaan tiedot tietokannasta
+
+                    Asiakaskategorialuokat dbItem = (from ak in entities.Asiakaskategorialuokat
+                                                     where ak.KategoriaId == kategoriaid
+                                                     select ak).FirstOrDefault();
+
+                    //tallennetaan modaali-ikkunasta tulevat tiedot dbItem-olioon
+                    if (dbItem != null)
+                    {
+                        dbItem.KategoriaNimi = asiakaskategorialuokka.KategoriaNimi;
+                        dbItem.KategoriaKuvaus = asiakaskategorialuokka.KategoriaKuvaus;
+
+                        // tallennetaan uudet tiedot tietokantaan
+                        entities.SaveChanges();
+                        OK = true;
+                    }
+                }
+
+                //suljetaan tietokantayhteys
+                entities.Dispose();
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: Asiakaskategorialuokka/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Asiakaskategorialuokka/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Asiakaskategorialuokka/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Asiakaskategorialuokka/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            //palautetaan tallennuskuittaus selaimelle (muuttuja OK)
+            return Json(OK, JsonRequestBehavior.AllowGet);
         }
     }
 }

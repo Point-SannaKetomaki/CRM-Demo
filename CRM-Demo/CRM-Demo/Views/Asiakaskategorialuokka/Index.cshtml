@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Asiakaskategorialuokat";
 }
 
@@ -18,9 +17,9 @@
                     //luodaan html-taulukon sisältörunko
                     var html = "";
                     for (var i = 0; i < asiakaskategoriat.length; i++) {
-                        //alert("Asiakaskategorian nimi: " + asiakaskategoriat[i].KategoriaNimi);
+                        alert("Asiakaskategorian nimi: " + asiakaskategoriat[i].KategoriaNimi);
                         html += "<tr>" +
-                            "<th scope ='row'></th>"+
+                            "<th scope ='row'></th>" +
                             "<td>" + asiakaskategoriat[i].KategoriaId + "</td>" +
                             "<td>" + asiakaskategoriat[i].KategoriaNimi + "</td>" +
                             "<td>" + asiakaskategoriat[i].KategoriaKuvaus + "</td>" +
@@ -28,33 +27,104 @@
                             "<td><a href='#'><span class='fa fa-trash'></span></a></td>" +
                             "</tr>\r\n"
                     }
-                    //alert(html);
+                    alert(html);
+
                     //täytetään taulukko
-                    $("#Listaustaulukko tbody").html(html);
+                    $("#Listaustaulukko1 tbody").html(html);
+
+                    //tietojen muokkaus
+                    $(".fa-edit").click(function () {
+
+                        //etsitään tiedot klikatulta riviltä
+                        var kategoriaId = $(this).parent().parent().prev().prev().prev().text();
+                        alert(kategoriaId);
+
+                        //haetaan kategorian tiedot kontrollerilta id:n perusteella
+                        $.getJSON("/Asiakaskategorialuokka/GetSingleGategory/" + kategoriaId, null, function (json2) {
+                            var kategoria = JSON.parse(json2);
+                            alert(kategoria);
+
+                            //tietojen lataus modaali-ikkunaan
+                            $('#gategoryModal_KategoriaId').val(kategoria.KategoriaId)
+                            $('#gategoryModal_KategoriaNimi').val(kategoria.KategoriaNimi)
+                            $('#gategoryModal_KategoriaKuvaus').val(kategoria.KategoriaKuvaus)
+
+                            //näytetään modaali-ikkuna
+                            $('#gategoryModalTitle').text('Muokkaa asiakaskategorian tietoja');
+                            $('#gategoryModalDialog').modal('show');
+                        });
+                    });
                 });
             }
-            //listaaAsiakaskategorialuokat();
-            $('#Listaa').on('click', function () {
-                listaaAsiakaskategorialuokat();
+
+            //sivun alustus
+            $(function () {
+                $('#Listaa1').on('click', function () {
+                    listaaAsiakaskategorialuokat();
+                });
+
+                $('#Lisää1').click(function () {
+
+                    //tyhjennetään ikkunan tiedot
+                    $('#gategoryModal_KategoriaId').val('(uusi)');
+                    $('#gategoryModal_KategoriaNimi').val('');
+                    $('#gategoryModal_KategoriaKuvaus').val('');
+
+                    //näytetään tyhjä modaali-ikkuna
+                    $('#gategoryModalTitle').text('Lisää uusi kategoria');
+                    $('#gategoryModalDialog').modal('show');
+                });
+
+                //Painetaan Tallenna => luetaan käyttäjän antamat tiedot modaali-ikkunasta
+                $("#gategoryModalSaveButton").click(function () {
+                    var details = {
+                        KategoriaId: $("#gategoryModal_KategoriaId").val(),
+                        KategoriaNimi: $("#gategoryModal_KategoriaNimi").val(),
+                        KategoriaKuvaus: $("#gategoryModal_KategoriaKuvaus").val()
+                    };
+
+                    /*Lähetetään tiedot kontrollerille,
+                     * annetaan käyttäjälle viesti päivityksen onnistumisesta,
+                     * piilotetaan modaali-ikkuna ja
+                     * päivitetään asiakaskategorialistaus*/
+                    $.post("/Asiakaskategorialuokka/Update/", details, function (status) {
+                        if (status == true) {
+                            alert('Uudet tiedot tallennettiin onnistuneesti');
+                            $('#gategoryModalDialog').modal('hide');
+                            listaaAsiakaskategorialuokat();
+                        }
+                        else {
+                            alert('Tallennus ei valitettavasti onnistunut, tarkista tiedot!');
+                        }
+
+                    });
+                });
+
             });
+
+
         });
     </script>
 }
 
 <h2>Asiakaskategoriat</h2>
 
+
 <div>
-    <a class="btn btn-primary" href="#" role="button" id="Listaa">Listaa asiakaskategoriat</a>
-    <a class="btn btn-primary" href="#" role="button" id="Lisää">Lisää asiakaskategoria</a>
+    <a class="btn btn-outline-primary" href="#" role="button" id="Listaa1">Listaa asiakaskategoriat</a>
+    <a class="btn btn-outline-dark" href="#" role="button" id="Lisää1">Lisää asiakaskategoria</a>
 </div>
+
+<p>&nbsp;</p>
 
 <!-- Taulukko tietoja varten -->
 
-<table class="table table-striped" id="Listaustaulukko">
+
+<table class="table table-striped" id="Listaustaulukko1">
     <thead class="thead-light">
         <tr>
             <th scope="col"></th>
-            <th scope="col">AsiakaskategoriaId</th>
+            <th scope="col">KategoriaId</th>
             <th scope="col">Kategorian nimi</th>
             <th scope="col">Kategorian kuvaus</th>
             <th scope="col">Muokkaa</th>
@@ -63,3 +133,37 @@
     </thead>
     <tbody></tbody>
 </table>
+
+<!-- Modaali-ikkuna-->
+
+<div class="modal" tabindex="-1" role="dialog" id="gategoryModalDialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><span id="gategoryModalTitle">Muokkaa kategorian tietoja</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">KategoriaId</div>
+                    <div class="col-md-6"><input class="form-control" id="gategoryModal_KategoriaId" type="text" readonly></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">Kategorian nimi</div>
+                    <div class="col-md-6"><input class="form-control" id="gategoryModal_KategoriaNimi" type="text"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">Kategorian kuvaus</div>
+                    <div class="col-md-6"><input class="form-control" id="gategoryModal_KategoriaKuvaus" type="text"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="gategoryModalSaveButton">Tallenna</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sulje</button>
+
+            </div>
+        </div>
+    </div>
+</div>
