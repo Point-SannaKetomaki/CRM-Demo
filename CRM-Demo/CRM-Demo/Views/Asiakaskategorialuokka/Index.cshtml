@@ -17,7 +17,7 @@
                     //luodaan html-taulukon sisältörunko
                     var html = "";
                     for (var i = 0; i < asiakaskategoriat.length; i++) {
-                        alert("Asiakaskategorian nimi: " + asiakaskategoriat[i].KategoriaNimi);
+                       // alert("Asiakaskategorian nimi: " + asiakaskategoriat[i].KategoriaNimi);
                         html += "<tr>" +
                             "<th scope ='row'></th>" +
                             "<td>" + asiakaskategoriat[i].KategoriaId + "</td>" +
@@ -77,6 +77,7 @@
 
                 //Painetaan Tallenna => luetaan käyttäjän antamat tiedot modaali-ikkunasta
                 $("#gatModalSaveButton").click(function () {
+                    
                     var details = {
                         KategoriaId: $("#gatModal_KategoriaId").val(),
                         KategoriaNimi: $("#gatModal_KategoriaNimi").val(),
@@ -89,6 +90,7 @@
                      * piilotetaan modaali-ikkuna ja
                      * päivitetään asiakaskategorialistaus*/
                     $.post("/Asiakaskategorialuokka/Update/", details, function (status) {
+                        
                         if (status == true) {
                             alert('Uudet tiedot tallennettiin onnistuneesti');
                             $('#gatModalDialog').modal('hide');

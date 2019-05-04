@@ -49,7 +49,7 @@ namespace CRM_Demo.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetSingleGategory(int id)
+        public JsonResult GetSingleGategory(string id)
         {
             //Haetaan tietokannasta "klikatun" kategorian tiedot
 
@@ -57,11 +57,11 @@ namespace CRM_Demo.Controllers
             ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
 
             //Muutetaan modaali-ikkunasta tullut string-tyyppinen katogoriaId int-tyyppiseksi
-            //int ID = int.Parse(id);
+            int ID = int.Parse(id);
 
             //Haetaan Asiakaskategorialuokka -taulusta kaikki data
             var asiakaskategoria = (from ak in entities.Asiakaskategorialuokat
-                                    where ak.KategoriaId == id
+                                    where ak.KategoriaId == ID
                                     select ak).FirstOrDefault();
 
             //Muutetaan olio json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
@@ -78,6 +78,7 @@ namespace CRM_Demo.Controllers
 
         public ActionResult Update(Asiakaskategorialuokat asiakaskategorialuokka)
         {
+                        
             // TIETOJEN PÄIVITYS JA UUDEN ASIAKASKATEGORIAN LISÄYS
 
             bool OK = false;    //tallennuksen onnistuminen
@@ -92,20 +93,29 @@ namespace CRM_Demo.Controllers
 
                 int kategoriaid = asiakaskategorialuokka.KategoriaId;
 
+                
+
                 if (kategoriaid == 0)
                 {
+
                     //Uuden kategorian lisääminen tietokantaan dbItem-nimisen olion avulla
                     Asiakaskategorialuokat dbItem = new Asiakaskategorialuokat()
                     {
                         //dbItemin arvot/tiedot
-                        KategoriaNimi = asiakaskategorialuokka.KategoriaNimi,
+
+                        
+                    KategoriaNimi = asiakaskategorialuokka.KategoriaNimi,
                         KategoriaKuvaus = asiakaskategorialuokka.KategoriaKuvaus
-                    };
+                        
+                };
+                    
 
                     //lisätään tietokantaan dbItemin tiedot ja tallennetaan muutokset
                     entities.Asiakaskategorialuokat.Add(dbItem);
+
                     entities.SaveChanges();
                     OK = true;
+                    
                 }
                 else
                 {
