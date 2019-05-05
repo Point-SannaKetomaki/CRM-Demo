@@ -23,7 +23,7 @@ namespace CRM_Demo.Controllers
 
             //Haetaan Asiakkaat -taulusta kaikki data
             var asiakkaat = (from asi in entities.Asiakkaat
-                                     select asi).ToList();
+                             select asi).ToList();
 
             //Muutetaan data json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
             var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
@@ -49,8 +49,8 @@ namespace CRM_Demo.Controllers
 
             //Haetaan Asiakkaat -taulusta kaikki data
             var asiakas = (from asi in entities.Asiakkaat
-                             where asi.AsiakasId == asiID
-                             select asi).FirstOrDefault();
+                           where asi.AsiakasId == asiID
+                           select asi).FirstOrDefault();
 
             //Muutetaan olio json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
             string json = JsonConvert.SerializeObject(asiakas);
@@ -66,7 +66,7 @@ namespace CRM_Demo.Controllers
 
         public ActionResult Update(Asiakkaat asiakkaat)
         {
-            // TIETOJEN PÄIVITYS JA UUDEN ASIAKKAAN LISÄYS
+            //Tietojen päivitys ja uuden asiakkaan lisäys
 
             bool OK = false;    //tallennuksen onnistuminen
 
@@ -107,8 +107,8 @@ namespace CRM_Demo.Controllers
                     //haetaan tiedot tietokannasta
 
                     Asiakkaat dbItem = (from asi in entities.Asiakkaat
-                                                 where asi.AsiakasId == asiakasid
-                                                 select asi).FirstOrDefault();
+                                        where asi.AsiakasId == asiakasid
+                                        select asi).FirstOrDefault();
 
                     //tallennetaan modaali-ikkunasta tulevat tiedot dbItem-olioon
                     if (dbItem != null)
@@ -126,10 +126,38 @@ namespace CRM_Demo.Controllers
                         OK = true;
                     }
                 }
-
                 //suljetaan tietokantayhteys
                 entities.Dispose();
             }
+
+            //palautetaan tallennuskuittaus selaimelle (muuttuja OK)
+            return Json(OK, JsonRequestBehavior.AllowGet);
+        }
+
+        //Asiakkaan poisto
+        public ActionResult Delete(string id)
+        {
+            ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
+
+            // etsitään id:n perusteella asiakasrivi kannasta
+            bool OK = false;
+
+            int asiakasid = int.Parse(id);
+
+            Asiakkaat dbItem = (from asi in entities.Asiakkaat
+                                where asi.AsiakasId == asiakasid
+                                select asi).FirstOrDefault();
+
+            //tallennetaan modaali-ikkunasta tulevat tiedot dbItem-olioon
+            if (dbItem != null)
+            {
+                //tietokannasta poisto
+                entities.Asiakkaat.Remove(dbItem);
+                entities.SaveChanges();
+                OK = true;
+            }
+            //suljetaan tietokantayhteys
+            entities.Dispose();
 
             //palautetaan tallennuskuittaus selaimelle (muuttuja OK)
             return Json(OK, JsonRequestBehavior.AllowGet);

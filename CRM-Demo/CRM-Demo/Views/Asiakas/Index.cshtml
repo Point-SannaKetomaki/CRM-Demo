@@ -16,7 +16,6 @@
                 $.getJSON("/Asiakas/GetList", null, function (json) {
                     var asiakkaat = JSON.parse(json)
 
-
                     //luodaan html-taulukon sisältörunko
                     var html = "";
                     for (var i = 0; i < asiakkaat.length; i++) {
@@ -45,91 +44,105 @@
 
                         //etsitään asiakkaan tiedot klikatulta riviltä
                         var asiakasId = $(this).parent().parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().text();
-                        alert(asiakasId);
 
                         //haetaan asiakkaan tiedot kontrollerilta id:n perusteella
                         $.getJSON("/Asiakas/GetSingleGroup/" + asiakasId, null, function (json2) {
                             var asiakas = JSON.parse(json2);
 
                             //tietojen lataus modaali-ikkunaan
-                            $('#groupModal_AsiakasId').val(asiakas.AsiakasId)
-                            $('#groupModal_Etunimi').val(asiakas.Etunimi)
-                            $('#groupModal_Sukunimi').val(asiakas.Sukunimi)
-                            $('#groupModal_Osoite').val(asiakas.Osoite)
-                            $('#groupModal_Postinumero').val(asiakas.Postinumero)
-                            $('#groupModal_Puhelin').val(asiakas.Puhelin)
-                            $('#groupModal_Sähköposti').val(asiakas.Sähköposti)
-                            $('#groupModal_KategoriaId').val(asiakas.KategoriaId)
-                            $('#groupModal_Tila').val(asiakas.Tila)
+                            $('#customerModal_AsiakasId').val(asiakas.AsiakasId)
+                            $('#customerModal_Etunimi').val(asiakas.Etunimi)
+                            $('#customerModal_Sukunimi').val(asiakas.Sukunimi)
+                            $('#customerModal_Osoite').val(asiakas.Osoite)
+                            $('#customerModal_Postinumero').val(asiakas.Postinumero)
+                            $('#customerModal_Puhelin').val(asiakas.Puhelin)
+                            $('#customerModal_Sähköposti').val(asiakas.Sähköposti)
+                            $('#customerModal_KategoriaId').val(asiakas.KategoriaId)
+                            $('#customerModal_Tila').val(asiakas.Tila)
 
                             //näytetään modaali-ikkuna
-                            $('#groupModalTitle').text('Muokkaa asiakkaan tietoja');
-                            $('#groupModalDialog').modal('show');
+                            $('#customerModalTitle').text('Muokkaa asiakkaan tietoja');
+                            $('#customerModalDialog').modal('show');
                         });
                     });
-                });
-            }
 
+            //asiakkaan poisto
+            $(".fa-trash").click(function () {
+                //etsitään asiakkaan tiedot klikatulta riviltä
+                var asiakasId = $(this).parent().parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().text();
+                var ok = confirm("Haluatko varmasti poistaa asiakkaan " + asiakasId + "?");
+
+                if (ok == true) {
+                    $.getJSON("/Asiakas/Delete/" + asiakasId, null, function (status) {
+                        if (status == true) {
+                            alert('Asiakas on nyt poistettu!');
+                            listaaAsiakastiedot();
+                        }
+                        else {
+                            alert('Poistaminen ei valitettavasti onnistunut, tarkista tiedot!');
+                        }
+                    });
+                }
+            });
+        });
+    }
             //sivun alustus
             $(function () {
                 $('#ListaaAsiakastiedot').on('click', function () {
                     listaaAsiakastiedot();
                 });
 
+                //asiakkaan lisäys
                 $('#LisääAsiakas').click(function () {
 
                     //tyhjennetään ikkunan tiedot
-                    $('#groupModal_AsiakasId').val('(Uusi AsiakasId)');
-                    $('#groupModal_Etunimi').val('');
-                    $('#groupModal_Sukunimi').val('');
-                    $('#groupModal_Osoite').val('');
-                    $('#groupModal_Postinumero').val('');
-                    $('#groupModal_Puhelin').val('');
-                    $('#groupModal_Sähköposti').val('');
-                    $('#groupModal_KategoriaId').val('');
-                    $('#groupModal_Tila').val('');
+                    $('#customerModal_AsiakasId').val('(Uusi AsiakasId)');
+                    $('#customerModal_Etunimi').val('');
+                    $('#customerModal_Sukunimi').val('');
+                    $('#customerModal_Osoite').val('');
+                    $('#customerModal_Postinumero').val('');
+                    $('#customerModal_Puhelin').val('');
+                    $('#customerModal_Sähköposti').val('');
+                    $('#customerModal_KategoriaId').val('');
+                    $('#customerModal_Tila').val('');
 
 
                     //näytetään tyhjä modaali-ikkuna
-                    $('#groupModalTitle').text('Lisää uusi asiakas');
-                    $('#groupModalDialog').modal('show');
+                    $('#customerModalTitle').text('Lisää uusi asiakas');
+                    $('#customerModalDialog').modal('show');
                 });
 
                 //Painetaan Tallenna => luetaan käyttäjän antamat tiedot modaali-ikkunasta
-                $("#groupModalSaveButton").click(function () {
+                $("#customerModalSaveButton").click(function () {
                     var details = {
-                        AsiakasId: $("#groupModal_AsiakasId").val(),
-                        Etunimi: $("#groupModal_Etunimi").val(),
-                        Sukunimi: $("#groupModal_Sukunimi").val(),
-                        Osoite: $("#groupModal_Osoite").val(),
-                        Postinumero: $("#groupModal_Postinumero").val(),
-                        Puhelin: $("#groupModal_Puhelin").val(),
-                        Sähköposti: $("#groupModal_Sähköposti").val(),
-                        KategoriaId: $("#groupModal_KategoriaId").val(),
-                        Tila: $("#groupModal_Tila").val()
+                        AsiakasId: $("#customerModal_AsiakasId").val(),
+                        Etunimi: $("#customerModal_Etunimi").val(),
+                        Sukunimi: $("#customerModal_Sukunimi").val(),
+                        Osoite: $("#customerModal_Osoite").val(),
+                        Postinumero: $("#customerModal_Postinumero").val(),
+                        Puhelin: $("#customerModal_Puhelin").val(),
+                        Sähköposti: $("#customerModal_Sähköposti").val(),
+                        KategoriaId: $("#customerModal_KategoriaId").val(),
+                        Tila: $("#customerModal_Tila").val()
                     };
 
                     /*Lähetetään tiedot kontrollerille,
                      * annetaan käyttäjälle viesti päivityksen onnistumisesta,
                      * piilotetaan modaali-ikkuna ja
-                     * päivitetään asiakasryhmälistaus*/
+                     * päivitetään asiakasistaus*/
                     $.post("/Asiakas/Update/", details, function (status) {
                         if (status == true) {
                             alert('Uudet tiedot tallennettiin onnistuneesti');
-                            $('#groupModalDialog').modal('hide');
+                            $('#customerModalDialog').modal('hide');
                             listaaAsiakastiedot();
                         }
                         else {
                             alert('Tallennus ei valitettavasti onnistunut, tarkista tiedot!');
                         }
-
                     });
                 });
-
-            });
-
-
-        });
+            });   
+         }); 
     </script>
 }
 
@@ -169,11 +182,11 @@
 
 <!-- Modaali-ikkuna-->
 
-<div class="modal" tabindex="-1" role="dialog" id="groupModalDialog">
+<div class="modal" tabindex="-1" role="dialog" id="customerModalDialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"><span id="groupModalTitle">Muokkaa asiakkaan tietoja</span></h5>
+                <h5 class="modal-title"><span id="customerModalTitle">Muokkaa asiakkaan tietoja</span></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -181,43 +194,43 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-3">AsiakasId</div>
-                    <div class="col-md-6"><input class="form-control" id="groupModal_AsiakasId" type="text" readonly></div>
+                    <div class="col-md-6"><input class="form-control" id="customerModal_AsiakasId" type="text" readonly></div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">Etunimi</div>
-                    <div class="col-md-6"><input class="form-control" id="groupModal_Etunimi" type="text"></div>
+                    <div class="col-md-6"><input class="form-control" id="customerModal_Etunimi" type="text"></div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">Sukunimi</div>
-                    <div class="col-md-6"><input class="form-control" id="groupModal_Sukunimi" type="text"></div>
+                    <div class="col-md-6"><input class="form-control" id="customerModal_Sukunimi" type="text"></div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">Osoite</div>
-                    <div class="col-md-6"><input class="form-control" id="groupModal_Osoite" type="text"></div>
+                    <div class="col-md-6"><input class="form-control" id="customerModal_Osoite" type="text"></div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">Postinumero</div>
-                    <div class="col-md-6"><input class="form-control" id="groupModal_Postinumero" type="text"></div>
+                    <div class="col-md-6"><input class="form-control" id="customerModal_Postinumero" type="text"></div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">Puhelin</div>
-                    <div class="col-md-6"><input class="form-control" id="groupModal_Puhelin" type="text"></div>
+                    <div class="col-md-6"><input class="form-control" id="customerModal_Puhelin" type="text"></div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">Sähköposti</div>
-                    <div class="col-md-6"><input class="form-control" id="groupModal_Sähköposti" type="text"></div>
+                    <div class="col-md-6"><input class="form-control" id="customerModal_Sähköposti" type="text"></div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">KategoriaId</div>
-                    <div class="col-md-6"><input class="form-control" id="groupModal_KategoriaId" type="text"></div>
+                    <div class="col-md-6"><input class="form-control" id="customerModal_KategoriaId" type="text"></div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">Tila</div>
-                    <div class="col-md-6"><input class="form-control" id="groupModal_Tila" type="text"></div>
+                    <div class="col-md-6"><input class="form-control" id="customerModal_Tila" type="text"></div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="groupModalSaveButton">Tallenna</button>
+                <button type="button" class="btn btn-primary" id="customerModalSaveButton">Tallenna</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Sulje</button>
 
             </div>
