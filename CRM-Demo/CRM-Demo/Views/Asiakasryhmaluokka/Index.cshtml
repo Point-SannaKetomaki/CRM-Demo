@@ -56,6 +56,28 @@
                             $('#groupModalDialog').modal('show');
                         });
                     });
+                    //tietojen poisto
+                    $(".fa-trash").click(function () {
+                        //haetaan klikatun rivin id-numero
+                        var ryhmäId = $(this).parent().parent().prev().prev().prev().prev().text();
+
+                        //alert("Klikattu poistoa, poistetaan ryhmä: " + ryhmäId);
+
+                        //varmistetaan, että halutaan varmasti poistaa
+                        var ok = confirm("Haluatko varmasti poistaa ryhmän " + ryhmäId + "?");
+
+                        if (ok == true) {
+                            $.getJSON("/asiakasryhmaluokka/delete/" + ryhmäId, null, function (status) {
+                                if (status == true) {
+                                    alert("Ryhmän tiedot on poistettu onnistuneesti");
+                                    listaaAsiakasryhmäluokat();
+                                }
+                                else {
+                                    alert("Tietojan poisto ei onnistunut. Yritä uudelleen!");
+                                }
+                            });
+                        }
+                    });
                 });
             }
 

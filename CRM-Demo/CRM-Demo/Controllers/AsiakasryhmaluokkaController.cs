@@ -124,6 +124,40 @@ namespace CRM_Demo.Controllers
             //palautetaan tallennuskuittaus selaimelle (muuttuja OK)
             return Json(OK, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult Delete (string id)
+        {
+            //luodaan uusi entiteettiolio
+            ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
+
+            //tallennuksen onnistuminen
+            bool OK = false;
+
+            //muutetaan selaimelta tullut string-tyyppinen ryhmäId (muuttuja: id) int-tyyppiseksi
+            int intID = int.Parse(id);
+
+            //haetaan poistettavan ryhmän tiedot kannasta dbItem-olioon id:n perusteella
+            Asiakasryhmäluokat dbItem = (from ar in entities.Asiakasryhmäluokat
+                                         where ar.RyhmäId == intID
+                                         select ar).FirstOrDefault();
+
+            //jos tiedot löytyy
+            if (dbItem != null)
+            {
+                //poistetaan tiedot 
+                entities.Asiakasryhmäluokat.Remove(dbItem);
+
+                //tallennetaan muutokset tietokantaan
+                entities.SaveChanges();
+                OK = true;
+            }
+
+            //suljetaan tietokantayhteys
+            entities.Dispose();
+
+            //palautetaan tallennuskuittaus selaimelle
+            return Json(OK, JsonRequestBehavior.AllowGet);
+        }
     }
 }
 
