@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CRM_Demo.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,6 +16,31 @@ namespace CRM_Demo.Controllers
             return View();
         }
 
+        public JsonResult GetList()
+        {
+            //Luodaan uusi entiteettiolio 
+            ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
+
+            //Haetaan -taulusta kaikki data
+            var tapahtumalajit = (from ak in entities.Tapahtumalajit
+                                  select ak).ToList();
+
+            //Muutetaan data json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
+            var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            string json = JsonConvert.SerializeObject(tapahtumalajit, serializerSettings);
+            entities.Dispose();
+
+
+            //ohitetaan välimuisti, jotta näyttö päivittyy (IE-selainta varten) 
+            Response.Expires = -1;
+            Response.CacheControl = "no-cache";
+
+            //Lähetetään data selaimelle
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+
+
         // GET: Tapahtumalaji/Details/5
         public ActionResult Details(int id)
         {
@@ -28,19 +55,59 @@ namespace CRM_Demo.Controllers
 
         // POST: Tapahtumalaji/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(int TapahtumalajiId, FormCollection collection)
         {
             try
             {
-                // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
+
+                if (collection["Tapahtumalajimuutostyyppi"].ToString() == "Uusi Tapahtumalaji")
+                {
+
+                    ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
+                    CRM_Demo.Models.Tapahtumalajit dbItem = new Models.Tapahtumalajit();
+
+                    dbItem.TapahtumalajiNimi = collection["TapahtumalajiNimi"].ToString();
+                    dbItem.TapahtumalajiKuvaus = collection["TapahtumalajiKuvaus"].ToString();
+
+                    // tallennus tietokantaan
+                    entities.Tapahtumalajit.Add(dbItem);
+                    entities.SaveChanges();
+                    entities.Dispose();
+                    return Content("ok");
+                }
+
+                else
+                {
+
+                    ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
+                    CRM_Demo.Models.Tapahtumalajit dbItem = (from c in entities.Tapahtumalajit
+                                                             where c.TapahtumalajiId == TapahtumalajiId
+                                                             select c).FirstOrDefault();
+                    if (dbItem != null)
+                    {
+                        // tietokannan muokkaus
+                        dbItem.TapahtumalajiNimi = collection["TapahtumalajiNimi"].ToString();
+                        dbItem.TapahtumalajiKuvaus = collection["TapahtumalajiKuvaus"].ToString();
+                        entities.SaveChanges();
+                    }
+                    entities.Dispose();
+                    return Content("ok");
+
+                }//end else
+
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                return Content("e:" + e);//palauta error teksti
+
             }
         }
+
+
+
+
+
 
         // GET: Tapahtumalaji/Edit/5
         public ActionResult Edit(int id)
@@ -74,12 +141,27 @@ namespace CRM_Demo.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
+
             try
             {
-                // TODO: Add delete logic here
+                ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
+                CRM_Demo.Models.Tapahtumalajit dbItem = (from c in entities.Tapahtumalajit
+                                                         where c.TapahtumalajiId == id
+                                                         select c).FirstOrDefault();
+                if (dbItem != null)
+                {
+                    // tietokannasta poisto
+                    entities.Tapahtumalajit.Remove(dbItem);
+                    entities.SaveChanges();
 
-                return RedirectToAction("Index");
+                }
+                entities.Dispose();
+
+                return Content("ok");
+
             }
+
+
             catch
             {
                 return View();

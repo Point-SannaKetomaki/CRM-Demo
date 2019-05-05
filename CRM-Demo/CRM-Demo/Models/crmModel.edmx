@@ -5,8 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ProjektitDBCareModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjektitDBCare.scrum.Asiakaskategorialuokat' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Asiakaskategorialuokat">
           <Key>
             <PropertyRef Name="KategoriaId" />
@@ -102,6 +100,7 @@ warning 6002: The table/view 'ProjektitDBCare.scrum.Asiakaskategorialuokat' does
           <Property Name="AiheenNimi" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityContainer Name="ProjektitDBCareModelStoreContainer">
+          <EntitySet Name="Asiakaskategorialuokat" EntityType="Self.Asiakaskategorialuokat" Schema="scrum" store:Type="Tables" />
           <EntitySet Name="Asiakasryhmäluokat" EntityType="Self.Asiakasryhmäluokat" Schema="scrum" store:Type="Tables" />
           <EntitySet Name="Asiakasryhmät" EntityType="Self.Asiakasryhmät" Schema="scrum" store:Type="Tables" />
           <EntitySet Name="Asiakkaat" EntityType="Self.Asiakkaat" Schema="scrum" store:Type="Tables" />
@@ -111,13 +110,6 @@ warning 6002: The table/view 'ProjektitDBCare.scrum.Asiakaskategorialuokat' does
           <EntitySet Name="Tapahtumalajit" EntityType="Self.Tapahtumalajit" Schema="scrum" store:Type="Tables" />
           <EntitySet Name="Tapahtumat" EntityType="Self.Tapahtumat" Schema="scrum" store:Type="Tables" />
           <EntitySet Name="Vakioaiheet" EntityType="Self.Vakioaiheet" Schema="scrum" store:Type="Tables" />
-          <EntitySet Name="Asiakaskategorialuokat" EntityType="Self.Asiakaskategorialuokat" store:Type="Tables" store:Schema="scrum">
-            <DefiningQuery>SELECT 
-    [Asiakaskategorialuokat].[KategoriaId] AS [KategoriaId], 
-    [Asiakaskategorialuokat].[KategoriaNimi] AS [KategoriaNimi], 
-    [Asiakaskategorialuokat].[KategoriaKuvaus] AS [KategoriaKuvaus]
-    FROM [scrum].[Asiakaskategorialuokat] AS [Asiakaskategorialuokat]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->

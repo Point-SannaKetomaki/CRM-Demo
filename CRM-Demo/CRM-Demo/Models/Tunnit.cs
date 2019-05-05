@@ -8,35 +8,16 @@
 //------------------------------------------------------------------------------
 
 namespace CRM_Demo.Models
-
 {
-
     using System;
-
     using System.Collections.Generic;
-
-    using System.ComponentModel;
-
-    using System.ComponentModel.DataAnnotations;
-
-    public partial class Login
-
+    
+    public partial class Tunnit
     {
-
-        public int LoginId { get; set; }
-
-        [Required(ErrorMessage = "Anna käyttäjätunnus")]
-
-        public string Käyttäjätunnus { get; set; }
-
-        [DataType(DataType.Password)]
-
-        [Required(ErrorMessage = "Anna salasana.")]
-
-        public string Salasana { get; set; }
-
-        public string LoginErrorMessage { get; set; }
-
+        public int TuntiId { get; set; }
+        public int ProjektiId { get; set; }
+        public int HenkiloId { get; set; }
+        public System.DateTime Päivämäärä { get; set; }
+        public decimal Tunnit1 { get; set; }
     }
-
 }

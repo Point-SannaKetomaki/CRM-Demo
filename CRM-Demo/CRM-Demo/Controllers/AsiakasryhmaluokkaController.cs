@@ -36,7 +36,8 @@ namespace CRM_Demo.Controllers
             //Lähetetään data selaimelle
             return Json(json, JsonRequestBehavior.AllowGet);
         }
-
+       
+        
         public JsonResult GetSingleGroup(string id)
         {
             //Haetaan tietokannasta "klikatun" ryhmän tiedot
