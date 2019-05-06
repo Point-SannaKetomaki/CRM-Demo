@@ -54,6 +54,30 @@
                             $('#gatModalDialog').modal('show');
                         });
                     });
+
+                    //tietojen poisto
+                    $(".fa-trash").click(function () {
+                        //haetaan klikatun rivin id-numero
+                        var kategoriaId = $(this).parent().parent().prev().prev().prev().prev().text();
+
+                        //alert("Klikattu poistoa: " + kategoriaId);
+
+                        //poiston varmistus
+                        var ok = confirm("Haluatko varmasti poistaa kategorian " + kategoriaId + "?");
+
+                        if (ok == true) {
+                            $.getJSON("/asiakaskategorialuokka/delete/" + kategoriaId, null, function (status) {
+                                if (status == true) {
+                                    listaaAsiakaskategorialuokat();
+                                    alert("Asiakaskategorian tiedot on poistettu onnistuneesti");
+                                    
+                                }
+                                else {
+                                    alert("Kategorian poistaminen ei onnistunut. Yritä uudelleen!");
+                                }
+                            });
+                        }
+                    });
                 });
             }
 
