@@ -14,6 +14,12 @@ namespace CRM_Demo.Models
     
     public partial class Asiakkaat
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Asiakkaat()
+        {
+            this.Asiakasryhmät = new HashSet<Asiakasryhmät>();
+        }
+    
         public int AsiakasId { get; set; }
         public string Etunimi { get; set; }
         public string Sukunimi { get; set; }
@@ -23,5 +29,8 @@ namespace CRM_Demo.Models
         public string Sähköposti { get; set; }
         public int KategoriaId { get; set; }
         public bool Tila { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Asiakasryhmät> Asiakasryhmät { get; set; }
     }
 }
