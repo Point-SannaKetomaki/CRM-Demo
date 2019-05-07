@@ -170,12 +170,6 @@
     <Compile Include="Models\Postitoimipaikat.cs">
       <DependentUpon>crmModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Projektihenkilot.cs">
-      <DependentUpon>crmModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Projektit.cs">
-      <DependentUpon>crmModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Sähköposti.cs">
       <DependentUpon>crmModel.tt</DependentUpon>
     </Compile>
@@ -183,9 +177,6 @@
       <DependentUpon>crmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Tapahtumat.cs">
-      <DependentUpon>crmModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Tunnit.cs">
       <DependentUpon>crmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Vakioaiheet.cs">
