@@ -23,7 +23,17 @@ namespace CRM_Demo.Controllers
 
             //Haetaan Asiakkaat -taulusta kaikki data
             var asiakkaat = (from asi in entities.Asiakkaat
-                             select asi).ToList();
+                             select new {
+                                 AsiakasId = asi.AsiakasId,
+                                 Etunimi = asi.Etunimi,
+                                 Sukunimi = asi.Sukunimi,
+                                 Osoite = asi.Osoite,
+                                 Postinumero = asi.Postinumero,
+                                 Puhelin = asi.Puhelin,
+                                 Sähköposti = asi.Sähköposti,
+                                 KategoriaId = asi.KategoriaId,
+                                 Tila = asi.Tila
+                                 }).ToList();
 
             //Muutetaan data json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
             var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
@@ -53,7 +63,9 @@ namespace CRM_Demo.Controllers
                            select asi).FirstOrDefault();
 
             //Muutetaan olio json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
-            string json = JsonConvert.SerializeObject(asiakas);
+            var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+
+            string json = JsonConvert.SerializeObject(asiakas, serializerSettings);
             entities.Dispose();
 
             //ohitetaan välimuisti, jotta näyttö päivittyy (IE-selainta varten) 
@@ -119,6 +131,7 @@ namespace CRM_Demo.Controllers
                         dbItem.Postinumero = asiakkaat.Postinumero;
                         dbItem.Puhelin = asiakkaat.Puhelin;
                         dbItem.Sähköposti = asiakkaat.Sähköposti;
+                        dbItem.KategoriaId = asiakkaat.KategoriaId;
                         dbItem.Tila = asiakkaat.Tila;
 
                         // tallennetaan uudet tiedot tietokantaan

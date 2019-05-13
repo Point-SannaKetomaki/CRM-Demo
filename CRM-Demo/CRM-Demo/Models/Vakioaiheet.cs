@@ -14,7 +14,16 @@ namespace CRM_Demo.Models
     
     public partial class Vakioaiheet
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Vakioaiheet()
+        {
+            this.Sähköposti = new HashSet<Sähköposti>();
+        }
+    
         public int AiheId { get; set; }
         public string AiheenNimi { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Sähköposti> Sähköposti { get; set; }
     }
 }

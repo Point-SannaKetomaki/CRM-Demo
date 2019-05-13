@@ -18,6 +18,7 @@ namespace CRM_Demo.Models
         public Asiakkaat()
         {
             this.Asiakasryhmät = new HashSet<Asiakasryhmät>();
+            this.Tapahtumat = new HashSet<Tapahtumat>();
         }
     
         public int AsiakasId { get; set; }
@@ -30,7 +31,11 @@ namespace CRM_Demo.Models
         public int KategoriaId { get; set; }
         public bool Tila { get; set; }
     
+        public virtual Asiakaskategorialuokat Asiakaskategorialuokat { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Asiakasryhmät> Asiakasryhmät { get; set; }
+        public virtual Postitoimipaikat Postitoimipaikat { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tapahtumat> Tapahtumat { get; set; }
     }
 }
