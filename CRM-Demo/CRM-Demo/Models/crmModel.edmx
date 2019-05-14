@@ -37,7 +37,7 @@
           <Property Name="Etunimi" Type="nvarchar" MaxLength="50" />
           <Property Name="Sukunimi" Type="nvarchar" MaxLength="50" />
           <Property Name="Osoite" Type="nvarchar" MaxLength="100" />
-          <Property Name="Postinumero" Type="nvarchar" MaxLength="5" />
+          <Property Name="Postinumero" Type="nvarchar" MaxLength="50" />
           <Property Name="Puhelin" Type="nvarchar" MaxLength="25" />
           <Property Name="Sähköposti" Type="nvarchar" MaxLength="50" />
           <Property Name="KategoriaId" Type="int" Nullable="false" />
@@ -55,7 +55,7 @@
           <Key>
             <PropertyRef Name="Postinumero" />
           </Key>
-          <Property Name="Postinumero" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Postinumero" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Postitoimipaikka" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Sähköposti">
@@ -224,6 +224,46 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProjektitDBCareModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ProjektitDBCareEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Asiakaskategorialuokat" EntityType="ProjektitDBCareModel.Asiakaskategorialuokat" />
+          <EntitySet Name="Asiakasryhmäluokat" EntityType="ProjektitDBCareModel.Asiakasryhmäluokat" />
+          <EntitySet Name="Asiakasryhmät" EntityType="ProjektitDBCareModel.Asiakasryhmät" />
+          <EntitySet Name="Asiakkaat" EntityType="ProjektitDBCareModel.Asiakkaat" />
+          <EntitySet Name="Login" EntityType="ProjektitDBCareModel.Login" />
+          <EntitySet Name="Postitoimipaikat" EntityType="ProjektitDBCareModel.Postitoimipaikat" />
+          <EntitySet Name="Sähköposti" EntityType="ProjektitDBCareModel.Sähköposti" />
+          <EntitySet Name="Tapahtumalajit" EntityType="ProjektitDBCareModel.Tapahtumalajit" />
+          <EntitySet Name="Tapahtumat" EntityType="ProjektitDBCareModel.Tapahtumat" />
+          <EntitySet Name="Vakioaiheet" EntityType="ProjektitDBCareModel.Vakioaiheet" />
+          <AssociationSet Name="FK_Asiakkaat_Asiakaskategorialuokat" Association="ProjektitDBCareModel.FK_Asiakkaat_Asiakaskategorialuokat">
+            <End Role="Asiakaskategorialuokat" EntitySet="Asiakaskategorialuokat" />
+            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asiakasryhmät_Asiakasryhmäluokat" Association="ProjektitDBCareModel.FK_Asiakasryhmät_Asiakasryhmäluokat">
+            <End Role="Asiakasryhmäluokat" EntitySet="Asiakasryhmäluokat" />
+            <End Role="Asiakasryhmät" EntitySet="Asiakasryhmät" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asiakasryhmät_Asiakkaat" Association="ProjektitDBCareModel.FK_Asiakasryhmät_Asiakkaat">
+            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
+            <End Role="Asiakasryhmät" EntitySet="Asiakasryhmät" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asiakkaat_Postitoimipaikat" Association="ProjektitDBCareModel.FK_Asiakkaat_Postitoimipaikat">
+            <End Role="Postitoimipaikat" EntitySet="Postitoimipaikat" />
+            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tapahtumat_Asiakkaat" Association="ProjektitDBCareModel.FK_Tapahtumat_Asiakkaat">
+            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
+            <End Role="Tapahtumat" EntitySet="Tapahtumat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sähköposti_Vakioaiheet" Association="ProjektitDBCareModel.FK_Sähköposti_Vakioaiheet">
+            <End Role="Vakioaiheet" EntitySet="Vakioaiheet" />
+            <End Role="Sähköposti" EntitySet="Sähköposti" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tapahtumat_Tapahtumalajit" Association="ProjektitDBCareModel.FK_Tapahtumat_Tapahtumalajit">
+            <End Role="Tapahtumalajit" EntitySet="Tapahtumalajit" />
+            <End Role="Tapahtumat" EntitySet="Tapahtumat" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Asiakaskategorialuokat">
           <Key>
             <PropertyRef Name="KategoriaId" />
@@ -260,7 +300,7 @@
           <Property Name="Etunimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Sukunimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Osoite" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Postinumero" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Postinumero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Puhelin" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="Sähköposti" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="KategoriaId" Type="Int32" Nullable="false" />
@@ -275,14 +315,14 @@
             <PropertyRef Name="LoginId" />
           </Key>
           <Property Name="LoginId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Käyttäjätunnus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Salasana" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Käyttäjätunnus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Salasana" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Postitoimipaikat">
           <Key>
             <PropertyRef Name="Postinumero" />
           </Key>
-          <Property Name="Postinumero" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Postinumero" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Postitoimipaikka" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Asiakkaat" Relationship="ProjektitDBCareModel.FK_Asiakkaat_Postitoimipaikat" FromRole="Postitoimipaikat" ToRole="Asiakkaat" />
         </EntityType>
@@ -318,9 +358,6 @@
           <Property Name="TapahtumaPvm" Type="DateTime" Precision="3" />
           <Property Name="TapahtumaKlo" Type="DateTime" Precision="3" />
           <Property Name="TapahtumaKuvaus" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="SeuraavaTapahtumalajiId" Type="Int32" />
-          <Property Name="SeuraavaTapahtumaPvm" Type="DateTime" Precision="3" />
-          <Property Name="SeuraavaTapahtumaKlo" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Asiakkaat" Relationship="ProjektitDBCareModel.FK_Tapahtumat_Asiakkaat" FromRole="Tapahtumat" ToRole="Asiakkaat" />
           <NavigationProperty Name="Tapahtumalajit" Relationship="ProjektitDBCareModel.FK_Tapahtumat_Tapahtumalajit" FromRole="Tapahtumat" ToRole="Tapahtumalajit" />
         </EntityType>
@@ -329,49 +366,9 @@
             <PropertyRef Name="AiheId" />
           </Key>
           <Property Name="AiheId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AiheenNimi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AiheenNimi" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Sähköposti" Relationship="ProjektitDBCareModel.FK_Sähköposti_Vakioaiheet" FromRole="Vakioaiheet" ToRole="Sähköposti" />
         </EntityType>
-        <EntityContainer Name="ProjektitDBCareEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Asiakaskategorialuokat" EntityType="Self.Asiakaskategorialuokat" />
-          <EntitySet Name="Asiakasryhmäluokat" EntityType="Self.Asiakasryhmäluokat" />
-          <EntitySet Name="Asiakasryhmät" EntityType="Self.Asiakasryhmät" />
-          <EntitySet Name="Asiakkaat" EntityType="Self.Asiakkaat" />
-          <EntitySet Name="Login" EntityType="Self.Login" />
-          <EntitySet Name="Postitoimipaikat" EntityType="Self.Postitoimipaikat" />
-          <EntitySet Name="Sähköposti" EntityType="Self.Sähköposti" />
-          <EntitySet Name="Tapahtumalajit" EntityType="Self.Tapahtumalajit" />
-          <EntitySet Name="Tapahtumat" EntityType="Self.Tapahtumat" />
-          <EntitySet Name="Vakioaiheet" EntityType="Self.Vakioaiheet" />
-          <AssociationSet Name="FK_Asiakkaat_Asiakaskategorialuokat" Association="ProjektitDBCareModel.FK_Asiakkaat_Asiakaskategorialuokat">
-            <End Role="Asiakaskategorialuokat" EntitySet="Asiakaskategorialuokat" />
-            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Asiakasryhmät_Asiakasryhmäluokat" Association="ProjektitDBCareModel.FK_Asiakasryhmät_Asiakasryhmäluokat">
-            <End Role="Asiakasryhmäluokat" EntitySet="Asiakasryhmäluokat" />
-            <End Role="Asiakasryhmät" EntitySet="Asiakasryhmät" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Asiakasryhmät_Asiakkaat" Association="ProjektitDBCareModel.FK_Asiakasryhmät_Asiakkaat">
-            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
-            <End Role="Asiakasryhmät" EntitySet="Asiakasryhmät" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Asiakkaat_Postitoimipaikat" Association="ProjektitDBCareModel.FK_Asiakkaat_Postitoimipaikat">
-            <End Role="Postitoimipaikat" EntitySet="Postitoimipaikat" />
-            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tapahtumat_Asiakkaat" Association="ProjektitDBCareModel.FK_Tapahtumat_Asiakkaat">
-            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
-            <End Role="Tapahtumat" EntitySet="Tapahtumat" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Sähköposti_Vakioaiheet" Association="ProjektitDBCareModel.FK_Sähköposti_Vakioaiheet">
-            <End Role="Vakioaiheet" EntitySet="Vakioaiheet" />
-            <End Role="Sähköposti" EntitySet="Sähköposti" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tapahtumat_Tapahtumalajit" Association="ProjektitDBCareModel.FK_Tapahtumat_Tapahtumalajit">
-            <End Role="Tapahtumalajit" EntitySet="Tapahtumalajit" />
-            <End Role="Tapahtumat" EntitySet="Tapahtumat" />
-          </AssociationSet>
-        </EntityContainer>
         <Association Name="FK_Asiakkaat_Asiakaskategorialuokat">
           <End Type="ProjektitDBCareModel.Asiakaskategorialuokat" Role="Asiakaskategorialuokat" Multiplicity="1" />
           <End Type="ProjektitDBCareModel.Asiakkaat" Role="Asiakkaat" Multiplicity="*" />
@@ -456,7 +453,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -465,101 +462,101 @@
           <EntitySetMapping Name="Asiakaskategorialuokat">
             <EntityTypeMapping TypeName="ProjektitDBCareModel.Asiakaskategorialuokat">
               <MappingFragment StoreEntitySet="Asiakaskategorialuokat">
-                <ScalarProperty Name="KategoriaId" ColumnName="KategoriaId" />
-                <ScalarProperty Name="KategoriaNimi" ColumnName="KategoriaNimi" />
                 <ScalarProperty Name="KategoriaKuvaus" ColumnName="KategoriaKuvaus" />
+                <ScalarProperty Name="KategoriaNimi" ColumnName="KategoriaNimi" />
+                <ScalarProperty Name="KategoriaId" ColumnName="KategoriaId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Asiakasryhmäluokat">
             <EntityTypeMapping TypeName="ProjektitDBCareModel.Asiakasryhmäluokat">
               <MappingFragment StoreEntitySet="Asiakasryhmäluokat">
-                <ScalarProperty Name="RyhmäId" ColumnName="RyhmäId" />
-                <ScalarProperty Name="RyhmäNimi" ColumnName="RyhmäNimi" />
                 <ScalarProperty Name="RyhmäKuvaus" ColumnName="RyhmäKuvaus" />
+                <ScalarProperty Name="RyhmäNimi" ColumnName="RyhmäNimi" />
+                <ScalarProperty Name="RyhmäId" ColumnName="RyhmäId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Asiakasryhmät">
             <EntityTypeMapping TypeName="ProjektitDBCareModel.Asiakasryhmät">
               <MappingFragment StoreEntitySet="Asiakasryhmät">
-                <ScalarProperty Name="AsiakasryhmäId" ColumnName="AsiakasryhmäId" />
-                <ScalarProperty Name="AsiakasId" ColumnName="AsiakasId" />
                 <ScalarProperty Name="RyhmäId" ColumnName="RyhmäId" />
+                <ScalarProperty Name="AsiakasId" ColumnName="AsiakasId" />
+                <ScalarProperty Name="AsiakasryhmäId" ColumnName="AsiakasryhmäId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Asiakkaat">
             <EntityTypeMapping TypeName="ProjektitDBCareModel.Asiakkaat">
               <MappingFragment StoreEntitySet="Asiakkaat">
-                <ScalarProperty Name="AsiakasId" ColumnName="AsiakasId" />
-                <ScalarProperty Name="Etunimi" ColumnName="Etunimi" />
-                <ScalarProperty Name="Sukunimi" ColumnName="Sukunimi" />
-                <ScalarProperty Name="Osoite" ColumnName="Osoite" />
-                <ScalarProperty Name="Postinumero" ColumnName="Postinumero" />
-                <ScalarProperty Name="Puhelin" ColumnName="Puhelin" />
-                <ScalarProperty Name="Sähköposti" ColumnName="Sähköposti" />
-                <ScalarProperty Name="KategoriaId" ColumnName="KategoriaId" />
                 <ScalarProperty Name="Tila" ColumnName="Tila" />
+                <ScalarProperty Name="KategoriaId" ColumnName="KategoriaId" />
+                <ScalarProperty Name="Sähköposti" ColumnName="Sähköposti" />
+                <ScalarProperty Name="Puhelin" ColumnName="Puhelin" />
+                <ScalarProperty Name="Postinumero" ColumnName="Postinumero" />
+                <ScalarProperty Name="Osoite" ColumnName="Osoite" />
+                <ScalarProperty Name="Sukunimi" ColumnName="Sukunimi" />
+                <ScalarProperty Name="Etunimi" ColumnName="Etunimi" />
+                <ScalarProperty Name="AsiakasId" ColumnName="AsiakasId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Login">
             <EntityTypeMapping TypeName="ProjektitDBCareModel.Login">
               <MappingFragment StoreEntitySet="Login">
-                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
-                <ScalarProperty Name="Käyttäjätunnus" ColumnName="Käyttäjätunnus" />
                 <ScalarProperty Name="Salasana" ColumnName="Salasana" />
+                <ScalarProperty Name="Käyttäjätunnus" ColumnName="Käyttäjätunnus" />
+                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Postitoimipaikat">
             <EntityTypeMapping TypeName="ProjektitDBCareModel.Postitoimipaikat">
               <MappingFragment StoreEntitySet="Postitoimipaikat">
-                <ScalarProperty Name="Postinumero" ColumnName="Postinumero" />
                 <ScalarProperty Name="Postitoimipaikka" ColumnName="Postitoimipaikka" />
+                <ScalarProperty Name="Postinumero" ColumnName="Postinumero" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Sähköposti">
             <EntityTypeMapping TypeName="ProjektitDBCareModel.Sähköposti">
               <MappingFragment StoreEntitySet="Sähköposti">
-                <ScalarProperty Name="SähköpostiId" ColumnName="SähköpostiId" />
-                <ScalarProperty Name="Vastaanottaja" ColumnName="Vastaanottaja" />
-                <ScalarProperty Name="LähetysPvm" ColumnName="LähetysPvm" />
-                <ScalarProperty Name="LähetysKlo" ColumnName="LähetysKlo" />
-                <ScalarProperty Name="AiheId" ColumnName="AiheId" />
-                <ScalarProperty Name="Otsikko" ColumnName="Otsikko" />
                 <ScalarProperty Name="Viesti" ColumnName="Viesti" />
+                <ScalarProperty Name="Otsikko" ColumnName="Otsikko" />
+                <ScalarProperty Name="AiheId" ColumnName="AiheId" />
+                <ScalarProperty Name="LähetysKlo" ColumnName="LähetysKlo" />
+                <ScalarProperty Name="LähetysPvm" ColumnName="LähetysPvm" />
+                <ScalarProperty Name="Vastaanottaja" ColumnName="Vastaanottaja" />
+                <ScalarProperty Name="SähköpostiId" ColumnName="SähköpostiId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tapahtumalajit">
             <EntityTypeMapping TypeName="ProjektitDBCareModel.Tapahtumalajit">
               <MappingFragment StoreEntitySet="Tapahtumalajit">
-                <ScalarProperty Name="TapahtumalajiId" ColumnName="TapahtumalajiId" />
-                <ScalarProperty Name="TapahtumalajiNimi" ColumnName="TapahtumalajiNimi" />
                 <ScalarProperty Name="TapahtumalajiKuvaus" ColumnName="TapahtumalajiKuvaus" />
+                <ScalarProperty Name="TapahtumalajiNimi" ColumnName="TapahtumalajiNimi" />
+                <ScalarProperty Name="TapahtumalajiId" ColumnName="TapahtumalajiId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tapahtumat">
             <EntityTypeMapping TypeName="ProjektitDBCareModel.Tapahtumat">
               <MappingFragment StoreEntitySet="Tapahtumat">
-                <ScalarProperty Name="TapahtumaId" ColumnName="TapahtumaId" />
-                <ScalarProperty Name="AsiakasId" ColumnName="AsiakasId" />
-                <ScalarProperty Name="TapahtumalajiId" ColumnName="TapahtumalajiId" />
-                <ScalarProperty Name="TapahtumaPvm" ColumnName="TapahtumaPvm" />
-                <ScalarProperty Name="TapahtumaKlo" ColumnName="TapahtumaKlo" />
                 <ScalarProperty Name="TapahtumaKuvaus" ColumnName="TapahtumaKuvaus" />
-                </MappingFragment>
+                <ScalarProperty Name="TapahtumaKlo" ColumnName="TapahtumaKlo" />
+                <ScalarProperty Name="TapahtumaPvm" ColumnName="TapahtumaPvm" />
+                <ScalarProperty Name="TapahtumalajiId" ColumnName="TapahtumalajiId" />
+                <ScalarProperty Name="AsiakasId" ColumnName="AsiakasId" />
+                <ScalarProperty Name="TapahtumaId" ColumnName="TapahtumaId" />
+              </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vakioaiheet">
             <EntityTypeMapping TypeName="ProjektitDBCareModel.Vakioaiheet">
               <MappingFragment StoreEntitySet="Vakioaiheet">
-                <ScalarProperty Name="AiheId" ColumnName="AiheId" />
                 <ScalarProperty Name="AiheenNimi" ColumnName="AiheenNimi" />
+                <ScalarProperty Name="AiheId" ColumnName="AiheId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

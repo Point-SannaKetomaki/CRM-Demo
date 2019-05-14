@@ -4,21 +4,21 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3713445aede14389bb460fd6dc5db5b4" Name="Diagram1">
-        <EntityTypeShape EntityType="ProjektitDBCareModel.Asiakaskategorialuokat" Width="2.875" PointX="0.5" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjektitDBCareModel.Asiakasryhmäluokat" Width="2.25" PointX="2.875" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjektitDBCareModel.Asiakasryhmät" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjektitDBCareModel.Asiakkaat" Width="1.5" PointX="3.5" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjektitDBCareModel.Login" Width="1.5" PointX="10.125" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjektitDBCareModel.Postitoimipaikat" Width="1.5" PointX="1.375" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjektitDBCareModel.Sähköposti" Width="1.5" PointX="10" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjektitDBCareModel.Tapahtumalajit" Width="1.5" PointX="5.875" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjektitDBCareModel.Tapahtumat" Width="1.5" PointX="8" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjektitDBCareModel.Vakioaiheet" Width="1.5" PointX="7.75" PointY="1.375" IsExpanded="true" />
+      <Diagram DiagramId="3713445aede14389bb460fd6dc5db5b4" Name="Diagram1" ZoomLevel="74">
         <AssociationConnector Association="ProjektitDBCareModel.AsiakaskategorialuokatAsiakkaat" />
         <EntityTypeShape EntityType="ProjektitDBCareModel.Projektihenkilot" Width="1.5" PointX="5.375" PointY="8.75" />
         <EntityTypeShape EntityType="ProjektitDBCareModel.Projektit" Width="1.5" PointX="7.375" PointY="8.75" />
         <EntityTypeShape EntityType="ProjektitDBCareModel.Tunnit" Width="1.5" PointX="9.375" PointY="8.75" />
+        <EntityTypeShape EntityType="ProjektitDBCareModel.Asiakaskategorialuokat" Width="1.875" PointX="0.5" PointY="1.125" />
+        <EntityTypeShape EntityType="ProjektitDBCareModel.Asiakasryhmäluokat" Width="1.875" PointX="5.25" PointY="5.125" />
+        <EntityTypeShape EntityType="ProjektitDBCareModel.Asiakasryhmät" Width="1.875" PointX="2.875" PointY="5" />
+        <EntityTypeShape EntityType="ProjektitDBCareModel.Asiakkaat" Width="1.875" PointX="2.75" PointY="1.125" />
+        <EntityTypeShape EntityType="ProjektitDBCareModel.Login" Width="1.875" PointX="9.875" PointY="2.375" />
+        <EntityTypeShape EntityType="ProjektitDBCareModel.Postitoimipaikat" Width="1.875" PointX="0.5" PointY="4.25" />
+        <EntityTypeShape EntityType="ProjektitDBCareModel.Sähköposti" Width="1.875" PointX="7.75" PointY="4.375" />
+        <EntityTypeShape EntityType="ProjektitDBCareModel.Tapahtumalajit" Width="1.875" PointX="7.375" PointY="1.125" />
+        <EntityTypeShape EntityType="ProjektitDBCareModel.Tapahtumat" Width="1.875" PointX="5.125" PointY="1.125" />
+        <EntityTypeShape EntityType="ProjektitDBCareModel.Vakioaiheet" Width="1.875" PointX="10.125" PointY="5" />
         <AssociationConnector Association="ProjektitDBCareModel.FK_Asiakkaat_Asiakaskategorialuokat" />
         <AssociationConnector Association="ProjektitDBCareModel.FK_Asiakasryhmät_Asiakasryhmäluokat" />
         <AssociationConnector Association="ProjektitDBCareModel.FK_Asiakasryhmät_Asiakkaat" />
@@ -26,7 +26,7 @@
         <AssociationConnector Association="ProjektitDBCareModel.FK_Tapahtumat_Asiakkaat" />
         <AssociationConnector Association="ProjektitDBCareModel.FK_Sähköposti_Vakioaiheet" />
         <AssociationConnector Association="ProjektitDBCareModel.FK_Tapahtumat_Tapahtumalajit" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
