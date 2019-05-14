@@ -24,8 +24,13 @@ namespace CRM_Demo.Controllers
             ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
 
             //Haetaan Asiakaskategorialuokat -taulusta kaikki data
+            
+
             var asiakaskategoriat = (from ak in entities.Asiakaskategorialuokat
-                                     select ak).ToList();
+            select new {
+                   KategoriaId = ak.KategoriaId,
+                   KategoriaNimi = ak.KategoriaNimi,
+                   KategoriaKuvaus = ak.KategoriaKuvaus}).ToList();
 
             // 1. versio Muutetaan data json -muotoon toimitettavaksi selaimelle.
             string json = JsonConvert.SerializeObject(asiakaskategoriat);
