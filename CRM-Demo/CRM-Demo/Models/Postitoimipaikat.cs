@@ -14,7 +14,16 @@ namespace CRM_Demo.Models
     
     public partial class Postitoimipaikat
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Postitoimipaikat()
+        {
+            this.Asiakkaat = new HashSet<Asiakkaat>();
+        }
+    
         public string Postinumero { get; set; }
         public string Postitoimipaikka { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Asiakkaat> Asiakkaat { get; set; }
     }
 }

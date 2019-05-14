@@ -17,5 +17,8 @@ namespace CRM_Demo.Models
         public int AsiakasryhmäId { get; set; }
         public int AsiakasId { get; set; }
         public int RyhmäId { get; set; }
+    
+        public virtual Asiakasryhmäluokat Asiakasryhmäluokat { get; set; }
+        public virtual Asiakkaat Asiakkaat { get; set; }
     }
 }

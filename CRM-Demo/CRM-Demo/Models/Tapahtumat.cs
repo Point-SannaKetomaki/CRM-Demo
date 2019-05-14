@@ -23,5 +23,8 @@ namespace CRM_Demo.Models
         public Nullable<int> SeuraavaTapahtumalajiId { get; set; }
         public Nullable<System.DateTime> SeuraavaTapahtumaPvm { get; set; }
         public Nullable<System.DateTime> SeuraavaTapahtumaKlo { get; set; }
+    
+        public virtual Asiakkaat Asiakkaat { get; set; }
+        public virtual Tapahtumalajit Tapahtumalajit { get; set; }
     }
 }
