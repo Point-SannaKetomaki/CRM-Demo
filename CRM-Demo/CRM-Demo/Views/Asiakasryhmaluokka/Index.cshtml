@@ -113,7 +113,7 @@
                  * päivitetään asiakasryhmälistaus*/
                     $.post("/Asiakasryhmaluokka/Update/", details, function (status) {
                         if (status == true) {
-                            alert('Uudet tiedot tallennettiin onnistuneesti');
+                            //alert('Uudet tiedot tallennettiin onnistuneesti');
                             $('#groupModalDialog').modal('hide');
                             listaaAsiakasryhmäluokat();
                         }
@@ -135,8 +135,8 @@
 
 
 <div>
-    <a class="btn btn-outline-primary" href="#" role="button" id="Listaa">Listaa asiakasryhmät</a>
-    <a class="btn btn-outline-dark" href="#" role="button" id="Lisää">Lisää asiakasryhmä</a>
+    <a class="btn btn-secondary" href="#" role="button" id="Listaa">Listaa asiakasryhmät</a>
+    <a class="btn btn-secondary" href="#" role="button" id="Lisää">Lisää asiakasryhmä</a>
 </div>
 
 <p>&nbsp;</p>
@@ -184,8 +184,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="groupModalSaveButton">Tallenna</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Sulje</button>
+                    <button type="button" class="btn btn-success" id="groupModalSaveButton">Tallenna</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Peruuta</button>
 
                 </div>
             </div>
