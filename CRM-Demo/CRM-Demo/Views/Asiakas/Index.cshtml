@@ -96,7 +96,7 @@
                 $('#LisääAsiakas').click(function () {
 
                     //tyhjennetään ikkunan tiedot
-                    $('#customerModal_AsiakasId').val('(Uusi AsiakasId)');
+                    $('#customerModal_AsiakasId').val('(Uusi Asiakas)');
                     $('#customerModal_Etunimi').val('');
                     $('#customerModal_Sukunimi').val('');
                     $('#customerModal_Osoite').val('');
@@ -129,7 +129,7 @@
                     /*Lähetetään tiedot kontrollerille,
                      * annetaan käyttäjälle viesti päivityksen onnistumisesta,
                      * piilotetaan modaali-ikkuna ja
-                     * päivitetään asiakasistaus*/
+                     * päivitetään asiakaslistaus*/
                     $.post("/Asiakas/Update/", details, function (status) {
                         if (status == true) {
                             alert('Uudet tiedot tallennettiin onnistuneesti');
@@ -149,12 +149,11 @@
 <h2>Asiakkaat</h2>
 
 <div>
-    <a class="btn btn-primary" href="#" role="button" id="LisääAsiakas">Lisää asiakas</a>
-    <a class="btn btn-primary" href="#" role="button" id="PäivitäTaiPoista">Päivitä tai poista asiakas</a>
-    <a class="btn btn-primary" href="#" role="button" id="LisääAsiakastapahtuma">Lisää asiakastapahtuma</a>
-    <a class="btn btn-primary" href="#" role="button" id="ListaaAsiakastiedot">Listaa asiakastiedot</a>
+    <a class="btn btn-secondary" href="#" role="button" id="ListaaAsiakastiedot">Listaa asiakastiedot</a>
+    <a class="btn btn-secondary" href="#" role="button" id="LisääAsiakas">Lisää asiakas</a>
 </div>
 
+<p>&nbsp;</p>
 
 <!-- Taulukko tietoja varten -->
 
@@ -230,8 +229,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="customerModalSaveButton">Tallenna</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sulje</button>
+                <button type="button" class="btn btn-success" id="customerModalSaveButton">Tallenna</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Peruuta</button>
 
             </div>
         </div>

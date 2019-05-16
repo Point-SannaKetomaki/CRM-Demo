@@ -21,5 +21,7 @@ namespace CRM_Demo.Models
         public Nullable<int> AiheId { get; set; }
         public string Otsikko { get; set; }
         public string Viesti { get; set; }
+    
+        public virtual Vakioaiheet Vakioaiheet { get; set; }
     }
 }
