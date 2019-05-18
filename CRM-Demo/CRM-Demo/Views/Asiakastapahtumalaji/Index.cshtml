@@ -24,8 +24,8 @@
                             "<td>" + tapahtumalajit[i].TapahtumalajiId + "</td>" +
                             "<td>" + tapahtumalajit[i].TapahtumalajiNimi + "</td>" +
                             "<td>" + tapahtumalajit[i].TapahtumalajiKuvaus + "</td>" +
-                            "<td><a href='#' id ='muokkaa_asiakastapahtumalaji_btn' data-id='" + tapahtumalajit[i].TapahtumalajiId + "' data-nimi='" + tapahtumalajit[i].TapahtumalajiNimi + "' data-kuvaus='" + tapahtumalajit[i].TapahtumalajiKuvaus +"'><span class='fa fa-edit'></span></a></td>" +
-                            "<td><a href='#' id ='poista_asiakastapahtumalaji_btn' data-id=" + tapahtumalajit[i].TapahtumalajiId +"><span class='fa fa-trash'></span></a></td>" +
+                            "<td><a href='#' id ='muokkaa_asiakastapahtumalaji_btn' data-id='" + tapahtumalajit[i].TapahtumalajiId + "' data-nimi='" + tapahtumalajit[i].TapahtumalajiNimi + "' data-kuvaus='" + tapahtumalajit[i].TapahtumalajiKuvaus + "'><span class='fa fa-edit'></span></a></td>" +
+                            "<td><a href='#' id ='poista_asiakastapahtumalaji_btn' data-id=" + tapahtumalajit[i].TapahtumalajiId + "><span class='fa fa-trash'></span></a></td>" +
                             "</tr>\r\n"
                     }
 
@@ -59,21 +59,26 @@
                     id: $(this).attr('data-id')
                 };
 
-                $.post("/Asiakastapahtumalaji/Delete/", details, function (status) {
-                    if (status != "error") {  //Jo ei error
+                var ok = confirm("Haluatko varmasti poistaa Asiakastapahtumalajin " + details.id + "?");
 
-                        $("#lisaa_asiakastapahtumalaji").modal("hide");
-                        listaaAsiakastapahtumalajit();
-                    } else {
-                        alert("Tallennus ei onnistunut, yritä uudelleen!" + status);
-                    }
-                });
+                if (ok == true) {
+
+                    $.post("/Asiakastapahtumalaji/Delete/", details, function (status) {
+                        if (status != "error") {  //Jo ei error
+
+                            $("#lisaa_asiakastapahtumalaji").modal("hide");
+                            listaaAsiakastapahtumalajit();
+                        } else {
+                            alert("Poisto ei onnistunut, yritä uudelleen!" + status);
+                        }
+                    });
+                }
             });
 
 
             $('#lisaa_asiakastapahtumalaji_btn').on('click', function () {
-            // näytetään ikkuna
-                $("#tapahtumalaji_container_otsikko").text("Lisää uusi asiakastapahtumalaji");
+                // näytetään ikkuna
+                $("#tapahtumalaji_container_otsikko").text("Lisää uusi Asiakastapahtumalaji");
                 $("#TapahtumalajiId").val("Uusi Tapahtumalaji");
                 $("#TapahtumalajiNimi").val("");
                 $("#TapahtumalajiKuvaus").val("");
@@ -132,8 +137,8 @@
 <h2>Asiakastapahtumalajit</h2>
 
 <div>
-    <a class="btn btn-primary" href="#" role="button" id="listaalajit_btn">Listaa Asiakastapahtumalajit</a>
-    <a class="btn btn-primary" href="#" role="button" id="lisaa_asiakastapahtumalaji_btn">Lisää Asiakastapahtumalaji</a>
+    <a class="btn btn-secondary" href="#" role="button" id="listaalajit_btn">Listaa Asiakastapahtumalajit</a>
+    <a class="btn btn-secondary" href="#" role="button" id="lisaa_asiakastapahtumalaji_btn">Lisää Asiakastapahtumalaji</a>
 </div>
 
 <!-- Taulukko tietoja varten -->
@@ -162,7 +167,7 @@
             <div class="modal-body">
 
                 <div class="row">
-                    <div class="col-md-3">TapahtumalajiId</div>
+                    <div class="col-md-3">Id</div>
                     <div class="col-md-6"><input class="form-control" id="TapahtumalajiId" type="text" readonly></div>
                 </div>
                 <br>
@@ -179,8 +184,10 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Peruuta</button>
-                <button type="button" class="btn btn-primary" id="uusi_tapahtumalaji_tallenna_btn">Tallenna</button>
+
+                <button type="button" class="btn btn-success" id="uusi_tapahtumalaji_tallenna_btn">Tallenna</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Peruuta</button>
+
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
