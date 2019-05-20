@@ -5,8 +5,9 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    /*padding-left: 15px;
+    padding-right: 15px;*/
+    padding:1rem;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -22,3 +23,14 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.nav-item:hover, nav-link:hover{
+    background:forestgreen;
+    
+}
+
+.nav-item, nav-link {
+    
+    font-weight:700;
+}
+

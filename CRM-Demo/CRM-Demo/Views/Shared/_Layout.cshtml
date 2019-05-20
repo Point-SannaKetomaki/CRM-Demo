@@ -17,8 +17,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - CRM</title>
     @Styles.Render("~/Content/css")
+    <link href="~/Content/Site.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("head", required: false)
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
@@ -26,7 +28,7 @@
     <div class="top-container">
         <div class="row">
             <div class="col-md-3">
-                <img src="~/OmatKuvat/Logo.jpg" alt="Logo" class="rounded-circle" style="width:300px; padding-left:200px"/>
+                <img src="~/OmatKuvat/Logo.jpg" alt="Logo" class="rounded-circle" style="width:300px;" />
             </div>
 
             <div class="col-md-6">
@@ -43,10 +45,32 @@
     </div>
     &nbsp;
 
-    <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-success ">
+        @*<a class="navbar-brand" href="#">
+            <img src="~/OmatKuvat/Logo.jpg" alt="Logo" class="rounded-circle" style="width:50px;" />
+        </a>*@
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
+            <div class="navbar-nav fix">
+                <a class="nav-item nav-link" href="~/Home/Index" style="color:white;">Etusivu<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="~/Asiakas/Index" style="color:white;">Asiakkaat</a>
+                <a class="nav-item nav-link" href="~/Asiakaskategorialuokka/Index" style="color:white;">Asiakaskategoriat</a>
+                <a class="nav-item nav-link" href="~/Asiakasryhmaluokka/Index" style="color:white;">Asiakasryhmät</a>
+                <a class="nav-item nav-link" href="~/Asiakastapahtumalaji/Index" style="color:black;">Asiakastapahtumalajit</a>
+                <a class="nav-item nav-link" href="~/Asiakastapahtuma/Index">Asiakastapahtumat</a>
+                <a class="nav-item nav-link" href="#">Raportit</a>
+                <a class="nav-item nav-link" href="~/Email/Index">Sähköposti</a>
+                <a class="nav-item nav-link" href="@Url.Action("LogOut","Login")" tabindex="-1">Kirjaudu ulos</a>
+            </div>
+        </div>
+    </nav>
+
+    @*<div class="container">
         <div class="row">
-            <div class="left-col-md-2" style="background-color:deepskyblue">
-                <p><a class="btn btn-default" href="~/Home/Index">Etusivu</a></p>
+            <div class="col-2" style="background-color:deepskyblue">
+                <p><a class="btn btn-secondary" href="~/Home/Index">Etusivu</a></p>
                 <p><a class="btn btn-default" href="~/Asiakas/Index">Asiakkaat</a></p>
                 <p><a class="btn btn-default" href="~/Asiakaskategorialuokka/Index">Asiakaskategoriat</a></p>
                 <p><a class="btn btn-default" href="~/Asiakasryhmaluokka/Index">Asiakasryhmät</a></p>
@@ -56,13 +80,14 @@
                 <p><a class="btn btn-default" href="~/Email/Index">Sähköposti</a></p>
             </div>
 
-            <div class="col-lg-10" id="MainContent" style="background-color:lavender">
+            <div class="col-10" id="MainContent" style="background-color:lavender">
                 @RenderBody()
             </div>
         </div>
-    </div>
+    </div>*@
 
     <div class="container body-content">
+        @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - CRM</p>
