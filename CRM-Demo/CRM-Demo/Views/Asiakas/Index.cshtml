@@ -132,7 +132,6 @@
                      * päivitetään asiakaslistaus*/
                     $.post("/Asiakas/Update/", details, function (status) {
                         if (status == true) {
-                            alert('Uudet tiedot tallennettiin onnistuneesti');
                             $('#customerModalDialog').modal('hide');
                             listaaAsiakastiedot();
                         }
