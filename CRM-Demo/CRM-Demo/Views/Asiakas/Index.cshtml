@@ -10,6 +10,20 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
+            function paivita_asiakaskategoriat_lista() {
+                $.getJSON("/asiakaskategorialuokka/getlist", null, function (json) {
+                    var asiakaskategoriat = JSON.parse(json)
+                    $("#customerModal_KategoriaIdlist").empty(); //Tyhjennä asiakaskategoriat lista
+
+                    for (var index = 0; index < asiakaskategoriat.length; index++) {
+                        //Lisää asiakaskategoriat listaan
+                        $("#customerModal_KategoriaIdlist").append('<option value="' + asiakaskategoriat[index].KategoriaId + '">' + asiakaskategoriat[index].KategoriaNimi + ' (id:' + asiakaskategoriat[index].KategoriaId + ')</option>')
+                    }
+                });
+
+            } //end function
+
+
             function listaaAsiakastiedot() {
 
                 //tuo asiakkaiden tiedot kontrollerilta
@@ -66,26 +80,26 @@
                         });
                     });
 
-            //asiakkaan poisto
-            $(".fa-trash").click(function () {
-                //etsitään asiakkaan tiedot klikatulta riviltä
-                var asiakasId = $(this).parent().parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().text();
-                var ok = confirm("Haluatko varmasti poistaa asiakkaan " + asiakasId + "?");
+                    //asiakkaan poisto
+                    $(".fa-trash").click(function () {
+                        //etsitään asiakkaan tiedot klikatulta riviltä
+                        var asiakasId = $(this).parent().parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().text();
+                        var ok = confirm("Haluatko varmasti poistaa asiakkaan " + asiakasId + "?");
 
-                if (ok == true) {
-                    $.getJSON("/Asiakas/Delete/" + asiakasId, null, function (status) {
-                        if (status == true) {
-                            alert('Asiakas on nyt poistettu!');
-                            listaaAsiakastiedot();
-                        }
-                        else {
-                            alert('Poistaminen ei valitettavasti onnistunut, tarkista tiedot!');
+                        if (ok == true) {
+                            $.getJSON("/Asiakas/Delete/" + asiakasId, null, function (status) {
+                                if (status == true) {
+                                    alert('Asiakas on nyt poistettu!');
+                                    listaaAsiakastiedot();
+                                }
+                                else {
+                                    alert('Poistaminen ei valitettavasti onnistunut, tarkista tiedot!');
+                                }
+                            });
                         }
                     });
-                }
-            });
-        });
-    }
+                });
+            }
             //sivun alustus
             $(function () {
                 $('#ListaaAsiakastiedot').on('click', function () {
@@ -94,6 +108,11 @@
 
                 //asiakkaan lisäys
                 $('#LisääAsiakas').click(function () {
+
+                    //Päivitä asiakasgategoria lista
+                    paivita_asiakaskategoriat_lista();
+
+
 
                     //tyhjennetään ikkunan tiedot
                     $('#customerModal_AsiakasId').val('(Uusi Asiakas)');
@@ -114,6 +133,7 @@
 
                 //Painetaan Tallenna => luetaan käyttäjän antamat tiedot modaali-ikkunasta
                 $("#customerModalSaveButton").click(function () {
+
                     var details = {
                         AsiakasId: $("#customerModal_AsiakasId").val(),
                         Etunimi: $("#customerModal_Etunimi").val(),
@@ -122,7 +142,7 @@
                         Postinumero: $("#customerModal_Postinumero").val(),
                         Puhelin: $("#customerModal_Puhelin").val(),
                         Sähköposti: $("#customerModal_Sähköposti").val(),
-                        KategoriaId: $("#customerModal_KategoriaId").val(),
+                        KategoriaId: $("#customerModal_KategoriaIdlist").val(),//$("#customerModal_KategoriaId").val(),
                         Tila: $("#customerModal_Tila").val()
                     };
 
@@ -140,8 +160,8 @@
                         }
                     });
                 });
-            });   
-         }); 
+            });
+        });
     </script>
 }
 
@@ -218,10 +238,23 @@
                     <div class="col-md-3">Sähköposti</div>
                     <div class="col-md-6"><input class="form-control" id="customerModal_Sähköposti" type="text"></div>
                 </div>
+                <!--
                 <div class="row">
                     <div class="col-md-3">KategoriaId</div>
                     <div class="col-md-6"><input class="form-control" id="customerModal_KategoriaId" type="text"></div>
                 </div>
+                -->
+
+                <div class="row">
+                    <div class="col-md-3">KategoriaNimi</div>
+                    <div class="col-md-6">
+                        <select class="form-control" id="customerModal_KategoriaIdlist">
+                            <option>Odota ladataan..</option>
+                        </select>
+                    </div>
+                </div>
+
+
                 <div class="row">
                     <div class="col-md-3">Tila</div>
                     <div class="col-md-6"><input class="form-control" id="customerModal_Tila" type="text"></div>
