@@ -31,11 +31,14 @@
 
                     for (var index = 0; index < postinumerot.length; index++) {
                         //Lisää postinumerot listaan
-                        $("#customerModal_PostinumeroList").append('<option value="' + postinumerot[index].Postinumero + '">' + postinumerot[index].Postinumero + ' ' + postinumerot[index].Postitoimipaikka +'</option>')
+                        $("#customerModal_PostinumeroList").append('<option value="' + postinumerot[index].Postinumero + '">' + postinumerot[index].Postinumero + ' ' + postinumerot[index].Postitoimipaikka + '</option>')
                     }
                 });
 
             } //end function
+
+
+
 
 
             function listaaAsiakastiedot() {
@@ -70,6 +73,12 @@
                     //tietojen muokkaus
                     $(".fa-edit").click(function () {
 
+                        //Päivitä asiakasgategoria lista
+                        paivita_asiakaskategoriat_lista();
+
+                        //Päivitä postinumerolista
+                        paivita_postinumero_lista();
+
                         //etsitään asiakkaan tiedot klikatulta riviltä
                         var asiakasId = $(this).parent().parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().text();
 
@@ -78,15 +87,16 @@
                             var asiakas = JSON.parse(json2);
 
                             //tietojen lataus modaali-ikkunaan
-                            $('#customerModal_AsiakasId').val(asiakas.AsiakasId)
-                            $('#customerModal_Etunimi').val(asiakas.Etunimi)
-                            $('#customerModal_Sukunimi').val(asiakas.Sukunimi)
-                            $('#customerModal_Osoite').val(asiakas.Osoite)
-                            $('#customerModal_Postinumero').val(asiakas.Postinumero)
-                            $('#customerModal_Puhelin').val(asiakas.Puhelin)
-                            $('#customerModal_Sähköposti').val(asiakas.Sähköposti)
-                            $('#customerModal_KategoriaId').val(asiakas.KategoriaId)
-                            $('#customerModal_Tila').val(asiakas.Tila)
+                            $('#customerModal_AsiakasId').val(asiakas.AsiakasId);
+                            $('#customerModal_Etunimi').val(asiakas.Etunimi);
+                            $('#customerModal_Sukunimi').val(asiakas.Sukunimi);
+                            $('#customerModal_Osoite').val(asiakas.Osoite);
+                            $('#customerModal_PostinumeroList').val(asiakas.Postinumero);
+                            $('#customerModal_Puhelin').val(asiakas.Puhelin);
+                            $('#customerModal_Sähköposti').val(asiakas.Sähköposti);
+                            $('#customerModal_KategoriaIdlist').val(asiakas.KategoriaId);
+
+                            $('#customerModal_Tila').val(asiakas.Tila.toString());//Huom! koska vastaus on boolean muutetaan se stringiksi
 
                             //näytetään modaali-ikkuna
                             $('#customerModalTitle').text('Muokkaa asiakkaan tietoja');
@@ -125,7 +135,7 @@
 
                     //Päivitä asiakasgategoria lista
                     paivita_asiakaskategoriat_lista();
-               
+
                     //Päivitä postinumerolista
                     paivita_postinumero_lista();
 
@@ -139,7 +149,7 @@
                     $('#customerModal_Puhelin').val('');
                     $('#customerModal_Sähköposti').val('');
                     //$('#customerModal_KategoriaId').val('');
-                    $('#customerModal_Tila').val('');
+                    //$('#customerModal_Tila').val('');
 
 
                     //näytetään tyhjä modaali-ikkuna
@@ -279,7 +289,7 @@
                     <div class="col-md-3">Tila</div>
                     <div class="col-md-6">
                         <select class="form-control" id="customerModal_Tila">
-                            <option value="true" selected>Aktiivinen</option>
+                            <option value="true">Aktiivinen</option>
                             <option value="false">Passiivinen</option>
                         </select>
                     </div>
