@@ -111,7 +111,7 @@
                     $('#tapahtumaModal_Kello').val('');
                     $('#tapahtumaModal_TapahtumaKuvaus').val('');
 
-                    alert($('#tapahtumaModal_TapahtumaId').val);
+                    //alert($('#tapahtumaModal_TapahtumaId').val());
 
                     //näytetään tyhjä modaali-ikkuna
                     $('#tapahtumaModalTitle').text('Lisää uusi asiakastapahtuma');
@@ -123,24 +123,22 @@
                 //Tallenna -nappi => luetaan käyttäjän antamat modaali-ikkunan tiedot 
                 $('#tapahtumaModalSaveButton').click(function () {
 
-                    alert($('#tapahtumaModal_TapahtumaId').val);
-                    alert($('#tapahtumaModal_AsiakasId').val);
-                    alert($('#tapahtumaModal_TapahtumalajiId').val);
-                    alert($('#tapahtumaModal_Päivä').val);
-                    alert($('#tapahtumaModal_Kello').val);
-                    alert($('#tapahtumaModal_TapahtumaKuvaus').val);
+                    //alert($('#tapahtumaModal_TapahtumaId').val());
+                    //alert($('#tapahtumaModal_AsiakasId').val());
+                    //alert($('#tapahtumaModal_TapahtumalajiId').val());
+                    //alert($('#tapahtumaModal_Päivä').val());
+                    //alert($('#tapahtumaModal_Kello').val());
+                    //alert($('#tapahtumaModal_TapahtumaKuvaus').val());
 
 
 
                     var details = {
-                        TapahtumaId: $('#tapahtumaModal_TapahtumaId').val,
-                        AsiakasId: $('#tapahtumaModal_AsiakasId').val,
-                        TapahtumalajiId: $('#tapahtumaModal_TapahtumalajiId').val,
-                        TapahtumaPvm: '31.5.2019',
-                        TapahtumaKlo: '12.00',
-                        //TapahtumaPvm: $('#tapahtumaModal_Päivä').val,
-                        //TapahtumaKlo: $('#tapahtumaModal_Kello').val,
-                        TapahtumaKuvaus: $('#tapahtumaModal_TapahtumaKuvaus').val
+                        TapahtumaId: $('#tapahtumaModal_TapahtumaId').val(),
+                        AsiakasId: $('#tapahtumaModal_AsiakasId').val(),
+                        TapahtumalajiId: $('#tapahtumaModal_TapahtumalajiId').val(),
+                        TapahtumaPvm: $('#tapahtumaModal_Päivä').val(),
+                        TapahtumaKlo: $('#tapahtumaModal_Kello').val(),
+                        TapahtumaKuvaus: $('#tapahtumaModal_TapahtumaKuvaus').val()
                     };
 
                     //Välitetään tiedot controllerille ja edelleen tietokantaan
