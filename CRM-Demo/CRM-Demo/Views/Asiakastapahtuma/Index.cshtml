@@ -3,33 +3,311 @@
     ViewBag.Title = "Asiakastapahtumat";
 }
 
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            function paivita_asiakas_lista() {
+                $.getJSON("/asiakas/getlist", null, function (json) {
+                    var asiakas = JSON.parse(json)
+                    $("#tapahtumaModal_AsiakasId").empty(); //Tyhjennä asiakaslista
+
+                    for (var index = 0; index < asiakas.length; index++) {
+                        //Lisää asiakas listaan
+                        $("#tapahtumaModal_AsiakasId").append('<option value="' + asiakas[index].AsiakasId + '">' + asiakas[index].Sukunimi + ', ' + asiakas[index].Etunimi + ' (id:' + asiakas[index].AsiakasId + ')</option>')
+                    }
+                });
+
+            } //end paivita_asiakas_lista_function
+
+
+            function paivita_tapahtumalaji_lista() {
+                $.getJSON("/asiakastapahtumalaji/getlist", null, function (json) {
+                    var asiakastapahtumalajit = JSON.parse(json)
+                    $("#tapahtumaModal_TapahtumalajiId").empty(); //Tyhjennä asiakastapahtumalista
+
+                    for (var index = 0; index < asiakastapahtumalajit.length; index++) {
+                        //Lisää asiakas listaan
+                        $("#tapahtumaModal_TapahtumalajiId").append('<option value="' + asiakastapahtumalajit[index].TapahtumalajiId + '">' + asiakastapahtumalajit[index].TapahtumalajiNimi + ' (id: ' + asiakastapahtumalajit[index].TapahtumalajiId + ')</option>')
+                    }
+                });
+
+            } //end paivita_asiakastapahtumalaji_lista_function
+
+
+            //function paivita_asiakas_lista_2() {
+            //    $.getJSON("/asiakas/getlist", null, function (json) {
+            //        var asiakas = JSON.parse(json)
+            //        $("#valitseAsiakas").empty(); //Tyhjennä asiakaslista
+
+            //        for (var index = 0; index < asiakas.length; index++) {
+            //            //Lisää asiakas listaan
+            //            $("#valitseAsiakas").append('<option value="' + asiakas[index].AsiakasId + '">' + asiakas[index].Sukunimi + ', ' + asiakas[index].Etunimi + ' (id:' + asiakas[index].AsiakasId + ')</option>')
+            //        }
+            //    });
+
+            //} //end paivita_asiakas_lista_2_function
+
+
+
+            function listaaTapahtumatiedot() {
+
+                //tuo tapahtumien tiedot kontrollerilta
+                $.getJSON("/asiakastapahtuma/getlist", null, function (json) {
+                    var asiakastapahtumat = JSON.parse(json)
+
+                    //luodaan html-taulukon sisältörunko
+                    var html = "";
+                    for (var i = 0; i < asiakastapahtumat.length; i++) {
+                        //alert("Asiakastapahtuman kuvaus: " + asiakastapahtumat[i].TapahtumaKuvaus);
+                        html += "<tr>" +
+                            "<th scope ='row'></th>" +
+                            "<td>" + asiakastapahtumat[i].TapahtumaId + "</td>" +
+                            "<td>" + asiakastapahtumat[i].AsiakasId + "</td>" +
+                            "<td>" + asiakastapahtumat[i].TapahtumalajiId + "</td>" +
+                            "<td>" + asiakastapahtumat[i].TapahtumaPvm + "</td>" +
+                            "<td>" + asiakastapahtumat[i].TapahtumaKlo + "</td>" +
+                            "<td>" + asiakastapahtumat[i].TapahtumaKuvaus + "</td>" +
+                            "<td><a href='#'><span class='fa fa-edit'></span></a></td>" +
+                            "<td><a href='#'><span class='fa fa-trash'></span></a></td>" +
+                            "</tr>\r\n"
+                    }
+
+                    //täytetään taulukko
+                    $("#Listaustaulukko tbody").html(html);
+
+
+                    //tapahtuman muokkaus
+
+
+                    //tapahtuman poisto
+
+                });
+
+            }
+
+            //sivun alustus
+            $(function () {
+                $('#ListaaAsiakastapahtumat').on('click', function () {
+                    listaaTapahtumatiedot();
+                });
+
+
+                //tapahtuman lisäys
+                $('#LisääAsiakastapahtuma').click(function () {
+
+                    //päivitä asiakaslista dropdowniin
+                    paivita_asiakas_lista();
+
+                    //päivitä tapahtumalajit dropdowniin
+                    paivita_tapahtumalaji_lista();
+
+                    //tyhjennetään modaali-ikkkunan tiedot
+                    $('#tapahtumaModal_TapahtumaId').val('(Uusi asiakastapahtuma)');
+                    $('#tapahtumaModal_AsiakasId').val('');
+                    $('#tapahtumaModal_TapahtumalajiId').val('');
+                    $('#tapahtumaModal_Päivä').val('');
+                    $('#tapahtumaModal_Kello').val('');
+                    $('#tapahtumaModal_TapahtumaKuvaus').val('');
+
+                    alert($('#tapahtumaModal_TapahtumaId').val);
+
+                    //näytetään tyhjä modaali-ikkuna
+                    $('#tapahtumaModalTitle').text('Lisää uusi asiakastapahtuma');
+                    $('#tapahtumaModalDialog').modal('show');
+
+
+                });
+
+                //Tallenna -nappi => luetaan käyttäjän antamat modaali-ikkunan tiedot 
+                $('#tapahtumaModalSaveButton').click(function () {
+
+                    alert($('#tapahtumaModal_TapahtumaId').val);
+                    alert($('#tapahtumaModal_AsiakasId').val);
+                    alert($('#tapahtumaModal_TapahtumalajiId').val);
+                    alert($('#tapahtumaModal_Päivä').val);
+                    alert($('#tapahtumaModal_Kello').val);
+                    alert($('#tapahtumaModal_TapahtumaKuvaus').val);
+
+
+
+                    var details = {
+                        TapahtumaId: $('#tapahtumaModal_TapahtumaId').val,
+                        AsiakasId: $('#tapahtumaModal_AsiakasId').val,
+                        TapahtumalajiId: $('#tapahtumaModal_TapahtumalajiId').val,
+                        TapahtumaPvm: '31.5.2019',
+                        TapahtumaKlo: '12.00',
+                        //TapahtumaPvm: $('#tapahtumaModal_Päivä').val,
+                        //TapahtumaKlo: $('#tapahtumaModal_Kello').val,
+                        TapahtumaKuvaus: $('#tapahtumaModal_TapahtumaKuvaus').val
+                    };
+
+                    //Välitetään tiedot controllerille ja edelleen tietokantaan
+                    //Jos onnistuu, piilotetaan modaali-ikkuna ja päivitetäään asiakaslista, infotaan tarvittaessa käyttäjää
+                    $.post("/asiakastapahtuma/update/", details, function (status) {
+
+                        if (status == true) {
+                            $('#tapahtumaModalDialog').modal('hide');
+                            listaaTapahtumatiedot();
+                        }
+                        else {
+                            alert("Tallennus ei valitettavasti onnistunut, yritä uudelleen!");
+                        }
+
+                    }); //end post(asiakastapahtuma/update)
+
+                });  //end Tallenna-napin klikkaus
+
+            }); //end sivun alustus
+
+            //paivita_asiakas_lista_2();
+
+        });  //end document ready
+
+    </script>
+}
+
+
 <h2>Asiakastapahtumat</h2>
 
+<div>
+    <a class="btn btn-secondary" href="#" role="button" id="ListaaAsiakastapahtumat">Listaa asiakastapahtumat</a>
+    <a class="btn btn-secondary" href="#" role="button" id="LisääAsiakastapahtuma">Lisää asiakastapahtuma</a>
+</div>
 
-<p>Valitse asiakas</p>
-<div class="dropdown">
-    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Asiakas
-    </a>
+<p>&nbsp;</p>
 
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <a class="dropdown-item" data-id="json datasta sisältö tähän" href="#">json datasta nimi + (id)</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
+<!-- Taulukko tietoja varten -->
+
+
+<table class="table table-striped" id="Listaustaulukko">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">TapahtumaId</th>
+            <th scope="col">AsiakasId</th>  @*Asiakkaan nimi (sulkuihin ID)*@
+            <th scope="col">TapahtumalajiId</th>   @*Tapahtumalajin nimi (sulkuihin ID)*@
+            <th scope="col">Päivämäärä</th>
+            <th scope="col">Kello</th>
+            <th scope="col">Tapahtuman kuvaus</th>
+            <th scope="col">Muokkaa</th>
+            <th scope="col">Poista</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<!-- Modaali-ikkuna-->
+
+<div class="modal" tabindex="-1" role="dialog" id="tapahtumaModalDialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><span id="tapahtumaModalTitle">Muokkaa tapahtuman tietoja</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">TapahtumaId</div>
+                    <div class="col-md-6"><input class="form-control" id="tapahtumaModal_TapahtumaId" type="text" readonly></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">AsiakasId</div>
+                    <div class="col-md-6">
+                        <select class="form-control" id="tapahtumaModal_AsiakasId">
+                            <option>Odota ladataan..</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">TapahtumalajiId</div>
+                    <div class="col-md-6">
+                        <select class="form-control" id="tapahtumaModal_TapahtumalajiId">
+                            <option>Odota ladataan..</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">Päivämäärä</div>
+                    <div class="col-md-6"><input class="form-control" id="tapahtumaModal_Päivä" type="date"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">Kello</div>
+                    <div class="col-md-6"><input class="form-control" id="tapahtumaModal_Kello" type="time"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">Tapahtuman kuvaus</div>
+                    <div class="col-md-6"><input class="form-control" id="tapahtumaModal_TapahtumaKuvaus" type="text"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="tapahtumaModalSaveButton">Tallenna</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Peruuta</button>
+
+            </div>
+        </div>
     </div>
 </div>
 
 
-<p>Valitse tapahtumalaji</p>
-<div class="dropdown">
-    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Tapahtumalajit
-    </a>
 
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
+@*<div class="row">
+        <div class="col-md-3">Valitse asiakas</div>
+        <div class="col-md-6">
+            <select class="form-control" id="valitseAsiakas">
+                <option>Odota ladataan..</option>
+            </select>
+        </div>
     </div>
-</div>
+
+    <div class="row">
+        <div class="col-md-3">Valitse tapahtumalaji</div>
+        <div class="col-md-6">
+            <select class="form-control" id="valitseTapahtuma">
+                <option>Odota ladataan..</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="btn btn-success" id="LisääTapahtuma">Lisää uusi tapahtuma</button>*@
+
+
+
+
+
+
+
+
+@*
+        BOOTSTRAPIN NAPIT
+
+        <p>Valitse asiakas</p>
+    <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Asiakas
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" data-id="json datasta sisältö tähän" href="#">json datasta nimi + (id)</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+    </div>
+
+
+    <p>Valitse tapahtumalaji</p>
+    <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Tapahtumalajit
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+    </div>*@
 

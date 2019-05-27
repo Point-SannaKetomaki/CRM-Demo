@@ -70,7 +70,9 @@ namespace CRM_Demo.Controllers
                                     select ak).FirstOrDefault();
 
             //Muutetaan olio json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
-            string json = JsonConvert.SerializeObject(asiakaskategoria);
+            var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+
+            string json = JsonConvert.SerializeObject(asiakaskategoria, serializerSettings);
             entities.Dispose();
 
             //ohitetaan välimuisti, jotta näyttö päivittyy (IE-selainta varten) 

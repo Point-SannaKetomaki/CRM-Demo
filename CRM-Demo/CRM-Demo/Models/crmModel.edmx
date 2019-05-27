@@ -37,7 +37,7 @@
           <Property Name="Etunimi" Type="nvarchar" MaxLength="50" />
           <Property Name="Sukunimi" Type="nvarchar" MaxLength="50" />
           <Property Name="Osoite" Type="nvarchar" MaxLength="100" />
-          <Property Name="Postinumero" Type="nvarchar" MaxLength="50" />
+          <Property Name="Postinumero" Type="nvarchar" MaxLength="5" />
           <Property Name="Puhelin" Type="nvarchar" MaxLength="25" />
           <Property Name="Sähköposti" Type="nvarchar" MaxLength="50" />
           <Property Name="KategoriaId" Type="int" Nullable="false" />
@@ -55,7 +55,7 @@
           <Key>
             <PropertyRef Name="Postinumero" />
           </Key>
-          <Property Name="Postinumero" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Postinumero" Type="nvarchar" MaxLength="5" Nullable="false" />
           <Property Name="Postitoimipaikka" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Sähköposti">
@@ -300,7 +300,7 @@
           <Property Name="Etunimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Sukunimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Osoite" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Postinumero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Postinumero" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
           <Property Name="Puhelin" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="Sähköposti" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="KategoriaId" Type="Int32" Nullable="false" />
@@ -322,7 +322,7 @@
           <Key>
             <PropertyRef Name="Postinumero" />
           </Key>
-          <Property Name="Postinumero" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Postinumero" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
           <Property Name="Postitoimipaikka" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Asiakkaat" Relationship="ProjektitDBCareModel.FK_Asiakkaat_Postitoimipaikat" FromRole="Postitoimipaikat" ToRole="Asiakkaat" />
         </EntityType>
