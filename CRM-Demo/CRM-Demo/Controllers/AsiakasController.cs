@@ -35,10 +35,11 @@ namespace CRM_Demo.Controllers
                                  Tila = asi.Tila
                                  }).ToList();
 
-            //Muutetaan data json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
+            //Muutetaan data json -muotoon toimitettavaksi selaimelle. 
             var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
-
             string json = JsonConvert.SerializeObject(asiakkaat, serializerSettings);
+
+            //Suljetaan tietokantayhteys.
             entities.Dispose();
 
             //ohitetaan välimuisti, jotta näyttö päivittyy (IE-selainta varten) 

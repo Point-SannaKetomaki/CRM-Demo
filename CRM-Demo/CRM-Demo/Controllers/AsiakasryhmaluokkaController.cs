@@ -23,10 +23,17 @@ namespace CRM_Demo.Controllers
 
             //Haetaan Asiakasryhmäluokat -taulusta kaikki data
             var asiakasryhmat = (from ar in entities.Asiakasryhmäluokat
-                                 select ar).ToList();
+                                 select new {
+                                 ar.RyhmäId,
+                                 ar.RyhmäNimi,
+                                 ar.RyhmäKuvaus
+                                 }).ToList();
 
-            //Muutetaan data json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
-            string json = JsonConvert.SerializeObject(asiakasryhmat);
+            //Muutetaan data json -muotoon toimitettavaksi selaimelle. 
+            var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            string json = JsonConvert.SerializeObject(asiakasryhmat, serializerSettings);
+
+            //Suljetaan tietokantayhteys
             entities.Dispose();
 
             //ohitetaan välimuisti, jotta näyttö päivittyy (IE-selainta varten) 
@@ -54,7 +61,8 @@ namespace CRM_Demo.Controllers
                                 select ar).FirstOrDefault();
 
             //Muutetaan olio json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
-            string json = JsonConvert.SerializeObject(asiakasryhma);
+            var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            string json = JsonConvert.SerializeObject(asiakasryhma, serializerSettings);
             entities.Dispose();
 
             //ohitetaan välimuisti, jotta näyttö päivittyy (IE-selainta varten) 

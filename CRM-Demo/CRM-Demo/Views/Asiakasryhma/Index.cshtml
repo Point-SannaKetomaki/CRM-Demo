@@ -3,5 +3,88 @@
     ViewBag.Title = "Asiakasryhmät";
 }
 
-<h2>Index</h2>
+@section scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            function listaaAsiakkaatRyhmittäin() {
+
+                //tuo tiedot kontrollerilta
+                $.getJSON("/asiakasryhma/getlist", null, function (json) {
+                    var lista = JSON.parse(json)
+
+                    //luodaan html-taulukon sisältörunko
+                    var html = "";
+                    for (var i = 0; i < lista.length; i++) {
+                        //alert(lista);
+                        html += "<tr>" +
+                            "<th scope='row'></th>" +
+                            "<td>" + lista[i].AsiakasryhmäId + "</td>" +
+                            "<td>" + lista[i].RyhmäNimi + "</td>" +
+                            "<td>" + lista[i].Etunimi + "</td>" +
+                            "<td>" + lista[i].Sukunimi + "</td>" +
+                            "<td><a href='#'><span class='fa fa-edit'></span></a></td>" +
+                            "<td><a href='#'><span class='fa fa-trash'></span></a></td>" +
+                            "</tr>\r\n"
+                    } //end html-taulukon runko
+
+                    //täytetään taulukko
+                    $("#Listaustaulukko tbody").html(html);
+
+                    //tietojen muokkaus
+
+                    //tietojen poisto
+
+                });  //end getJSON(asiakasryhma/getlist)
+
+            } //end function listaaAsiakkaatRyhmittäin
+
+
+            //sivun alustus
+            $(function () {
+
+                $("#ListaaAsiakkaatRyhmittäin").click(function () {
+                    listaaAsiakkaatRyhmittäin();
+                });
+
+                //lisäys
+
+                //Tallenna-nappi
+
+                //Välitetään tiedot kontrollerille. Jos onnistuu, kuittaus, modaalin piilotus, listan päivitys
+
+            }); //end sivun alustus
+        }); //end document ready function
+    </script>
+}
+
+<h2>Asiakkaat ryhmittäin</h2>
+
+
+<div>
+    <a class="btn btn-secondary" href="#" role="button" id="ListaaAsiakkaatRyhmittäin">Listaa asiakkaat ryhmittäin</a>
+    <a class="btn btn-secondary" href="#" role="button" id="LisääAsiakasRyhmään">Lisää asiakas ryhmään</a>
+    <a class="btn btn-secondary" href="~/Asiakasryhmaluokka/Index" role="button" id="MuokkaaAsiakasryhmiä">Muokkaa asiakasryhmäluokkia</a>
+</div>
+
+<p>&nbsp;</p>
+
+<!-- taulukko tietoja varten -->
+<table class="table table-striped" id="Listaustaulukko">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">AsiakasryhmäID</th>
+            <th scope="col">Ryhmän nimi</th>
+            <th scope="col">Asiakkaan etunimi</th>
+            <th scope="col">Asiakkaan sukunimi</th>
+            <th scope="col">Muokkaa</th>
+            <th scope="col">Poista</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<p>&nbsp;</p>
 

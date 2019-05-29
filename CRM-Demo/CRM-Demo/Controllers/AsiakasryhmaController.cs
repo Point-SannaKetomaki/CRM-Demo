@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CRM_Demo.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +15,43 @@ namespace CRM_Demo.Controllers
         {
             return View();
         }
+
+        public JsonResult GetList()
+        {
+            //avataan tietokantayhteys
+            ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
+
+            //haetaan kaikki data Asiakasryhmät-taulusta
+            var asiakasryhmät = (from asir in entities.Asiakasryhmät
+                                 join ar in entities.Asiakasryhmäluokat
+                                 on asir.RyhmäId equals ar.RyhmäId
+                                 join asi in entities.Asiakkaat
+                                 on asir.AsiakasId equals asi.AsiakasId
+                                 orderby ar.RyhmäNimi
+                                 select new
+                                 {
+                                     asir.AsiakasryhmäId,
+                                     ar.RyhmäNimi,
+                                     asi.Etunimi,
+                                     asi.Sukunimi
+                                 }).ToList();
+
+            //muutetaan data json muotoon toimitettavaksi selaimelle
+            var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            string json = JsonConvert.SerializeObject(asiakasryhmät, serializerSettings);
+
+            //suljetaan tietokantayhteys
+            entities.Dispose();
+
+            //ohitetaan välimuisti, jotta näyttö päivittyy (IE-selainta varten) 
+            Response.Expires = -1;
+            Response.CacheControl = "no-cache";
+
+            //lähetetään data selaimelle
+            return Json(json, JsonRequestBehavior.AllowGet);
+
+        }
+
 
         // GET: Asiakasryhma/Details/5
         public ActionResult Details(int id)
