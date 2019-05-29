@@ -23,12 +23,12 @@ namespace CRM_Demo.Controllers
 
             //Haetaan kaikki tiedot Tapahtumat-taulusta listalle
 
-            //List<Tapahtumat> tapahtumat = entities.Tapahtumat.ToList();  //tulee undefined rivejä
+            //List<Tapahtumat> tapahtumat = entities.Tapahtumat.ToList();  //tulee undefined rivejä, tuo kaikki sarakkeet kannasta
 
             //var tapahtumat = (from t in entities.Tapahtumat
-            //                  select t).ToList();    // tästäkin tulee undefined rivejä
+            //                  select t).ToList();    // tästäkin tulee undefined rivejä, tuo kaikki sarakkeet kannasta 
 
-            var tapahtumat = (from t in entities.Tapahtumat
+            var tapahtumat = (from t in entities.Tapahtumat         //tällä voi valita, mitä sarakkeita kannasta haetaan
                               select new
                               {
                                   t.TapahtumaId,
@@ -53,6 +53,35 @@ namespace CRM_Demo.Controllers
             Response.CacheControl = "no-cache";
 
             //Lähetetään data selaimelle
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }  //Haetaan tiedot kannasta
+
+
+        public JsonResult GetSingleEvent(string id)  //tapahtuman tietojen haku kannasta klikatun rivin id:n perusteella
+        {
+            //Avataan tietokanta yhteys, luodaan entiteettiolio
+            ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
+
+            //muutetaan modaali-ikkunasta tullut string-tyyppinen tapahtumaId int-tyyppiseksi
+            int tapahtumaID = int.Parse(id);
+
+            //haetaan Tapahtumat taulusta kaikki data
+            var tapahtuma = (from t in entities.Tapahtumat
+                             where t.TapahtumaId == tapahtumaID
+                             select t).FirstOrDefault();
+
+            //Muutetaan olio json-muotoon toimitettavaksi selaimelle.
+            var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            string json = JsonConvert.SerializeObject(tapahtuma, serializerSettings);
+
+            //Suljetaan tietokantayhteys
+            entities.Dispose();
+
+            //ohitetaan välimuisti, jotta näyttö päivittyy (IE-selainta varten) 
+            Response.Expires = -1;
+            Response.CacheControl = "no-cache";
+
+            //Palautetaan data selaimelle
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
@@ -99,6 +128,27 @@ namespace CRM_Demo.Controllers
                 else
                 {
                     //päivitetään valitun tapahtuman tietoja
+                    //haetaan tiedot tietokannasta
+
+                    Tapahtumat dbItem = (from t in entities.Tapahtumat
+                                         where t.TapahtumaId == tapahtumaId
+                                         select t).FirstOrDefault();
+
+                    //tallennetaan modaali-ikkunasta tulevat tiedot dbItem-olioon
+                    if (dbItem != null)
+                    {
+                        dbItem.AsiakasId = tapahtumat.AsiakasId;
+                        dbItem.TapahtumalajiId = tapahtumat.TapahtumalajiId;
+                        dbItem.TapahtumaPvm = tapahtumat.TapahtumaPvm;
+                        dbItem.TapahtumaKlo = tapahtumat.TapahtumaKlo;
+                        dbItem.TapahtumaKuvaus = tapahtumat.TapahtumaKuvaus;
+                    }
+
+                    //tallennetaan uudet tiedot tietokantaan
+                    entities.SaveChanges();
+
+                    //tallennus ok
+                    OK = true;
                 }
 
                 //suljetaan tietokantayhteys
@@ -107,84 +157,38 @@ namespace CRM_Demo.Controllers
 
             //palautetaan tulostumisen onnistuminen selaimelle
             return Json(OK, JsonRequestBehavior.AllowGet);
-        }
+        }  //tapahtuman tiedot: uuden lisäys ja olemassaolevien päivitys
 
 
-
-
-
-
-
-        // GET: Asiakastapahtuma/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Delete (string id)  //tapahtuman poisto klikatun rivin id:n perusteella
         {
-            return View();
-        }
+            //avataan tietokantayhteys
+            ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
 
-        // GET: Asiakastapahtuma/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+            bool OK = false;  // poiston onnistuminen
 
-        // POST: Asiakastapahtuma/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
+            //muutetaan selaimelta tullut string-muotoinen id int-muotoon
+            int tapahtumaID = int.Parse(id);
+
+            //etsitään id:n perusteella tapahtuman tiedot kannasta
+            Tapahtumat dbItem = (from t in entities.Tapahtumat
+                                 where t.TapahtumaId == tapahtumaID
+                                 select t).FirstOrDefault();
+
+            //jos tiedot löytyy
+            if (dbItem != null)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                //poistetaan
+                entities.Tapahtumat.Remove(dbItem);
+                entities.SaveChanges();
+                OK = true;
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: Asiakastapahtuma/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+            //suljetaan tietokantayhteys
+            entities.Dispose();
 
-        // POST: Asiakastapahtuma/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Asiakastapahtuma/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Asiakastapahtuma/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            //palautetaan poistokuittaus selaimelle
+            return Json(OK, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -86,6 +86,8 @@
                         $.getJSON("/Asiakas/GetSingleGroup/" + asiakasId, null, function (json2) {
                             var asiakas = JSON.parse(json2);
 
+                            //alert(json2);
+
                             //tietojen lataus modaali-ikkunaan
                             $('#customerModal_AsiakasId').val(asiakas.AsiakasId);
                             $('#customerModal_Etunimi').val(asiakas.Etunimi);
@@ -101,8 +103,10 @@
                             //näytetään modaali-ikkuna
                             $('#customerModalTitle').text('Muokkaa asiakkaan tietoja');
                             $('#customerModalDialog').modal('show');
-                        });
-                    });
+
+                        }); //end getJSON(asiakas/getsinglegroup)
+
+                    });  //end fa-edit.click
 
                     //asiakkaan poisto
                     $(".fa-trash").click(function () {
