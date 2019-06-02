@@ -52,77 +52,103 @@ namespace CRM_Demo.Controllers
 
         }
 
-
-        // GET: Asiakasryhma/Details/5
-        public ActionResult Details(int id)
+        public JsonResult GetSingleGroup(string id)  //tietojen haku kannasta klikatun rivin id:n perusteella
         {
-            return View();
+            //Avataan tietokanta yhteys, luodaan entiteettiolio
+            ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
+
+            //muutetaan modaali-ikkunasta tullut string-tyyppinen asiakasryhmäId int-tyyppiseksi
+            int ID = int.Parse(id);
+
+            //haetaan Asiakasryhmät taulusta kaikki data
+            var asiakasryhmä = (from ar in entities.Asiakasryhmät
+                             where ar.AsiakasryhmäId == ID
+                             select ar).FirstOrDefault();
+
+            //Muutetaan olio json-muotoon toimitettavaksi selaimelle.
+            var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            string json = JsonConvert.SerializeObject(asiakasryhmä, serializerSettings);
+
+            //Suljetaan tietokantayhteys
+            entities.Dispose();
+
+            //ohitetaan välimuisti, jotta näyttö päivittyy (IE-selainta varten) 
+            Response.Expires = -1;
+            Response.CacheControl = "no-cache";
+
+            //Palautetaan data selaimelle
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Asiakasryhma/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
 
-        // POST: Asiakasryhma/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
+
+        public ActionResult Update(Asiakasryhmät lisääminen)
         {
-            try
+            //TIETOJEN LISÄYS JA PÄIVITYS
+
+            bool OK = false;   //tallennuksen onnistuminen
+                        
+            //UUSIEN TIETOJEN LISÄYS
+            //Uusia tietoja lisätään vain mikäli AsiakasId ja RyhmäId eivät ole tyhjiä
+            if ((lisääminen.AsiakasId != null) &&
+                (lisääminen.RyhmäId != null))
             {
-                // TODO: Add insert logic here
+                //avataan tietokantayhteys = uusi entiteettiolio
+                ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
 
-                return RedirectToAction("Index");
+                //luodaan uusi muuttuja johon asetetaan selaimesta tullut tieto AsiakasryhmäId:stä
+                int asiakasryhmäId = lisääminen.AsiakasryhmäId;
+
+                if (asiakasryhmäId == 0)
+                {
+                    //tallennetaan uuden ryhmäjäsenyyden tiedot
+
+                    //luodaan uusi olio dbItem, jonka avulla tiedot tallennetaan kantaan
+                    Asiakasryhmät dbItem = new Asiakasryhmät()
+                    {
+                        //dbItemin arvot/tiedot, ei AsiakasryhmäId:tä
+                        AsiakasId = lisääminen.AsiakasId,
+                        RyhmäId = lisääminen.RyhmäId
+                    };
+
+                    //Lisätään dbItem kantaan ja tallennetaan muutokset
+                    entities.Asiakasryhmät.Add(dbItem);
+                    entities.SaveChanges();
+
+                    //tallennus on onnistunut
+                    OK = true;
+                }
+                else
+                {
+                    //päivitetään valitun tapahtuman tietoja
+                    //haetaan tiedot tietokannasta
+
+                    Asiakasryhmät dbItem = (from ar in entities.Asiakasryhmät
+                                         where ar.AsiakasryhmäId == asiakasryhmäId
+                                         select ar).FirstOrDefault();
+
+                    //tallennetaan modaali-ikkunasta tulevat tiedot dbItem-olioon
+                    if (dbItem != null)
+                    {
+                        dbItem.AsiakasId = lisääminen.AsiakasId;
+                        dbItem.RyhmäId = lisääminen.RyhmäId;
+                    }
+
+                    //tallennetaan uudet tiedot tietokantaan
+                    entities.SaveChanges();
+
+                    //tallennus ok
+                    OK = true;
+                }
+
+                //suljetaan tietokantayhteys
+                entities.Dispose();
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: Asiakasryhma/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+            //palautetaan tulostumisen onnistuminen selaimelle
+            return Json(OK, JsonRequestBehavior.AllowGet);
+        }  //tapahtuman tiedot: uuden lisäys ja olemassaolevien päivitys
 
-        // POST: Asiakasryhma/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Asiakasryhma/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Asiakasryhma/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }
