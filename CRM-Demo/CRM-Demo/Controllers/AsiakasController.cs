@@ -23,6 +23,8 @@ namespace CRM_Demo.Controllers
 
             //Haetaan Asiakkaat -taulusta kaikki data
             var asiakkaat = (from asi in entities.Asiakkaat
+                             join ak in entities.Asiakaskategorialuokat
+                             on asi.KategoriaId equals ak.KategoriaId
                              select new {
                                  asi.AsiakasId,
                                  asi.Etunimi,
@@ -32,6 +34,7 @@ namespace CRM_Demo.Controllers
                                  asi.Puhelin,
                                  asi.Sähköposti,
                                  asi.KategoriaId,
+                                 ak.KategoriaNimi,
                                  asi.Tila
                                  }).ToList();
 
