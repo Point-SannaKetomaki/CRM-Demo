@@ -218,6 +218,8 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <None Include="Properties\PublishProfiles\CRM-Demo - Web Deploy.pubxml" />
+    <Content Include="OmatKuvat\eject.png" />
+    <Content Include="OmatKuvat\elevator.png" />
     <Content Include="OmatKuvat\Logo.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />

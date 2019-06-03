@@ -34,3 +34,6 @@ textarea {
     font-weight:700;
 }
 
+.table > thead > tr > th {
+    cursor: pointer;
+}

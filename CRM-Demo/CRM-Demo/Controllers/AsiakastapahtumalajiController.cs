@@ -23,7 +23,11 @@ namespace CRM_Demo.Controllers
 
             //Haetaan -taulusta kaikki data
             var tapahtumalajit = (from ak in entities.Tapahtumalajit
-                                  select ak).ToList();
+                                  select new {
+                                      ak.TapahtumalajiId,
+                                      ak.TapahtumalajiNimi,
+                                      ak.TapahtumalajiKuvaus
+                                  }).ToList();
 
             //Muutetaan data json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
             var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };

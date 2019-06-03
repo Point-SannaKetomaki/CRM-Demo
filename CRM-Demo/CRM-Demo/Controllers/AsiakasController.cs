@@ -23,16 +23,19 @@ namespace CRM_Demo.Controllers
 
             //Haetaan Asiakkaat -taulusta kaikki data
             var asiakkaat = (from asi in entities.Asiakkaat
+                             join ak in entities.Asiakaskategorialuokat
+                             on asi.KategoriaId equals ak.KategoriaId
                              select new {
-                                 AsiakasId = asi.AsiakasId,
-                                 Etunimi = asi.Etunimi,
-                                 Sukunimi = asi.Sukunimi,
-                                 Osoite = asi.Osoite,
-                                 Postinumero = asi.Postinumero,
-                                 Puhelin = asi.Puhelin,
-                                 Sähköposti = asi.Sähköposti,
-                                 KategoriaId = asi.KategoriaId,
-                                 Tila = asi.Tila
+                                 asi.AsiakasId,
+                                 asi.Etunimi,
+                                 asi.Sukunimi,
+                                 asi.Osoite,
+                                 asi.Postinumero,
+                                 asi.Puhelin,
+                                 asi.Sähköposti,
+                                 asi.KategoriaId,
+                                 ak.KategoriaNimi,
+                                 asi.Tila
                                  }).ToList();
 
             //Muutetaan data json -muotoon toimitettavaksi selaimelle. 
