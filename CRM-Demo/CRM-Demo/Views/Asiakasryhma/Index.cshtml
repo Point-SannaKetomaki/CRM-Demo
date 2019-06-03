@@ -106,7 +106,7 @@
                         var ok = confirm("Haluatko varmasti poistaa asiakkaan ryhmästä " + asiakasryhmäId + "?")
 
                         if (ok == true) {
-                            $.getJSON("/asiakasryhmä/delete/" + asiakasryhmäId, null, function (status) {
+                            $.getJSON("/asiakasryhma/delete/" + asiakasryhmäId, null, function (status) {
                                 if (status == true) {
                                     alert("Asiakas on nyt poistettu ryhmästä!");
                                     listaaAsiakkaatRyhmittäin();
