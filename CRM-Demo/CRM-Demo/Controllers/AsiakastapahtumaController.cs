@@ -29,11 +29,18 @@ namespace CRM_Demo.Controllers
             //                  select t).ToList();    // tästäkin tulee undefined rivejä, tuo kaikki sarakkeet kannasta 
 
             var tapahtumat = (from t in entities.Tapahtumat         //tällä voi valita, mitä sarakkeita kannasta haetaan
+                              join a in entities.Asiakkaat
+                              on t.AsiakasId  equals a.AsiakasId
+                              join tl in entities.Tapahtumalajit
+                              on t.TapahtumalajiId equals tl.TapahtumalajiId
                               select new
                               {
                                   t.TapahtumaId,
                                   t.AsiakasId,
+                                  a.Etunimi,
+                                  a.Sukunimi,
                                   t.TapahtumalajiId,
+                                  tl.TapahtumalajiNimi,
                                   t.TapahtumaPvm,
                                   t.TapahtumaKlo,
                                   t.TapahtumaKuvaus
@@ -44,7 +51,6 @@ namespace CRM_Demo.Controllers
 
             //Muutetaan data json -muotoon toimitettavaksi selaimelle. Suljetaan tietokantayhteys.
             var serializerSettings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
-
             string json = JsonConvert.SerializeObject(tapahtumat, serializerSettings);
             entities.Dispose();
 
