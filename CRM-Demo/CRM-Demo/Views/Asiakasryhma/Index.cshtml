@@ -187,6 +187,12 @@
 
                 });  //end Tallenna-napin klikkaus
             }); //end sivun alustus
+
+            //tulostus
+            $('#TulostaButton').click(function () {
+                window.print();
+            });       
+
         }); //end document ready function
     </script>
 }
@@ -198,6 +204,7 @@
     <a class="btn btn-secondary" href="#" role="button" id="ListaaAsiakkaatRyhmittäin">Listaa asiakkaat ryhmittäin</a>
     <a class="btn btn-secondary" href="#" role="button" id="LisääAsiakasRyhmään">Lisää asiakas ryhmään</a>
     <a class="btn btn-secondary" href="~/Asiakasryhmaluokka/Index" role="button" id="MuokkaaAsiakasryhmiä">Muokkaa asiakasryhmäluokkia</a>
+    <a class="btn btn-secondary" href="#" role="button" id="TulostaButton">Tulosta sivu</a>
 </div>
 
 <p>&nbsp;</p>
