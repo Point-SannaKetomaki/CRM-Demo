@@ -123,13 +123,14 @@
                         else {
                             alert('Tallennus ei valitettavasti onnistunut, tarkista tiedot!');
                         }
-
                     });
                 });
-
             });
 
-
+            //tulostus
+            $('#TulostaButton').click(function () {
+                window.print();
+            });
         });
     </script>
 }
@@ -140,6 +141,7 @@
 <div>
     <a class="btn btn-secondary" href="#" role="button" id="Listaa">Listaa asiakaskategoriat</a>
     <a class="btn btn-secondary" href="#" role="button" id="Lisää">Lisää asiakaskategoria</a>
+    <a class="btn btn-secondary" href="#" role="button" id="TulostaButton">Tulosta sivu</a>
 </div>
 
 <p>&nbsp;</p>
