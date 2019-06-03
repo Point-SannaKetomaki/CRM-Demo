@@ -210,6 +210,10 @@
 
             }); //end sivun alustus
 
+            //tulostus
+            $('#TulostaButton').click(function () {
+                window.print();
+            });
         });  //end document ready
 
     </script>
@@ -222,6 +226,7 @@
     <a class="btn btn-secondary" href="#" role="button" id="ListaaAsiakastapahtumat">Listaa asiakastapahtumat</a>
     <a class="btn btn-secondary" href="#" role="button" id="LisääAsiakastapahtuma">Lisää asiakastapahtuma</a>
     <a class="btn btn-secondary" href="~/Asiakastapahtumalaji/Index" role="button" id="MuokkaaAsiakastapahtumalajeja">Muokkaa asiakastapahtumalajeja</a>
+    <a class="btn btn-secondary" href="#" role="button" id="TulostaButton">Tulosta</a>
 </div>
 
 <p>&nbsp;</p>
