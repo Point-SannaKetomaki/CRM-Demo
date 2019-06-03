@@ -96,6 +96,30 @@
 
 
                     //tietojen poisto
+
+                    $(".fa-trash").click(function () {
+
+                        //etsitään tapahtuman tiedot klikatulta riviltä
+                        var asiakasryhmäId = $(this).parent().parent().prev().prev().prev().prev().prev().text();
+                        //alert(asiakasryhmäId);
+
+                        var ok = confirm("Haluatko varmasti poistaa asiakkaan ryhmästä " + asiakasryhmäId + "?")
+
+                        if (ok == true) {
+                            $.getJSON("/asiakasryhmä/delete/" + asiakasryhmäId, null, function (status) {
+                                if (status == true) {
+                                    alert("Asiakas on nyt poistettu ryhmästä!");
+                                    listaaAsiakkaatRyhmittäin();
+                                }
+                                else {
+                                    alert("Ryhmästä poisto ei valitettavasti onnistunut!");
+                                }
+                            });  //end getJSON (asiakasryhmä/delete)
+
+                        } //end if (ok ==true)
+
+                    }); //end asiakasryhmäliitoksen poisto
+
                 });  //end getJSON(asiakasryhma/getlist)
             } //end function listaaAsiakkaatRyhmittäin
 
@@ -157,6 +181,8 @@
                         }
 
 
+
+
                     }); //end post(asiakastapahtuma/update)
 
                 });  //end Tallenna-napin klikkaus
@@ -211,7 +237,7 @@
                     <div class="col-md-6"><input class="form-control" id="ryhmäModal_AsiakasryhmäId" type="text" readonly></div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">AsiakasId</div>
+                    <div class="col-md-3">Asiakas</div>
                     <div class="col-md-6">
                         <select class="form-control" id="ryhmäModal_AsiakasId">
                             <option>Odota ladataan..</option>
@@ -219,7 +245,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">RyhmäId</div>
+                    <div class="col-md-3">Ryhmä</div>
                     <div class="col-md-6">
                         <select class="form-control" id="ryhmäModal_RyhmäId">
                             <option>Odota ladataan..</option>
