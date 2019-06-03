@@ -87,11 +87,14 @@ namespace CRM_Demo.Controllers
             //TIETOJEN LISÄYS JA PÄIVITYS
 
             bool OK = false;   //tallennuksen onnistuminen
+
+            int asiakasId = lisääminen.AsiakasId;
+            int ryhmäId = lisääminen.RyhmäId;
                         
             //UUSIEN TIETOJEN LISÄYS
             //Uusia tietoja lisätään vain mikäli AsiakasId ja RyhmäId eivät ole tyhjiä
-            if ((lisääminen.AsiakasId != null) &&
-                (lisääminen.RyhmäId != null))
+            if ((asiakasId != 0) &&
+                (ryhmäId != 0))
             {
                 //avataan tietokantayhteys = uusi entiteettiolio
                 ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
@@ -149,6 +152,36 @@ namespace CRM_Demo.Controllers
             return Json(OK, JsonRequestBehavior.AllowGet);
         }  //tapahtuman tiedot: uuden lisäys ja olemassaolevien päivitys
 
-        
+        public ActionResult Delete(string id)  //tapahtuman poisto klikatun rivin id:n perusteella
+        {
+            //avataan tietokantayhteys
+            ProjektitDBCareEntities entities = new ProjektitDBCareEntities();
+
+            bool OK = false;  // poiston onnistuminen
+
+            //muutetaan selaimelta tullut string-muotoinen id int-muotoon
+            int asiakasryhmäID = int.Parse(id);
+
+            //etsitään id:n perusteella tapahtuman tiedot kannasta
+            Asiakasryhmät dbItem = (from ar in entities.Asiakasryhmät
+                                 where ar.AsiakasryhmäId == asiakasryhmäID
+                                 select ar).FirstOrDefault();
+
+            //jos tiedot löytyy
+            if (dbItem != null)
+            {
+                //poistetaan
+                entities.Asiakasryhmät.Remove(dbItem);
+                entities.SaveChanges();
+                OK = true;
+            }
+
+            //suljetaan tietokantayhteys
+            entities.Dispose();
+
+            //palautetaan poistokuittaus selaimelle
+            return Json(OK, JsonRequestBehavior.AllowGet);
+        }
     }
+
 }
