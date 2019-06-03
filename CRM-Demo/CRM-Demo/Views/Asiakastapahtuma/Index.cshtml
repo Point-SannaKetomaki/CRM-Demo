@@ -168,7 +168,6 @@
                     $('#tapahtumaModalTitle').text('Lisää uusi asiakastapahtuma');
                     $('#tapahtumaModalDialog').modal('show');
 
-
                 });
 
                 //Tallenna -nappi => luetaan käyttäjän antamat modaali-ikkunan tiedot 
@@ -233,10 +232,10 @@
     <thead class="thead-light">
         <tr>
             <th scope="col"></th>
-            <th scope="col">TapahtumaId</th>
-            <th scope="col">AsiakasId</th>  @*Asiakkaan nimi (sulkuihin ID)*@
-            <th scope="col">TapahtumalajiId</th>   @*Tapahtumalajin nimi (sulkuihin ID)*@
-            <th scope="col">Päivämäärä</th>
+            <th scope="col">TapahtumaId&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>
+            <th scope="col">AsiakasId&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>  @*Asiakkaan nimi (sulkuihin ID)*@
+            <th scope="col">TapahtumalajiId&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>   @*Tapahtumalajin nimi (sulkuihin ID)*@
+            <th scope="col">Päivämäärä&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>
             <th scope="col">Kello</th>
             <th scope="col">Tapahtuman kuvaus</th>
             <th scope="col">Muokkaa</th>
@@ -301,3 +300,17 @@
 </div>
 
 
+<!-- Scripti, jolla voidaan lajitella data sarakkeen otsikon mukaan-->
+<script>
+    const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+    const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
+        v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+    )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+    document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+        const table = th.closest('table');
+        const tbody = table.querySelector('tbody');
+        Array.from(tbody.querySelectorAll('tr'))
+            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+            .forEach(tr => tbody.appendChild(tr));
+    })));
+</script>

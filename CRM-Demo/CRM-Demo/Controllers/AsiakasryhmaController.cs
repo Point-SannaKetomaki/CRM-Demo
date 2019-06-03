@@ -53,6 +53,7 @@ namespace CRM_Demo.Controllers
         }
 
 
+
         // GET: Asiakasryhma/Details/5
         public ActionResult Details(int id)
         {

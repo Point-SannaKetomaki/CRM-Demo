@@ -8,9 +8,38 @@
 
         $(document).ready(function () {
 
+            //alaspudotusvalikko modaaliin
+            function paivita_asiakas_lista() {
+                $.getJSON("/asiakasryhma/getlistasiakkaat", null, function (json) {
+                    var asiakas = JSON.parse(json)
+                    $("#asiakasRyhmäänModal_AsiakasId").empty(); //Tyhjennä asiakaslista
+
+                    for (var index = 0; index < asiakas.length; index++) {
+                        //Lisää asiakas listaan
+                        $("#asiakasRyhmäänModal_AsiakasId").append('<option value="' + asiakas[index].AsiakasId + '">' + asiakas[index].Sukunimi + ', ' + asiakas[index].Etunimi + ' (id:' + asiakas[index].AsiakasId + ')</option>')
+                    }
+                });
+
+            } //end paivita_asiakas_lista_function
+
+            //alaspudotusvalikko modaaliin
+            function paivita_asiakasryhmä_lista() {
+                $.getJSON("/asiakasryhma/getlistasiakasryhmäluokat", null, function (json) {
+                    var asiakasryhmä = JSON.parse(json)
+                    $("#asiakasRyhmäänModal_RyhmäId").empty(); //Tyhjennä asiakasryhmälista
+
+                    for (var index = 0; index < asiakasryhmä.length; index++) {
+                        //Lisää asiakasryhmä listaan
+                        $("#asiakasRyhmäänModal_RyhmäId").append('<option value="' + asiakasryhmä[index].RyhmäId + '">' + asiakasryhmä[index].RyhmäNimi + ' (id:' + asiakasryhmä[index].RyhmäId + ')</option>')
+                    }
+                });
+
+            } //end paivita_asiakas_lista_function
+
+
             function listaaAsiakkaatRyhmittäin() {
 
-                //tuo tiedot kontrollerilta
+                //tuo tiedot kontrollerilta listausta varten
                 $.getJSON("/asiakasryhma/getlist", null, function (json) {
                     var lista = JSON.parse(json)
 
@@ -49,11 +78,14 @@
                 });
 
                 //lisäys
+               
 
-                //Tallenna-nappi
+                
 
-                //Välitetään tiedot kontrollerille. Jos onnistuu, kuittaus, modaalin piilotus, listan päivitys
+                //Tallenna-nappi => luetaan käyttäjän valinnat modaali-ikkunasta
+                
 
+                   
             }); //end sivun alustus
         }); //end document ready function
     </script>
@@ -75,10 +107,10 @@
     <thead class="thead-light">
         <tr>
             <th scope="col"></th>
-            <th scope="col">AsiakasryhmäID</th>
-            <th scope="col">Ryhmän nimi</th>
-            <th scope="col">Asiakkaan etunimi</th>
-            <th scope="col">Asiakkaan sukunimi</th>
+            <th scope="col">AsiakasryhmäID&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>
+            <th scope="col">Ryhmän nimi&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>
+            <th scope="col">Asiakkaan etunimi&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>
+            <th scope="col">Asiakkaan sukunimi&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>
             <th scope="col">Muokkaa</th>
             <th scope="col">Poista</th>
         </tr>
@@ -88,3 +120,61 @@
 
 <p>&nbsp;</p>
 
+
+<!-- Modaali-ikkuna-->
+
+<div class="modal" tabindex="-1" role="dialog" id="asiakasRyhmäänModalDialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><span id="asiakasRyhmäänModalTitle">Muokkaa tietoja</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">AsiakasryhmäId</div>
+                    <div class="col-md-6"><input class="form-control" id="asiakasRyhmäänModal_AsiakasryhmäId" type="text" readonly></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">Asiakas</div>
+                    <div class="col-md-6">
+                        <select class="form-control" id="asiakasRyhmäänModal_AsiakasId">
+                            <option>Odota ladataan..</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">Asiakasryhmä</div>
+                    <div class="col-md-6">
+                        <select class="form-control" id="asiakasRyhmäänModal_RyhmäId" multiple>
+                            <option>Odota ladataan..</option>
+                        </select>
+                    </div>
+                </div>
+            </div> <!-- end modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="asiakasRyhmäänModalSaveButton">Tallenna</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Peruuta</button>
+
+            </div> <!-- end modal-footer -->
+        </div> <!-- end modal-content -->
+    </div> <!-- end modal-dialog -->
+</div><!-- end modal --->
+
+
+<!-- Scripti, jolla voidaan lajitella data sarakkeen otsikon mukaan-->
+<script>
+    const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+    const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
+        v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+    )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+    document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+        const table = th.closest('table');
+        const tbody = table.querySelector('tbody');
+        Array.from(tbody.querySelectorAll('tr'))
+            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+            .forEach(tr => tbody.appendChild(tr));
+    })));
+</script>
