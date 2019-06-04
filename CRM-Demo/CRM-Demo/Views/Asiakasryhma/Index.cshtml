@@ -52,6 +52,8 @@
                             "<td><a href='#'><span class='fa fa-edit'></span></a></td>" +
                             "<td><a href='#'><span class='fa fa-trash'></span></a></td>" +
                             "</tr>\r\n"
+
+
                     } //end html-taulukon runko
                     //täytetään taulukko
                     $("#Listaustaulukko tbody").html(html);
@@ -76,7 +78,7 @@
                         //haetaan asiakasryhmän tiedot kontrollerilta id:n perusteella
                         $.getJSON("/asiakasryhma/getsinglegroup/" + asiakasryhmäId, null, function (json) {
                             var asiakasryhmä = JSON.parse(json);
-                            
+
 
 
 
@@ -157,7 +159,7 @@
 
                 //Tallenna-nappi
 
-                //Tallenna -nappi => luetaan käyttäjän antamat modaali-ikkunan tiedot 
+                //Tallenna -nappi => luetaan käyttäjän antamat modaali-ikkunan tiedot
                 $('#ryhmäModalSaveButton').click(function () {
                     //alert('klikattu');
 
@@ -169,8 +171,8 @@
                     //Välitetään tiedot controllerille ja edelleen tietokantaan
                     //Jos onnistuu, piilotetaan modaali-ikkuna ja päivitetäään asiakasryhmä listaus, infotaan tarvittaessa käyttäjää
                     $.post("/asiakasryhma/update/", details, function (status) {
-                        
-                        
+
+
 
                         if (status == true) {
                             $('#ryhmäModalDialog').modal('hide');
@@ -191,7 +193,7 @@
             //tulostus
             $('#TulostaButton').click(function () {
                 window.print();
-            });       
+            });
 
         }); //end document ready function
     </script>
@@ -214,16 +216,17 @@
     <thead class="thead-light">
         <tr>
             <th scope="col"></th>
-            <th scope="col">AsiakasryhmäID</th>
-            <th scope="col">Ryhmän nimi</th>
-            <th scope="col">Asiakkaan etunimi</th>
-            <th scope="col">Asiakkaan sukunimi</th>
+            <th scope="col">AsiakasryhmäID&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>
+            <th scope="col">Ryhmän nimi&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>
+            <th scope="col">Asiakkaan etunimi&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>
+            <th scope="col">Asiakkaan sukunimi&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>
             <th scope="col">Muokkaa</th>
             <th scope="col">Poista</th>
         </tr>
     </thead>
     <tbody></tbody>
 </table>
+
 
 <p>&nbsp;</p>
 
@@ -269,3 +272,18 @@
         </div>
     </div>
 </div>
+
+<!-- Scripti, jolla voidaan lajitella data sarakkeen otsikon mukaan-->
+<script>
+    const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+    const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
+        v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+    )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+    document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+        const table = th.closest('table');
+        const tbody = table.querySelector('tbody');
+        Array.from(tbody.querySelectorAll('tr'))
+            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+            .forEach(tr => tbody.appendChild(tr));
+    })));
+</script>

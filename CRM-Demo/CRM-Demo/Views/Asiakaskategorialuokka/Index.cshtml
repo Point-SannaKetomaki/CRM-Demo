@@ -17,7 +17,7 @@
                     //luodaan html-taulukon sisältörunko
                     var html = "";
                     for (var i = 0; i < asiakaskategoriat.length; i++) {
-                       // alert("Asiakaskategorian nimi: " + asiakaskategoriat[i].KategoriaNimi);
+                        // alert("Asiakaskategorian nimi: " + asiakaskategoriat[i].KategoriaNimi);
                         html += "<tr>" +
                             "<th scope ='row'></th>" +
                             "<td>" + asiakaskategoriat[i].KategoriaId + "</td>" +
@@ -70,7 +70,7 @@
                                 if (status == true) {
                                     listaaAsiakaskategorialuokat();
                                     alert("Asiakaskategorian tiedot on poistettu onnistuneesti");
-                                    
+
                                 }
                                 else {
                                     alert("Kategorian poistaminen ei onnistunut. Yritä uudelleen!");
@@ -101,22 +101,22 @@
 
                 //Painetaan Tallenna => luetaan käyttäjän antamat tiedot modaali-ikkunasta
                 $("#gatModalSaveButton").click(function () {
-                    
+
                     var details = {
                         KategoriaId: $("#gatModal_KategoriaId").val(),
                         KategoriaNimi: $("#gatModal_KategoriaNimi").val(),
                         KategoriaKuvaus: $("#gatModal_KategoriaKuvaus").val()
                     };
-                    
+
 
                     /*Lähetetään tiedot kontrollerille,
                      * annetaan käyttäjälle viesti päivityksen onnistumisesta,
                      * piilotetaan modaali-ikkuna ja
                      * päivitetään asiakaskategorialistaus*/
                     $.post("/Asiakaskategorialuokka/Update/", details, function (status) {
-                        
+
                         if (status == true) {
-                            
+
                             $('#gatModalDialog').modal('hide');
                             listaaAsiakaskategorialuokat();
                         }
@@ -153,9 +153,9 @@
     <thead class="thead-light">
         <tr>
             <th scope="col"></th>
-            <th scope="col">KategoriaId</th>
-            <th scope="col">Kategorian nimi</th>
-            <th scope="col">Kategorian kuvaus</th>
+            <th scope="col">KategoriaId&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>
+            <th scope="col">Kategorian nimi&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>
+            <th scope="col">Kategorian kuvaus&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>
             <th scope="col">Muokkaa</th>
             <th scope="col">Poista</th>
         </tr>
@@ -196,3 +196,17 @@
         </div>
     </div>
 </div>
+<!-- Scripti, jolla voidaan lajitella data sarakkeen otsikon mukaan-->
+<script>
+    const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+    const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
+        v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+    )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+    document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+        const table = th.closest('table');
+        const tbody = table.querySelector('tbody');
+        Array.from(tbody.querySelectorAll('tr'))
+            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+            .forEach(tr => tbody.appendChild(tr));
+    })));
+</script>

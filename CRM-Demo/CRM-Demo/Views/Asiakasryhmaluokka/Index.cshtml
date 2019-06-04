@@ -4,7 +4,7 @@
 }
 
 @section head{
-    }
+}
 
 @section scripts{
     <script type="text/javascript">
@@ -22,7 +22,7 @@
                     for (var i = 0; i < asiakasryhmat.length; i++) {
                         //alert("Asiakasryhmän nimi: " + asiakasryhmat[i].RyhmäNimi);
                         html += "<tr>" +
-                            "<th scope ='row'></th>"+
+                            "<th scope ='row'></th>" +
                             "<td>" + asiakasryhmat[i].RyhmäId + "</td>" +
                             "<td>" + asiakasryhmat[i].RyhmäNimi + "</td>" +
                             "<td>" + asiakasryhmat[i].RyhmäKuvaus + "</td>" +
@@ -107,10 +107,10 @@
                         RyhmäKuvaus: $("#groupModal_RyhmäKuvaus").val()
                     };
 
-                /*Lähetetään tiedot kontrollerille,
-                 * annetaan käyttäjälle viesti päivityksen onnistumisesta,
-                 * piilotetaan modaali-ikkuna ja
-                 * päivitetään asiakasryhmälistaus*/
+                    /*Lähetetään tiedot kontrollerille,
+                     * annetaan käyttäjälle viesti päivityksen onnistumisesta,
+                     * piilotetaan modaali-ikkuna ja
+                     * päivitetään asiakasryhmälistaus*/
                     $.post("/Asiakasryhmaluokka/Update/", details, function (status) {
                         if (status == true) {
                             //alert('Uudet tiedot tallennettiin onnistuneesti');
@@ -129,8 +129,8 @@
             //tulostus
             $('#TulostaButton').click(function () {
                 window.print();
-            });       
-            
+            });
+
         });
     </script>
 }
@@ -149,55 +149,69 @@
 <!-- Taulukko tietoja varten -->
 
 
-    <table class="table table-striped" id="Listaustaulukko">
-        <thead class="thead-light">
-            <tr>
-                <th scope="col"></th>
-                <th scope="col">AsiakasryhmäId</th>
-                <th scope="col">Ryhmän nimi</th>
-                <th scope="col">Ryhmän kuvaus</th>
-                <th scope="col">Muokkaa</th>
-                <th scope="col">Poista</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+<table class="table table-striped" id="Listaustaulukko">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">AsiakasryhmäId&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>
+            <th scope="col">Ryhmän nimi&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>
+            <th scope="col">Ryhmän kuvaus&nbsp;<span><img src="~/OmatKuvat/elevator.png" /></span></th>
+            <th scope="col">Muokkaa</th>
+            <th scope="col">Poista</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
 
-    <div>
-        <a class="btn btn-secondary" href="~/Asiakasryhma/Index" role="button" id="PalaaAsiakasryhmiin">Paluu &raquo; Asiakasryhmät</a>
-    </div>
+<div>
+    <a class="btn btn-secondary" href="~/Asiakasryhma/Index" role="button" id="PalaaAsiakasryhmiin">Paluu &raquo; Asiakasryhmät</a>
+</div>
 
 
 <!-- Modaali-ikkuna-->
 
-    <div class="modal" tabindex="-1" role="dialog" id="groupModalDialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"><span id="groupModalTitle">Muokkaa ryhmän tietoja</span></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+<div class="modal" tabindex="-1" role="dialog" id="groupModalDialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><span id="groupModalTitle">Muokkaa ryhmän tietoja</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">AsiakasryhmäId</div>
+                    <div class="col-md-6"><input class="form-control" id="groupModal_RyhmäId" type="text" readonly></div>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-3">AsiakasryhmäId</div>
-                        <div class="col-md-6"><input class="form-control" id="groupModal_RyhmäId" type="text" readonly></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">Ryhmän nimi</div>
-                        <div class="col-md-6"><input class="form-control" id="groupModal_RyhmäNimi" type="text"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">Ryhmän kuvaus</div>
-                        <div class="col-md-6"><input class="form-control" id="groupModal_RyhmäKuvaus" type="text"></div>
-                    </div>
+                <div class="row">
+                    <div class="col-md-3">Ryhmän nimi</div>
+                    <div class="col-md-6"><input class="form-control" id="groupModal_RyhmäNimi" type="text"></div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" id="groupModalSaveButton">Tallenna</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Peruuta</button>
+                <div class="row">
+                    <div class="col-md-3">Ryhmän kuvaus</div>
+                    <div class="col-md-6"><input class="form-control" id="groupModal_RyhmäKuvaus" type="text"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="groupModalSaveButton">Tallenna</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Peruuta</button>
 
-                </div>
             </div>
         </div>
     </div>
+</div>
+<!-- Scripti, jolla voidaan lajitella data sarakkeen otsikon mukaan-->
+<script>
+    const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+    const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
+        v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+    )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+    document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+        const table = th.closest('table');
+        const tbody = table.querySelector('tbody');
+        Array.from(tbody.querySelectorAll('tr'))
+            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+            .forEach(tr => tbody.appendChild(tr));
+    })));
+</script>
