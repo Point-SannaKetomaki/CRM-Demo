@@ -15,7 +15,7 @@
                     for (var index = 0; index < asiakas.length; index++) {
                         //Lisää asiakas listaan
                         $("#ryhmäModal_AsiakasId").append('<option value="' +
-                            asiakas[index].AsiakasId + '">' + asiakas[index].Sukunimi + ',' + asiakas[index].Etunimi + ' (id:' + asiakas[index].AsiakasId + ')</option>')
+                            asiakas[index].AsiakasId + '">' + asiakas[index].Sukunimi + ',' + asiakas[index].Etunimi + '</option>')
                     }
                 });
 
@@ -29,7 +29,7 @@
 
                     for (var index = 0; index < asiakasryhmäluokat.length; index++) {
                         //Lisää asiakas listaan
-                        $("#ryhmäModal_RyhmäId").append('<option value="' + asiakasryhmäluokat[index].RyhmäId + '">' + asiakasryhmäluokat[index].RyhmäNimi + ' (id: ' + asiakasryhmäluokat[index].RyhmäId + ')</option>')
+                        $("#ryhmäModal_RyhmäId").append('<option value="' + asiakasryhmäluokat[index].RyhmäId + '">' + asiakasryhmäluokat[index].RyhmäNimi + '</option>')
                     }
                 });
 

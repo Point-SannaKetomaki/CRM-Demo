@@ -15,7 +15,7 @@
 
                     for (var index = 0; index < asiakas.length; index++) {
                         //Lisää asiakas listaan
-                        $("#tapahtumaModal_AsiakasId").append('<option value="' + asiakas[index].AsiakasId + '">' + asiakas[index].Sukunimi + ', ' + asiakas[index].Etunimi + ' (id:' + asiakas[index].AsiakasId + ')</option>')
+                        $("#tapahtumaModal_AsiakasId").append('<option value="' + asiakas[index].AsiakasId + '">' + asiakas[index].Sukunimi + ', ' + asiakas[index].Etunimi + '</option>')
                     }
                 });
 
@@ -29,7 +29,7 @@
 
                     for (var index = 0; index < asiakastapahtumalajit.length; index++) {
                         //Lisää asiakas listaan
-                        $("#tapahtumaModal_TapahtumalajiId").append('<option value="' + asiakastapahtumalajit[index].TapahtumalajiId + '">' + asiakastapahtumalajit[index].TapahtumalajiNimi + ' (id: ' + asiakastapahtumalajit[index].TapahtumalajiId + ')</option>')
+                        $("#tapahtumaModal_TapahtumalajiId").append('<option value="' + asiakastapahtumalajit[index].TapahtumalajiId + '">' + asiakastapahtumalajit[index].TapahtumalajiNimi + '</option>')
                     }
                 });
 
@@ -98,7 +98,7 @@
                             document.getElementById("tapahtumaModal_Päivä").value = tapahtuma.TapahtumaPvm.substring(0, 10);
                             //alert(tapahtuma.TapahtumaPvm.substring(0, 10));
                             document.getElementById("tapahtumaModal_Kello").value = tapahtuma.TapahtumaKlo.substring(11, 16);
-                            alert(tapahtuma.TapahtumaKlo.substring(11, 16));
+                            //alert(tapahtuma.TapahtumaKlo.substring(11, 16));
 
                             $('#tapahtumaModal_TapahtumaKuvaus').val(tapahtuma.TapahtumaKuvaus);
 

@@ -4,10 +4,10 @@
     Layout = null;
     //Alla on kirjautumissession tarkistus joka on käytössä jokaisella sivulla jossa
     //käytetään tätä layoutia.
-    //    if (Session["LoginId"] == null)
-    //{
-    //    Response.Redirect("~/Login/Index");
-    //}
+    if (Session["LoginId"] == null)
+    {
+        Response.Redirect("~/Login/Index");
+    }
 }
 
 <!DOCTYPE html>
@@ -58,35 +58,14 @@
                 <a class="nav-item nav-link" href="~/Home/Index" style="color:white;">Etusivu<span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" href="~/Asiakas/Index" style="color:white;">Asiakkaat</a>
                 <a class="nav-item nav-link" href="~/Asiakaskategorialuokka/Index" style="color:white;">Asiakaskategoriat</a>
-                @*<a class="nav-item nav-link" href="~/Asiakasryhmaluokka/Index" style="color:white;">Asiakasryhmäluokat</a>*@
                 <a class="nav-item nav-link" href="~/Asiakasryhma/Index" style="color:white;">Asiakasryhmät</a>
-                @*<a class="nav-item nav-link" href="~/Asiakastapahtumalaji/Index" style="color:white;">Asiakastapahtumalajit</a>*@
                 <a class="nav-item nav-link" href="~/Asiakastapahtuma/Index" style="color:white;">Asiakastapahtumat</a>
-                <a class="nav-item nav-link" href="#" style="color:white;">Raportit</a>
-                <a class="nav-item nav-link" href="~/Email/Index" style="color:white;">Sähköposti</a>
+                @*<a class="nav-item nav-link" href="#" style="color:white;">Raportit</a>
+                <a class="nav-item nav-link" href="~/Email/Index" style="color:white;">Sähköposti</a>*@
                 <a class="nav-item nav-link" href="@Url.Action("LogOut","Login")" tabindex="-1" style="color:white;">Kirjaudu ulos</a>
             </div>
         </div>
     </nav>
-
-    @*<div class="container">
-            <div class="row">
-                <div class="col-2" style="background-color:deepskyblue">
-                    <p><a class="btn btn-secondary" href="~/Home/Index">Etusivu</a></p>
-                    <p><a class="btn btn-default" href="~/Asiakas/Index">Asiakkaat</a></p>
-                    <p><a class="btn btn-default" href="~/Asiakaskategorialuokka/Index">Asiakaskategoriat</a></p>
-                    <p><a class="btn btn-default" href="~/Asiakasryhmaluokka/Index">Asiakasryhmät</a></p>
-                    <p><a class="btn btn-default" href="~/Asiakastapahtumalaji/Index">Asiakastapahtumalajit</a></p>
-                    <p><a class="btn btn-default" href="~/Asiakastapahtuma/Index">Asiakastapahtumat</a></p>
-                    <p><a class="btn btn-default" href="#">Raportit</a></p>
-                    <p><a class="btn btn-default" href="~/Email/Index">Sähköposti</a></p>
-                </div>
-
-                <div class="col-10" id="MainContent" style="background-color:lavender">
-                    @RenderBody()
-                </div>
-            </div>
-        </div>*@
 
     <div class="container body-content">
         @RenderBody()
@@ -94,7 +73,7 @@
         <footer>
             <div class="row">
                 <div class="col-6">
-                    <p>@DateTime.Now</p>
+                    <p>@DateTime.Now.ToShortDateString()</p>
                 </div>
                 <div class="col-6" style="text-align:end">
                     <p>&copy; Asiakas Ky @DateTime.Now.Year</p>
