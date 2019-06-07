@@ -41,7 +41,7 @@
 
             // Muokkaa nappi;
             $(document).on('click', '#muokkaa_asiakastapahtumalaji_btn', function () {
-                $("#tapahtumalaji_container_otsikko").text("Muokkaa Asiakastapahtumalajia");
+                $("#tapahtumalaji_container_otsikko").text("Muokkaa asiakastapahtumalajia");
                 $("#TapahtumalajiId").val($(this).attr('data-id'));
                 $("#TapahtumalajiNimi").val($(this).attr('data-nimi'));
                 $("#TapahtumalajiKuvaus").val($(this).attr('data-kuvaus'));
@@ -59,7 +59,7 @@
                     id: $(this).attr('data-id')
                 };
 
-                var ok = confirm("Haluatko varmasti poistaa Asiakastapahtumalajin " + details.id + "?");
+                var ok = confirm("Haluatko varmasti poistaa asiakastapahtumalajin " + details.id + "?");
 
                 if (ok == true) {
 
@@ -78,7 +78,7 @@
 
             $('#lisaa_asiakastapahtumalaji_btn').on('click', function () {
                 // näytetään ikkuna
-                $("#tapahtumalaji_container_otsikko").text("Lisää uusi Asiakastapahtumalaji");
+                $("#tapahtumalaji_container_otsikko").text("Lisää uusi asiakastapahtumalaji");
                 $("#TapahtumalajiId").val("Uusi Tapahtumalaji");
                 $("#TapahtumalajiNimi").val("");
                 $("#TapahtumalajiKuvaus").val("");
@@ -141,8 +141,8 @@
 <h2>Asiakastapahtumalajit</h2>
 
 <div>
-    <a class="btn btn-secondary" href="#" role="button" id="listaalajit_btn">Listaa Asiakastapahtumalajit</a>
-    <a class="btn btn-secondary" href="#" role="button" id="lisaa_asiakastapahtumalaji_btn">Lisää Asiakastapahtumalaji</a>
+    <a class="btn btn-secondary" href="#" role="button" id="listaalajit_btn">Listaa asiakastapahtumalajit</a>
+    <a class="btn btn-secondary" href="#" role="button" id="lisaa_asiakastapahtumalaji_btn">Lisää asiakastapahtumalaji</a>
     <a class="btn btn-secondary" href="#" role="button" id="TulostaButton">Tulosta sivu</a>
 </div>
 <p>&nbsp;</p>
