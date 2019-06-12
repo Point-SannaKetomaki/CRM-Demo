@@ -50,7 +50,7 @@
                     //luodaan html-taulukon sisältörunko
                     var html = "";
                     for (var i = 0; i < asiakkaat.length; i++) {
-                        //alert("Asiakkaan nimi: " + asiakkaat[i].Etunimi);
+                        
                         html += "<tr>" +
                             "<th scope ='row'></th>" +
                             "<td>" + asiakkaat[i].AsiakasId + "</td>" +
@@ -86,8 +86,7 @@
                         $.getJSON("/Asiakas/GetSingleGroup/" + asiakasId, null, function (json2) {
                             var asiakas = JSON.parse(json2);
 
-                            //alert(json2);
-
+                            
                             //tietojen lataus modaali-ikkunaan
                             $('#customerModal_AsiakasId').val(asiakas.AsiakasId);
                             $('#customerModal_Etunimi').val(asiakas.Etunimi);
@@ -152,10 +151,7 @@
                     $('#customerModal_Postinumero').val('');
                     $('#customerModal_Puhelin').val('');
                     $('#customerModal_Sähköposti').val('');
-                    //$('#customerModal_KategoriaId').val('');
-                    //$('#customerModal_Tila').val('');
-
-
+                    
                     //näytetään tyhjä modaali-ikkuna
                     $('#customerModalTitle').text('Lisää uusi asiakas');
                     $('#customerModalDialog').modal('show');
@@ -172,7 +168,7 @@
                         Postinumero: $("#customerModal_PostinumeroList").val(),
                         Puhelin: $("#customerModal_Puhelin").val(),
                         Sähköposti: $("#customerModal_Sähköposti").val(),
-                        KategoriaId: $("#customerModal_KategoriaIdlist").val(),//$("#customerModal_KategoriaId").val(),
+                        KategoriaId: $("#customerModal_KategoriaIdlist").val(),
                         Tila: $("#customerModal_Tila").val()
                     };
 
@@ -281,12 +277,7 @@
                     <div class="col-md-3">Sähköposti</div>
                     <div class="col-md-6"><input class="form-control" id="customerModal_Sähköposti" type="text"></div>
                 </div>
-                <!--
-                <div class="row">
-                    <div class="col-md-3">KategoriaId</div>
-                    <div class="col-md-6"><input class="form-control" id="customerModal_KategoriaId" type="text"></div>
-                </div>
-                -->
+                
 
                 <div class="row">
                     <div class="col-md-3">KategoriaNimi</div>

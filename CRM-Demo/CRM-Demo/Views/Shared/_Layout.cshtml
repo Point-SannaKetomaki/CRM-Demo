@@ -1,11 +1,15 @@
 ﻿
 @{
-
     Layout = null;
-    //Alla on kirjautumissession tarkistus joka on käytössä jokaisella sivulla jossa
-    //käytetään tätä layoutia.
+
+    /*Alla on kirjautumissession tarkistus joka on käytössä jokaisella sivulla jossa
+    käytetään tätä layout sivua.*/
+
     if (Session["LoginId"] == null)
-    {
+    {   
+        /*Ilman kirjautumista oleva käyttäjä ohjataan aina kirjautumaan, vaikka hän osaisi suoran url polun
+        johonkin sovelluksen alisivuun.*/
+
         Response.Redirect("~/Login/Index");
     }
 }
@@ -38,7 +42,7 @@
 
             <div class="col-md-3">
                 <h3>
-                    <!-- LOGOUT NAMISKA alustava sijoitus -->
+                    <!-- Logout painike -->
                     <a class="nav-link" href="@Url.Action("LogOut","Login")" tabindex="-1">Kirjaudu ulos</a>
                 </h3>
             </div>

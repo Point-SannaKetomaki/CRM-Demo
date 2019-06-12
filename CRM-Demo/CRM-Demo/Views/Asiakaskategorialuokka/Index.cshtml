@@ -17,7 +17,7 @@
                     //luodaan html-taulukon sisältörunko
                     var html = "";
                     for (var i = 0; i < asiakaskategoriat.length; i++) {
-                        // alert("Asiakaskategorian nimi: " + asiakaskategoriat[i].KategoriaNimi);
+                        
                         html += "<tr>" +
                             "<th scope ='row'></th>" +
                             "<td>" + asiakaskategoriat[i].KategoriaId + "</td>" +
@@ -27,7 +27,6 @@
                             "<td><a href='#'><span class='fa fa-trash'></span></a></td>" +
                             "</tr>\r\n"
                     }
-                    //alert(html);
 
                     //täytetään taulukko
                     $("#Listaustaulukko tbody").html(html);
@@ -37,13 +36,11 @@
 
                         //etsitään tiedot klikatulta riviltä
                         var kategoriaId = $(this).parent().parent().prev().prev().prev().text();
-                        //alert(kategoriaId);
-
+                        
                         //haetaan kategorian tiedot kontrollerilta id:n perusteella
                         $.getJSON("/asiakaskategorialuokka/getsinglegategory/" + kategoriaId, null, function (json2) {
                             var kategoria = JSON.parse(json2);
-                            //alert(kategoria);
-
+                           
                             //tietojen lataus modaali-ikkunaan
                             $('#gatModal_KategoriaId').val(kategoria.KategoriaId)
                             $('#gatModal_KategoriaNimi').val(kategoria.KategoriaNimi)
@@ -60,8 +57,7 @@
                         //haetaan klikatun rivin id-numero
                         var kategoriaId = $(this).parent().parent().prev().prev().prev().prev().text();
 
-                        //alert("Klikattu poistoa: " + kategoriaId);
-
+                        
                         //poiston varmistus
                         var ok = confirm("Haluatko varmasti poistaa kategorian " + kategoriaId + "?");
 
@@ -70,8 +66,8 @@
                                 if (status == true) {
                                     listaaAsiakaskategorialuokat();
                                     alert("Asiakaskategorian tiedot on poistettu onnistuneesti");
-
                                 }
+
                                 else {
                                     alert("Kategorian poistaminen ei onnistunut. Yritä uudelleen!");
                                 }

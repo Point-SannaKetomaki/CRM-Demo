@@ -15,13 +15,13 @@
 
                     for (var index = 0; index < asiakas.length; index++) {
                         //Lisää asiakas listaan
-                        $("#tapahtumaModal_AsiakasId").append('<option value="' + asiakas[index].AsiakasId + '">' + asiakas[index].Sukunimi + ', ' + asiakas[index].Etunimi + '</option>')
+                        $("#tapahtumaModal_AsiakasId").append('<option value="' + asiakas[index].AsiakasId +
+                            '">' + asiakas[index].Sukunimi + ', ' + asiakas[index].Etunimi + '</option>')
                     }
                 });
 
             } //end paivita_asiakas_lista_function
-
-
+            
             function paivita_tapahtumalaji_lista() {
                 $.getJSON("/asiakastapahtumalaji/getlist", null, function (json) {
                     var asiakastapahtumalajit = JSON.parse(json)
@@ -34,8 +34,6 @@
                 });
 
             } //end paivita_asiakastapahtumalaji_lista_function
-
-
             
 
             function listaaTapahtumatiedot() {
@@ -47,7 +45,6 @@
                     //luodaan html-taulukon sisältörunko
                     var html = "";
                     for (var i = 0; i < asiakastapahtumat.length; i++) {
-                        //alert("Asiakastapahtuman kuvaus: " + asiakastapahtumat[i].TapahtumaKuvaus);
                         html += "<tr>" +
                             "<th scope ='row'></th>" +
                             "<td>" + asiakastapahtumat[i].TapahtumaId + "</td>" +
@@ -64,8 +61,7 @@
 
                     //täytetään taulukko
                     $("#Listaustaulukko tbody").html(html);
-
-
+                    
                     //tapahtuman muokkaus
                     $(".fa-edit").click(function () {
 
@@ -77,29 +73,20 @@
 
                         //etsitään tapahtuman tiedot valitulta riviltä
                         var tapahtumaId = $(this).parent().parent().prev().prev().prev().prev().prev().prev().prev().text();
-                        //alert(tapahtumaId);
-
+                        
                         //haetaan tapahtuman tiedot kontrollerilta id:n perusteella
                         $.getJSON("/asiakastapahtuma/getsingleevent/" + tapahtumaId, null, function (json3) {
                             var tapahtuma = JSON.parse(json3);
-                            console.log(json3);
-
-                            //var myDate = new Date('2019-06-17');
-                            
+                                                                                                           
                             
                             //tapahtuman tietojen lataus modaali-ikkunaan
                             $('#tapahtumaModal_TapahtumaId').val(tapahtuma.TapahtumaId);
                             $('#tapahtumaModal_AsiakasId').val(tapahtuma.AsiakasId);
                             $('#tapahtumaModal_TapahtumalajiId').val(tapahtuma.TapahtumalajiId);
-
-                            //$('#tapahtumaModal_Päivä').val(myDate);
-                            //$('#tapahtumaModal_Kello').val(tapahtuma.TapahtumaKlo);
-
+                                                        
                             document.getElementById("tapahtumaModal_Päivä").value = tapahtuma.TapahtumaPvm.substring(0, 10);
-                            //alert(tapahtuma.TapahtumaPvm.substring(0, 10));
                             document.getElementById("tapahtumaModal_Kello").value = tapahtuma.TapahtumaKlo.substring(11, 16);
-                            //alert(tapahtuma.TapahtumaKlo.substring(11, 16));
-
+                            
                             $('#tapahtumaModal_TapahtumaKuvaus').val(tapahtuma.TapahtumaKuvaus);
 
                             //Näytetään modaali-ikkuna
@@ -116,8 +103,7 @@
 
                         //etsitään tapahtuman tiedot klikatulta riviltä
                         var tapahtumaId = $(this).parent().parent().prev().prev().prev().prev().prev().prev().prev().prev().text();
-                        //alert(tapahtumaId);
-
+                        
                         var ok = confirm("Haluatko varmasti poistaa tapahtuman " + tapahtumaId + "?")
 
                         if (ok == true) {
@@ -174,15 +160,7 @@
                 //Tallenna -nappi => luetaan käyttäjän antamat modaali-ikkunan tiedot 
                 $('#tapahtumaModalSaveButton').click(function () {
 
-                    //alert($('#tapahtumaModal_TapahtumaId').val());
-                    //alert($('#tapahtumaModal_AsiakasId').val());
-                    //alert($('#tapahtumaModal_TapahtumalajiId').val());
-                    //alert($('#tapahtumaModal_Päivä').val());
-                    //alert($('#tapahtumaModal_Kello').val());
-                    //alert($('#tapahtumaModal_TapahtumaKuvaus').val());
-
-
-
+                    
                     var details = {
                         TapahtumaId: $('#tapahtumaModal_TapahtumaId').val(),
                         AsiakasId: $('#tapahtumaModal_AsiakasId').val(),

@@ -44,26 +44,12 @@ namespace CRM_Demo.Controllers
         }
 
 
-
-        // GET: Tapahtumalaji/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Tapahtumalaji/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         // POST: Tapahtumalaji/Create
         [HttpPost]
         public ActionResult Create(int TapahtumalajiId, FormCollection collection)
         {
             try
             {
-
 
                 if (collection["Tapahtumalajimuutostyyppi"].ToString() == "Uusi Tapahtumalaji")
                 {
@@ -108,39 +94,12 @@ namespace CRM_Demo.Controllers
             }
         }
 
-
-
-
-
-
-        // GET: Tapahtumalaji/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Tapahtumalaji/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         // GET: Tapahtumalaji/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
-
+        
         // POST: Tapahtumalaji/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
@@ -164,7 +123,6 @@ namespace CRM_Demo.Controllers
                 return Content("ok");
 
             }
-
 
             catch
             {

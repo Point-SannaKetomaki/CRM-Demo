@@ -24,8 +24,13 @@
                             "<td>" + tapahtumalajit[i].TapahtumalajiId + "</td>" +
                             "<td>" + tapahtumalajit[i].TapahtumalajiNimi + "</td>" +
                             "<td>" + tapahtumalajit[i].TapahtumalajiKuvaus + "</td>" +
-                            "<td><a href='#' id ='muokkaa_asiakastapahtumalaji_btn' data-id='" + tapahtumalajit[i].TapahtumalajiId + "' data-nimi='" + tapahtumalajit[i].TapahtumalajiNimi + "' data-kuvaus='" + tapahtumalajit[i].TapahtumalajiKuvaus + "'><span class='fa fa-edit'></span></a></td>" +
-                            "<td><a href='#' id ='poista_asiakastapahtumalaji_btn' data-id=" + tapahtumalajit[i].TapahtumalajiId + "><span class='fa fa-trash'></span></a></td>" +
+                            "<td><a href='#' id ='muokkaa_asiakastapahtumalaji_btn' data-id='" +
+                            tapahtumalajit[i].TapahtumalajiId + "' data-nimi='" +
+                            tapahtumalajit[i].TapahtumalajiNimi + "' data-kuvaus='" +
+                            tapahtumalajit[i].TapahtumalajiKuvaus + "'><span class='fa fa-edit'></span></a></td>"
+                            + "<td><a href='#' id ='poista_asiakastapahtumalaji_btn' data-id="
+                            + tapahtumalajit[i].TapahtumalajiId
+                            + "><span class='fa fa-trash'></span></a></td>" +
                             "</tr>\r\n"
                     }
 
@@ -105,8 +110,7 @@
                     TapahtumalajiKuvaus: $("#TapahtumalajiKuvaus").val(),
 
                 };
-
-
+                
                 //Jos tyhjä
                 if ($.trim($("#TapahtumalajiKuvaus").val()).length === 0 || $.trim($("#TapahtumalajiNimi").val()).length === 0) {
 
@@ -116,7 +120,7 @@
                 } else {
 
                     $.post("/Asiakastapahtumalaji/Create/", details, function (status) {
-                        if (status != "error") {  //Jo ei error
+                        if (status != "error") {  //Jos ei error
 
                             $("#lisaa_asiakastapahtumalaji").modal("hide");
                             listaaAsiakastapahtumalajit();

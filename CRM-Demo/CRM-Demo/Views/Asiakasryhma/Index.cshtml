@@ -42,7 +42,7 @@
                     //luodaan html-taulukon sisältörunko
                     var html = "";
                     for (var i = 0; i < lista.length; i++) {
-                        //alert(lista);
+                        
                         html += "<tr>" +
                             "<th scope='row'></th>" +
                             "<td>" + lista[i].AsiakasryhmäId + "</td>" +
@@ -73,15 +73,12 @@
                         //etsitään asiakasryhmän tiedot valitulta riviltä
                         var asiakasryhmäId = $(this).parent().parent().prev().prev().prev().prev().text();
 
-                        //alert(asiakasryhmäId);
-
+                       
                         //haetaan asiakasryhmän tiedot kontrollerilta id:n perusteella
                         $.getJSON("/asiakasryhma/getsinglegroup/" + asiakasryhmäId, null, function (json) {
                             var asiakasryhmä = JSON.parse(json);
 
-
-
-
+                            
                             //asiakasryhmän tietojen lataus modaali-ikkunaan
                             $('#ryhmäModal_AsiakasryhmäId').val(asiakasryhmä.AsiakasryhmäId);
                             $('#ryhmäModal_AsiakasId').val(asiakasryhmä.AsiakasId);
@@ -103,8 +100,7 @@
 
                         //etsitään tapahtuman tiedot klikatulta riviltä
                         var asiakasryhmäId = $(this).parent().parent().prev().prev().prev().prev().prev().text();
-                        //alert(asiakasryhmäId);
-
+                        
                         var ok = confirm("Haluatko varmasti poistaa asiakkaan ryhmästä " + asiakasryhmäId + "?")
 
                         if (ok == true) {
@@ -132,7 +128,6 @@
                     listaaAsiakkaatRyhmittäin();
                 });
 
-
                 //tapahtuman lisäys
                 $('#LisääAsiakasRyhmään').click(function () {
 
@@ -147,13 +142,10 @@
                     $('#ryhmäModal_AsiakasId').val('');
                     $('#ryhmäModal_RyhmäId').val('');
 
-
-                    //alert($('#ryhmäModal_AsiakasryhmäId').val());
-
+                    
                     //näytetään tyhjä modaali-ikkuna
                     $('#ryhmäModalTitle').text('Lisää asiakas ryhmään');
                     $('#ryhmäModalDialog').modal('show');
-
 
                 });
 
@@ -161,8 +153,7 @@
 
                 //Tallenna -nappi => luetaan käyttäjän antamat modaali-ikkunan tiedot
                 $('#ryhmäModalSaveButton').click(function () {
-                    //alert('klikattu');
-
+                    
                     var details = {
                         AsiakasryhmäId: $('#ryhmäModal_AsiakasryhmäId').val(),
                         AsiakasId: $('#ryhmäModal_AsiakasId').val(),
@@ -172,8 +163,7 @@
                     //Jos onnistuu, piilotetaan modaali-ikkuna ja päivitetäään asiakasryhmä listaus, infotaan tarvittaessa käyttäjää
                     $.post("/asiakasryhma/update/", details, function (status) {
 
-
-
+                        
                         if (status == true) {
                             $('#ryhmäModalDialog').modal('hide');
                             listaaAsiakkaatRyhmittäin();
@@ -181,10 +171,7 @@
                         else {
                             alert("Tallennus ei valitettavasti onnistunut, yritä uudelleen!");
                         }
-
-
-
-
+                                                
                     }); //end post(asiakastapahtuma/update)
 
                 });  //end Tallenna-napin klikkaus
@@ -200,7 +187,6 @@
 }
 
 <h2>Asiakkaat ryhmittäin</h2>
-
 
 <div>
     <a class="btn btn-secondary" href="#" role="button" id="ListaaAsiakkaatRyhmittäin">Listaa asiakkaat ryhmittäin</a>

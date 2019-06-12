@@ -39,8 +39,7 @@ namespace CRM_Demo.Controllers
                     Session["LoginId"] = LoginDetails.LoginId;
                     return RedirectToAction("Index", "Home");
                 }   //Edeltävällä rivillä määritellään minne kirjautuminen johtaa
-                    //Home kohtaan voidaan muuttaa esim pääsivu tai asiakkaat,
-                    //ellei säilytetä tätä homea aloitussivuna. 
+                    
             }
 
 
@@ -57,8 +56,7 @@ namespace CRM_Demo.Controllers
         public ActionResult LoggedOut()
         {
             ViewBag.LoggedOut = "Olet kirjautunut ulos järjestelmästä.";
-            return View(); //We have a special wiev LoggedOut which is a copy of Index, but has additional viewbag message of
-            //succesfull logout and possibility to login again.
+            return View(); 
         }
 
 

@@ -15,13 +15,11 @@
                 //tuo asiakasryhmäluokkien tiedot kontrollerilta
                 $.getJSON("/asiakasryhmaluokka/getList", null, function (json) {
                     var asiakasryhmat = JSON.parse(json)
-
-
+                    
                     //luodaan html-taulukon sisältörunko
                     var html = "";
                     for (var i = 0; i < asiakasryhmat.length; i++) {
-                        //alert("Asiakasryhmän nimi: " + asiakasryhmat[i].RyhmäNimi);
-                        html += "<tr>" +
+                            html += "<tr>" +
                             "<th scope ='row'></th>" +
                             "<td>" + asiakasryhmat[i].RyhmäId + "</td>" +
                             "<td>" + asiakasryhmat[i].RyhmäNimi + "</td>" +
@@ -30,8 +28,7 @@
                             "<td><a href='#'><span class='fa fa-trash'></span></a></td>" +
                             "</tr>\r\n"
                     }
-                    //alert(html);
-
+                   
                     //täytetään taulukko
                     $("#Listaustaulukko tbody").html(html);
 
@@ -40,8 +37,7 @@
 
                         //etsitään asiakkaan tiedot klikatulta riviltä
                         var ryhmäId = $(this).parent().parent().prev().prev().prev().text();
-                        //alert(ryhmäId);
-
+                        
                         //haetaan ryhmän tiedot kontrollerilta id:n perusteella
                         $.getJSON("/Asiakasryhmaluokka/GetSingleGroup/" + ryhmäId, null, function (json2) {
                             var ryhmä = JSON.parse(json2);
@@ -60,9 +56,7 @@
                     $(".fa-trash").click(function () {
                         //haetaan klikatun rivin id-numero
                         var ryhmäId = $(this).parent().parent().prev().prev().prev().prev().text();
-
-                        //alert("Klikattu poistoa, poistetaan ryhmä: " + ryhmäId);
-
+                                                
                         //varmistetaan, että halutaan varmasti poistaa
                         var ok = confirm("Haluatko varmasti poistaa ryhmän " + ryhmäId + "?");
 
@@ -113,7 +107,6 @@
                      * päivitetään asiakasryhmälistaus*/
                     $.post("/Asiakasryhmaluokka/Update/", details, function (status) {
                         if (status == true) {
-                            //alert('Uudet tiedot tallennettiin onnistuneesti');
                             $('#groupModalDialog').modal('hide');
                             listaaAsiakasryhmäluokat();
                         }
